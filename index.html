@@ -19,9 +19,13 @@
   .wrap{max-width:760px;margin:0 auto;padding:0 14px}
   header{position:sticky;top:0;z-index:20;background:rgba(13,15,18,.94);
          backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .hrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0 10px}
-  h1{font-size:17px;margin:0;font-weight:600;letter-spacing:-.01em}
-  .sub{font-size:12px;color:var(--dim);margin-top:2px}
+  .hrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0 9px}
+  h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.015em}
+  .today{display:inline-block;vertical-align:2px;margin-left:8px;font-size:10px;font-weight:700;
+         letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;
+         background:var(--accent);color:#0d0f12}
+  .old{background:#3a2f14;color:var(--medium)}
+  .sub{font-size:12px;color:var(--dim);margin-top:3px}
   .count{font-size:12px;color:var(--dim);white-space:nowrap;text-align:right}
   .count b{color:var(--accent);font-size:19px;display:block;line-height:1.1}
   .bar{height:3px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:10px}
@@ -52,6 +56,13 @@
   .why li{font-size:13.5px;color:#c3ccd8;padding-left:15px;position:relative;margin-bottom:4px}
   .why li:before{content:"";position:absolute;left:2px;top:8px;width:4px;height:4px;
                  border-radius:50%;background:var(--dim2)}
+  .res{margin-top:11px;padding:10px 12px;background:#11141a;border:1px solid var(--line);
+       border-radius:10px}
+  .res b{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
+         color:var(--dim2);margin-bottom:6px;font-weight:700}
+  .res div{font-size:13px;color:#aab4c2;margin-bottom:3px}
+  .res div.hot{color:var(--accent)}
+  .res div.name{color:var(--ink);font-weight:600}
   .acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
   .btn{flex:1 1 auto;min-width:78px;text-align:center;text-decoration:none;font-size:13px;
        font-weight:600;padding:10px 8px;border-radius:9px;border:1px solid var(--line);
@@ -59,6 +70,7 @@
   .btn.pri{background:var(--accent);border-color:var(--accent);color:#0d0f12}
   .btn.wa{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.3);color:#25d366}
   .btn.li{background:rgba(10,102,194,.16);border-color:rgba(10,102,194,.35);color:#6aa9e9}
+  .btn.ig{background:rgba(225,48,108,.14);border-color:rgba(225,48,108,.32);color:#e97ba6}
   .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px;
          padding-top:11px;border-top:1px solid var(--line)}
   .pill{border:1px solid var(--line);background:transparent;color:var(--dim);font-size:12px;
@@ -83,6 +95,7 @@
   .nav{display:flex;gap:8px;justify-content:center;padding:6px 0 14px;flex-wrap:wrap}
   .nav a{color:var(--dim);font-size:12px;text-decoration:none;border:1px solid var(--line);
          padding:5px 11px;border-radius:8px}
+  .nav a.on{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
 <body>
@@ -95,7 +108,7 @@
   <div class="chips" id="chips"></div>
 </div></header>
 
-<div class="wrap"><div id="body"><div class="empty">Loading today's list…</div></div>
+<div class="wrap"><div id="body"><div class="empty">Loading…</div></div>
   <div class="nav" id="nav"></div>
   <div class="foot">Terraflow growth engine · leads from OpenStreetMap, every website fault checked from two networks<br>
   Notes save on their own. Nothing on this page is sent to the lead.</div>
@@ -145,6 +158,28 @@ function save(task, patch, note){
   });
 }
 
+// Everything here was read off the lead's own homepage or the public domain register, so it is
+// all checkable in seconds. Anything the scanner did not find is simply left out.
+function research(p){
+  var pr = p.profile || {}, out = [];
+  if (p.first_name) out.push(["name", "Ask for " + p.first_name]);
+  if (pr.title) out.push(["", "They call themselves “" + pr.title + "”"]);
+  else if (pr.description) out.push(["", pr.description]);
+  if (pr.platform) out.push(["", "Site is built on " + pr.platform]);
+  if (pr.domain_age && pr.domain_age.years >= 1)
+    out.push(["", "They have owned this domain since " + String(pr.domain_age.registered).slice(0,4) +
+                  ", " + pr.domain_age.years + " years"]);
+  var tr = pr.tracking || {};
+  if (tr.meta_pixel) out.push(["hot", "Running a Meta pixel — already spending on ads"]);
+  else if (tr.tiktok_pixel || tr.snap_pixel) out.push(["hot", "Running social ad tracking — already spending on ads"]);
+  else if (tr.google_analytics || tr.google_tag_manager) out.push(["", "Measures traffic with Google Analytics"]);
+  var so = pr.socials || {};
+  if (so.instagram) out.push(["", "Instagram @" + so.instagram]);
+  if (pr.tools && pr.tools.length) out.push(["", "Also uses " + pr.tools.join(", ")]);
+  if (p.email) out.push(["", p.email]);
+  return out;
+}
+
 function card(t){
   var p = t.payload || {};
   var c = el("div", "card" + (DONE[t.status] ? " done" : "") +
@@ -188,6 +223,14 @@ function card(t){
   top.appendChild(mid);
   c.appendChild(top);
 
+  var facts = research(p);
+  if (facts.length){
+    var box = el("div", "res");
+    box.appendChild(el("b", null, "Before you call"));
+    facts.forEach(function(f){ box.appendChild(el("div", f[0], f[1])); });
+    c.appendChild(box);
+  }
+
   var acts = el("div", "acts");
   function link(cls, label, href){
     var a = el("a", "btn " + cls, label);
@@ -198,6 +241,8 @@ function card(t){
   if (p.phone_kind === "mobile" && p.phone_e164)
     link("wa", "WhatsApp", "https://wa.me/" + p.phone_e164.replace("+", ""));
   if (p.domain) link("", "Site", "https://" + p.domain);
+  var ig = (p.profile || {}).socials && p.profile.socials.instagram;
+  if (ig) link("ig", "Instagram", "https://instagram.com/" + ig);
   link("li", "LinkedIn", "https://www.linkedin.com/search/results/all/?keywords=" +
     encodeURIComponent(p.name || ""));
   c.appendChild(acts);
@@ -252,7 +297,14 @@ function card(t){
 
 function render(){
   if (!data) return;
-  document.getElementById("ttl").textContent = data.heading || "Call sheet";
+
+  // Every day is a different list, so the date is the headline, not a footnote.
+  var h1 = document.getElementById("ttl");
+  h1.textContent = data.heading || "Call sheet";
+  var badge = el("span", "today" + (data.is_today ? "" : " old"),
+                 data.is_today ? "Today" : "Earlier list");
+  h1.appendChild(badge);
+  document.title = "Call sheet · " + (data.short || "");
   document.getElementById("sub").textContent = data.subheading || "";
 
   var all = (data.followups || []).concat(data.today || []);
@@ -292,14 +344,15 @@ function render(){
     fu.forEach(function(t){ body.appendChild(card(t)); });
   }
   var td = (data.today || []).filter(keep);
-  body.appendChild(el("h2", "sec", "Today's list (" + (data.today || []).length + ")"));
+  body.appendChild(el("h2", "sec",
+    (data.is_today ? "Today" : data.heading) + " · " + (data.today || []).length + " leads"));
   if (!td.length) body.appendChild(el("div", "empty", "Nothing here."));
   td.forEach(function(t){ body.appendChild(card(t)); });
 
   var nav = document.getElementById("nav");
   nav.innerHTML = "";
   (data.days || []).forEach(function(d){
-    var a = el("a", null, d.label);
+    var a = el("a", d.date === data.date ? "on" : null, d.label);
     a.href = "?k=" + encodeURIComponent(K) + "&d=" + d.date;
     nav.appendChild(a);
   });
