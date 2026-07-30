@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0f12">
+<title>Call sheet — Terraflow</title>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --bg:#0d0f12; --card:#15181d; --card2:#1b1f26; --line:#262b33;
+    --ink:#eef1f5; --dim:#8b95a3; --dim2:#5f6875;
+    --accent:#c7f04a; --strong:#ff7a59; --medium:#ffc94d; --weak:#6ba8ff;
+    --good:#4ade80; --bad:#f87171;
+  }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink)}
+  body{font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       padding-bottom:64px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 14px}
+  header{position:sticky;top:0;z-index:20;background:rgba(13,15,18,.94);
+         backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .hrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0 10px}
+  h1{font-size:17px;margin:0;font-weight:600;letter-spacing:-.01em}
+  .sub{font-size:12px;color:var(--dim);margin-top:2px}
+  .count{font-size:12px;color:var(--dim);white-space:nowrap;text-align:right}
+  .count b{color:var(--accent);font-size:19px;display:block;line-height:1.1}
+  .bar{height:3px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:10px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;border:1px solid var(--line);background:transparent;color:var(--dim);
+        padding:6px 12px;border-radius:99px;font-size:12.5px;cursor:pointer;font-family:inherit}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#0d0f12;font-weight:600}
+  h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--dim2);
+         margin:24px 0 10px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+        padding:14px;margin-bottom:10px}
+  .card.done{opacity:.5}
+  .card.win{border-color:var(--good)}
+  .top{display:flex;gap:10px;align-items:flex-start}
+  .num{flex:0 0 26px;height:26px;border-radius:8px;background:var(--card2);color:var(--dim);
+       font-size:12px;font-weight:600;display:grid;place-items:center;margin-top:1px}
+  .nm{font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .meta{font-size:12px;color:var(--dim);margin-top:3px}
+  .warn{color:var(--medium)}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+       text-transform:uppercase;padding:3px 7px;border-radius:5px;margin-top:8px}
+  .t-strong{background:rgba(255,122,89,.16);color:var(--strong)}
+  .t-medium{background:rgba(255,201,77,.16);color:var(--medium)}
+  .t-weak{background:rgba(107,168,255,.16);color:var(--weak)}
+  .why{list-style:none;margin:9px 0 0;padding:0}
+  .why li{font-size:13.5px;color:#c3ccd8;padding-left:15px;position:relative;margin-bottom:4px}
+  .why li:before{content:"";position:absolute;left:2px;top:8px;width:4px;height:4px;
+                 border-radius:50%;background:var(--dim2)}
+  .acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+  .btn{flex:1 1 auto;min-width:78px;text-align:center;text-decoration:none;font-size:13px;
+       font-weight:600;padding:10px 8px;border-radius:9px;border:1px solid var(--line);
+       background:var(--card2);color:var(--ink)}
+  .btn.pri{background:var(--accent);border-color:var(--accent);color:#0d0f12}
+  .btn.wa{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.3);color:#25d366}
+  .btn.li{background:rgba(10,102,194,.16);border-color:rgba(10,102,194,.35);color:#6aa9e9}
+  .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px;
+         padding-top:11px;border-top:1px solid var(--line)}
+  .pill{border:1px solid var(--line);background:transparent;color:var(--dim);font-size:12px;
+        padding:6px 11px;border-radius:99px;cursor:pointer;font-family:inherit}
+  .pill.on{background:#2b323c;color:var(--ink);border-color:#3a424e}
+  .pill.on[data-s=interested],.pill.on[data-s=meeting]{background:var(--good);color:#08120b;
+        border-color:var(--good);font-weight:600}
+  .pill.on[data-s=not_interested],.pill.on[data-s=wrong_number]{background:#3a2426;
+        color:var(--bad);border-color:#4a2c2f}
+  .pill.on[data-s=callback]{background:var(--medium);color:#231a02;border-color:var(--medium);font-weight:600}
+  .when{margin-top:10px;font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:8px}
+  input[type=date]{background:#0f1216;border:1px solid var(--line);border-radius:8px;
+       color:var(--ink);padding:6px 9px;font:13px inherit}
+  textarea{width:100%;margin-top:9px;background:#0f1216;border:1px solid var(--line);
+           border-radius:9px;color:var(--ink);font:14px/1.45 inherit;padding:10px;resize:vertical;
+           min-height:44px}
+  textarea:focus,input:focus{outline:none;border-color:#3a424e}
+  .save{font-size:11px;color:var(--dim2);height:14px;margin-top:3px}
+  .save.ok{color:var(--good)}
+  .empty{color:var(--dim);font-size:14px;padding:30px 0;text-align:center}
+  .foot{color:var(--dim2);font-size:11.5px;text-align:center;padding:26px 0 10px;line-height:1.7}
+  .nav{display:flex;gap:8px;justify-content:center;padding:6px 0 14px;flex-wrap:wrap}
+  .nav a{color:var(--dim);font-size:12px;text-decoration:none;border:1px solid var(--line);
+         padding:5px 11px;border-radius:8px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="hrow">
+    <div><h1 id="ttl">Call sheet</h1><div class="sub" id="sub">loading</div></div>
+    <div class="count"><b id="cdone">0</b><span id="ctot">of 0 worked</span></div>
+  </div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="chips" id="chips"></div>
+</div></header>
+
+<div class="wrap"><div id="body"><div class="empty">Loading today's list…</div></div>
+  <div class="nav" id="nav"></div>
+  <div class="foot">Terraflow growth engine · leads from OpenStreetMap, every website fault checked from two networks<br>
+  Notes save on their own. Nothing on this page is sent to the lead.</div>
+</div>
+
+<script>
+var API = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/call-sheet";
+var K = new URLSearchParams(location.search).get("k") || "";
+var D = new URLSearchParams(location.search).get("d") || "";
+var STATES = [
+  ["no_answer","No answer"],["callback","Call back"],["interested","Interested"],
+  ["meeting","Meeting"],["not_interested","No"],["wrong_number","Bad number"]
+];
+var DONE = {no_answer:1,interested:1,meeting:1,not_interested:1,wrong_number:1,dnc:1};
+var data = null, filter = "all";
+
+function el(tag, cls, txt){
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (txt != null) n.textContent = txt;
+  return n;
+}
+
+function load(){
+  fetch(API + "?k=" + encodeURIComponent(K) + "&d=" + encodeURIComponent(D) + "&data=1")
+    .then(function(r){ return r.json(); })
+    .then(function(j){ data = j; render(); })
+    .catch(function(){
+      document.getElementById("body").innerHTML =
+        '<div class="empty">Could not load. Check the link is complete.</div>';
+    });
+}
+
+function save(task, patch, note){
+  var body = Object.assign({task_id: task.task_id}, patch);
+  return fetch(API + "?k=" + encodeURIComponent(K), {
+    method: "POST",
+    headers: {"content-type": "application/json"},
+    body: JSON.stringify(body)
+  }).then(function(r){
+    if (!r.ok) throw new Error("save failed");
+    if (note){ note.textContent = "Saved"; note.className = "save ok";
+      setTimeout(function(){ note.textContent = ""; note.className = "save"; }, 1600); }
+    return true;
+  }).catch(function(){
+    if (note){ note.textContent = "Not saved — try again"; note.className = "save"; }
+  });
+}
+
+function card(t){
+  var p = t.payload || {};
+  var c = el("div", "card" + (DONE[t.status] ? " done" : "") +
+    (t.status === "interested" || t.status === "meeting" ? " win" : ""));
+
+  var top = el("div", "top");
+  top.appendChild(el("div", "num", String(t.rank || "•")));
+  var mid = el("div"); mid.style.flex = "1"; mid.style.minWidth = "0";
+  mid.appendChild(el("div", "nm", p.name || "Unnamed"));
+
+  var num = p.phone_e164 || p.phone_raw || "";
+  var bits = [];
+  if (p.category) bits.push(String(p.category).replace(/_/g, " "));
+  else if (p.industry) bits.push(p.industry);
+  if (num) bits.push(num);
+  if (p.phone_kind === "mobile") bits.push("mobile, likely the owner");
+  if (p.domain) bits.push(p.domain);
+  mid.appendChild(el("div", "meta", bits.join(" · ")));
+
+  // Things that change how he should treat the number, so they get their own line.
+  var flags = [];
+  if (p.phone_area && p.phone_area !== "Dubai") flags.push("This is a " + p.phone_area + " number, not Dubai");
+  if (p.phone_kind === "tollfree") flags.push("600/800 number — a call centre, not the owner");
+  if (p.phone_kind === "none") flags.push("No phone listed — try LinkedIn");
+  if (p.phone_kind === "other" && p.phone_raw) flags.push("Number is oddly formatted; dial it as shown");
+  if (flags.length) mid.appendChild(el("div", "meta warn", flags.join(" · ")));
+
+  if (p.hook && p.hook !== "none"){
+    var lbl = p.dead_site ? "Website is down" :
+              p.hook === "strong" ? "Website is badly broken" :
+              p.hook === "medium" ? "Website is weak" : "Minor website issues";
+    mid.appendChild(el("span", "tag t-" + p.hook, lbl));
+  }
+
+  var reasons = (p.findings || []).slice(0, 3);
+  if (reasons.length){
+    var ul = el("ul", "why");
+    reasons.forEach(function(f){ ul.appendChild(el("li", null, f.reason || f)); });
+    mid.appendChild(ul);
+  }
+  top.appendChild(mid);
+  c.appendChild(top);
+
+  var acts = el("div", "acts");
+  function link(cls, label, href){
+    var a = el("a", "btn " + cls, label);
+    a.href = href; a.target = "_blank"; a.rel = "noopener";
+    acts.appendChild(a);
+  }
+  if (num) link("pri", "Call", "tel:" + String(num).replace(/[^0-9+]/g, ""));
+  if (p.phone_kind === "mobile" && p.phone_e164)
+    link("wa", "WhatsApp", "https://wa.me/" + p.phone_e164.replace("+", ""));
+  if (p.domain) link("", "Site", "https://" + p.domain);
+  link("li", "LinkedIn", "https://www.linkedin.com/search/results/all/?keywords=" +
+    encodeURIComponent(p.name || ""));
+  c.appendChild(acts);
+
+  var pills = el("div", "pills");
+  STATES.forEach(function(s){
+    var b = el("button", "pill" + (t.status === s[0] ? " on" : ""), s[1]);
+    b.setAttribute("data-s", s[0]);
+    b.onclick = function(){
+      var next = (t.status === s[0]) ? "todo" : s[0];
+      t.status = next;
+      if (next !== "callback") t.callback_on = null;
+      save(t, {status: next});
+      render();
+    };
+    pills.appendChild(b);
+  });
+  c.appendChild(pills);
+
+  // A call back with no date never comes back up, so ask for one the moment he picks it.
+  if (t.status === "callback"){
+    var when = el("div", "when");
+    when.appendChild(el("span", null, "Bring this back on"));
+    var inp = document.createElement("input");
+    inp.type = "date";
+    inp.value = t.callback_on || "";
+    inp.min = data && data.today_date ? data.today_date : "";
+    inp.onchange = function(){
+      t.callback_on = inp.value;
+      save(t, {callback_on: inp.value});
+    };
+    when.appendChild(inp);
+    c.appendChild(when);
+  }
+
+  var ta = el("textarea");
+  ta.placeholder = "What happened on the call…";
+  ta.value = t.notes || "";
+  var note = el("div", "save");
+  var timer = null;
+  ta.oninput = function(){
+    t.notes = ta.value;
+    clearTimeout(timer);
+    note.textContent = "…";
+    timer = setTimeout(function(){ save(t, {notes: ta.value}, note); }, 900);
+  };
+  ta.onblur = function(){ clearTimeout(timer); save(t, {notes: ta.value}, note); };
+  c.appendChild(ta);
+  c.appendChild(note);
+  return c;
+}
+
+function render(){
+  if (!data) return;
+  document.getElementById("ttl").textContent = data.heading || "Call sheet";
+  document.getElementById("sub").textContent = data.subheading || "";
+
+  var all = (data.followups || []).concat(data.today || []);
+  var done = all.filter(function(t){ return DONE[t.status]; }).length;
+  document.getElementById("cdone").textContent = String(done);
+  document.getElementById("ctot").textContent = "of " + all.length + " worked";
+  document.getElementById("prog").style.width =
+    (all.length ? Math.round(done / all.length * 100) : 0) + "%";
+
+  var counts = {
+    all: all.length,
+    todo: all.filter(function(t){ return t.status === "todo"; }).length,
+    callback: all.filter(function(t){ return t.status === "callback"; }).length,
+    win: all.filter(function(t){ return t.status === "interested" || t.status === "meeting"; }).length
+  };
+  var chips = document.getElementById("chips");
+  chips.innerHTML = "";
+  [["all","All " + counts.all],["todo","Not called " + counts.todo],
+   ["callback","Call back " + counts.callback],["win","Interested " + counts.win]]
+  .forEach(function(f){
+    var b = el("button", "chip" + (filter === f[0] ? " on" : ""), f[1]);
+    b.onclick = function(){ filter = f[0]; render(); };
+    chips.appendChild(b);
+  });
+
+  function keep(t){
+    if (filter === "all") return true;
+    if (filter === "win") return t.status === "interested" || t.status === "meeting";
+    return t.status === filter;
+  }
+
+  var body = document.getElementById("body");
+  body.innerHTML = "";
+  var fu = (data.followups || []).filter(keep);
+  if (fu.length){
+    body.appendChild(el("h2", "sec", "Follow up first (" + fu.length + ")"));
+    fu.forEach(function(t){ body.appendChild(card(t)); });
+  }
+  var td = (data.today || []).filter(keep);
+  body.appendChild(el("h2", "sec", "Today's list (" + (data.today || []).length + ")"));
+  if (!td.length) body.appendChild(el("div", "empty", "Nothing here."));
+  td.forEach(function(t){ body.appendChild(card(t)); });
+
+  var nav = document.getElementById("nav");
+  nav.innerHTML = "";
+  (data.days || []).forEach(function(d){
+    var a = el("a", null, d.label);
+    a.href = "?k=" + encodeURIComponent(K) + "&d=" + d.date;
+    nav.appendChild(a);
+  });
+}
+
+load();
+</script>
+</body>
+</html>
