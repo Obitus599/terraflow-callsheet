@@ -56,6 +56,7 @@ h2{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--dim)
 .stage .title{font-size:14px;font-weight:650}
 .stage .sub{font-size:12px;color:var(--dim)}
 .stage .count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.stage .count.bad{color:var(--ember)}
 
 .job{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-top:1px solid var(--line)}
 .job:first-of-type{border-top:0}
@@ -193,7 +194,10 @@ function render(d){
   // ---- pipeline stages ----
   document.getElementById("stages").innerHTML = (m.stages||[]).map(st=>{
     const mine = jobs.filter(j => j.stage === st.key);
-    const alive = mine.filter(j => j.health === "working").length;
+    const trouble = mine.filter(j => j.health === "failing" || j.health === "stalled").length;
+    const note = trouble
+      ? trouble + (trouble === 1 ? " needs you" : " need you")
+      : "all fine";
     const rows = mine.map(j=>{
       const r = Number(j.rows_24h||0);
       return `<div class="job">
@@ -210,7 +214,7 @@ function render(d){
       <div class="hd">
         <span class="title">${esc(st.title)}</span>
         <span class="sub">${esc(st.blurb)}</span>
-        <span class="count">${alive}/${mine.length} live</span>
+        <span class="count${trouble?" bad":""}">${esc(note)}</span>
       </div>${rows}</div>`;
   }).join("");
 
