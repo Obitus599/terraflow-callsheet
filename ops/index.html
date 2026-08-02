@@ -1,0 +1,252 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0C0F0D">
+<title>Terraflow · the machine</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+<style>
+/* Inherits the cockpit's palette deliberately. Two screens from one studio should not look like
+   two products, and Alex already reads these colours as meaning something. */
+:root{
+  --void:#0C0F0D; --deck:#131714; --deck2:#181D19; --line:#242B26;
+  --bone:#EDF1EC; --moss:#98A69B; --dim:#6E7A70;
+  --jade:#37B37E; --brass:#D9A441; --ember:#E06A4E; --sky:#4E9FDC;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--bone);
+  font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:0 0 48px}
+.wrap{max-width:940px;margin:0 auto;padding:20px 16px 0}
+a{color:inherit}
+
+/* ---- masthead ---- */
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:19px;font-weight:650;margin:0;letter-spacing:-.01em}
+h1 span{color:var(--dim);font-weight:400;font-size:13px;margin-left:8px}
+.stamp{font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+/* ---- the verdict: one sentence, the honest state ---- */
+.verdict{border:1px solid var(--line);border-left-width:3px;border-radius:12px;
+  background:var(--deck);padding:14px 16px;margin-bottom:18px}
+.verdict.good{border-left-color:var(--jade)}
+.verdict.warn{border-left-color:var(--brass)}
+.verdict.bad{border-left-color:var(--ember)}
+.verdict b{font-size:16px;font-weight:650;display:block;margin-bottom:3px}
+.verdict p{margin:0;font-size:13px;color:var(--moss)}
+
+/* ---- the funnel: the one visual that shows where work stops ---- */
+h2{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--dim);
+  font-weight:700;margin:26px 0 10px}
+.funnel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fstep{background:var(--deck);border:1px solid var(--line);border-radius:12px;padding:12px 12px 14px;position:relative}
+.fstep .n{font-family:var(--mono);font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.fstep .l{font-size:11px;color:var(--moss);margin-top:3px}
+.fstep .bar{height:3px;border-radius:3px;background:var(--deck2);margin-top:10px;overflow:hidden}
+.fstep .bar i{display:block;height:100%;background:var(--sky);border-radius:3px}
+.fstep.stop{border-color:rgba(224,106,78,.45)}
+.fstep.stop .n{color:var(--ember)}
+.fstep.stop .bar i{background:var(--ember)}
+.fnote{font-size:12px;color:var(--moss);margin-top:9px}
+.fnote b{color:var(--ember);font-weight:600}
+
+/* ---- pipeline stages ---- */
+.stage{border:1px solid var(--line);border-radius:14px;background:var(--deck);
+  padding:13px 15px 5px;margin-bottom:10px}
+.stage>.hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.stage .title{font-size:14px;font-weight:650}
+.stage .sub{font-size:12px;color:var(--dim)}
+.stage .count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+.job{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-top:1px solid var(--line)}
+.job:first-of-type{border-top:0}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 8px;margin-top:6px}
+.dot.working{background:var(--jade)}
+.dot.idle{background:var(--dim)}
+.dot.failing{background:var(--ember);box-shadow:0 0 0 3px rgba(224,106,78,.15)}
+.dot.stalled{background:var(--brass);box-shadow:0 0 0 3px rgba(217,164,65,.15)}
+.dot.unscheduled{background:transparent;border:1.5px dashed var(--dim);margin-top:5px}
+.dot.off{background:var(--line)}
+.job .tx{flex:1;min-width:0}
+.job .nm{font-size:13.5px;font-weight:600}
+.job .bl{font-size:12px;color:var(--moss);margin-top:1px}
+.job .er{font-size:11px;color:var(--ember);font-family:var(--mono);margin-top:4px;
+  word-break:break-word;line-height:1.4}
+.job .rt{text-align:right;flex:0 0 auto;font-family:var(--mono);font-size:11px;color:var(--dim);
+  padding-top:2px;white-space:nowrap}
+.job .rt b{display:block;color:var(--bone);font-size:13px;font-weight:600}
+.job .rt.zero b{color:var(--dim);font-weight:400}
+
+/* ---- state key ---- */
+.key{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--dim);margin:4px 0 22px}
+.key span{display:flex;align-items:center;gap:6px}
+.key i{width:7px;height:7px;border-radius:50%;display:block}
+
+/* ---- machines ---- */
+.box{border:1px solid var(--line);border-radius:12px;background:var(--deck);padding:13px 15px}
+.box .empty{font-size:12.5px;color:var(--dim)}
+.agent{display:flex;align-items:center;gap:11px}
+.agent .tx{flex:1}
+.agent .nm{font-size:13.5px;font-weight:600}
+.agent .bl{font-size:12px;color:var(--moss)}
+.agent .rt{font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+footer{margin-top:26px;font-size:11px;color:var(--dim);font-family:var(--mono)}
+
+@media (max-width:560px){
+  .funnel{grid-template-columns:repeat(2,1fr)}
+  .job .rt{display:none}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>The machine <span id="sub">loading</span></h1>
+    <div class="stamp" id="stamp"></div>
+  </header>
+
+  <div id="verdict"></div>
+
+  <h2>Where the work goes</h2>
+  <div class="funnel" id="funnel"></div>
+  <div class="fnote" id="fnote"></div>
+
+  <h2>Every job, in the order work flows through it</h2>
+  <div class="key">
+    <span><i style="background:#37B37E"></i>working</span>
+    <span><i style="background:#6E7A70"></i>quiet, nothing to do</span>
+    <span><i style="background:#E06A4E"></i>failing</span>
+    <span><i style="background:#D9A441"></i>stopped running</span>
+    <span><i style="border:1.5px dashed #6E7A70"></i>not scheduled</span>
+  </div>
+  <div id="stages"></div>
+
+  <h2>Machines outside Supabase</h2>
+  <div class="box" id="agents"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const KEY = new URLSearchParams(location.search).get("k") || "";
+const API = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/ops-api";
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+// "3 hours ago" beats a timestamp when the only question is whether something is still alive.
+function ago(iso){
+  if(!iso) return "never";
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime())/1000);
+  if(s < 90)      return Math.round(s)+"s ago";
+  if(s < 5400)    return Math.round(s/60)+"m ago";
+  if(s < 172800)  return Math.round(s/3600)+"h ago";
+  return Math.round(s/86400)+"d ago";
+}
+
+function render(d){
+  const m = d.machine || {}, jobs = m.jobs || [], n = d.numbers || {};
+
+  document.getElementById("stamp").textContent =
+    new Date(d.at).toLocaleString("en-GB",{timeZone:"Asia/Dubai",day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}) + " Dubai";
+
+  // ---- verdict. Broken jobs first, then the human gap, then all clear. ----
+  const bad = jobs.filter(j => j.health === "failing");
+  const stalled = jobs.filter(j => j.health === "stalled");
+  const uncalled = Number(n.calls_todo || 0);
+  let cls = "good", head = "Everything is running", note = "No job needs you.";
+
+  if(bad.length || stalled.length){
+    cls = bad.length ? "bad" : "warn";
+    const names = [...bad, ...stalled].map(j => j.label).join(", ");
+    head = (bad.length + stalled.length) + (bad.length + stalled.length === 1 ? " job needs you" : " jobs need you");
+    note = names + ". Everything else is fine.";
+  } else if(uncalled > 0){
+    cls = "warn";
+    head = "The machine is fine. The phone is not.";
+    note = uncalled + " leads built and waiting, none called yet.";
+  }
+  document.getElementById("verdict").className = "verdict " + cls;
+  document.getElementById("verdict").innerHTML = "<b>"+esc(head)+"</b><p>"+esc(note)+"</p>";
+
+  // ---- the funnel. This is the point of the page: it shows where work stops. ----
+  const steps = [
+    ["Companies found",  Number(n.companies||0)],
+    ["Researched, ready", Number(n.callable_mobiles||0) + Number(n.queue_no_number||0)],
+    ["Callable mobiles", Number(n.callable_mobiles||0)],
+    ["Actually called",  Number(n.calls_done||0)],
+  ];
+  const top = Math.max(1, steps[0][1]);
+  document.getElementById("funnel").innerHTML = steps.map(([l,v],i)=>{
+    const stop = i === steps.length-1 && v === 0;
+    const pct = Math.max(v > 0 ? 3 : 0, Math.round(v/top*100));
+    return `<div class="fstep${stop?" stop":""}">
+      <div class="n">${v.toLocaleString()}</div>
+      <div class="l">${esc(l)}</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("fnote").innerHTML = Number(n.calls_done||0) === 0
+    ? `Every stage before the last one is doing its job. <b>The machine cannot make the calls for you.</b>`
+    : `${n.calls_done} called of ${Number(n.calls_done)+Number(n.calls_todo)} built.`;
+
+  // ---- pipeline stages ----
+  document.getElementById("stages").innerHTML = (m.stages||[]).map(st=>{
+    const mine = jobs.filter(j => j.stage === st.key);
+    const alive = mine.filter(j => j.health === "working").length;
+    const rows = mine.map(j=>{
+      const r = Number(j.rows_24h||0);
+      return `<div class="job">
+        <span class="dot ${esc(j.health)}"></span>
+        <div class="tx">
+          <div class="nm">${esc(j.label)}</div>
+          <div class="bl">${esc(j.blurb)}</div>
+          ${j.last_error ? `<div class="er">${esc(j.last_error)}</div>` : ""}
+        </div>
+        <div class="rt ${r?"":"zero"}"><b>${r ? r.toLocaleString() : "0"}</b>${esc(ago(j.seen_at))}</div>
+      </div>`;
+    }).join("");
+    return `<div class="stage">
+      <div class="hd">
+        <span class="title">${esc(st.title)}</span>
+        <span class="sub">${esc(st.blurb)}</span>
+        <span class="count">${alive}/${mine.length} live</span>
+      </div>${rows}</div>`;
+  }).join("");
+
+  // ---- machines that are not Supabase ----
+  const ag = d.agents || [];
+  document.getElementById("agents").innerHTML = ag.length ? ag.map(a=>{
+    const late = (Date.now() - new Date(a.last_seen).getTime())/60000 > (a.expected_minutes||10)*3;
+    const det = a.detail || {};
+    const bits = [det.load && ("load "+det.load), det.mem_free && (det.mem_free+" free"),
+                  det.sessions != null && (det.sessions+" running")].filter(Boolean).join(" · ");
+    return `<div class="agent">
+      <span class="dot ${late?"failing":"working"}"></span>
+      <div class="tx"><div class="nm">${esc(a.label)}</div>
+        <div class="bl">${late ? "Has gone quiet. Check it." : (bits || "reporting in")}</div></div>
+      <div class="rt">${esc(ago(a.last_seen))}</div></div>`;
+  }).join("") : `<div class="empty">Nothing reporting in yet. The mini PC appears here once its heartbeat is set up.</div>`;
+
+  const used = Number(n.google_used||0), cap = Number(n.google_cap||950);
+  document.getElementById("sub").textContent = jobs.length + " jobs";
+  document.getElementById("foot").textContent =
+    `Google budget ${used}/${cap} this month · ${n.signals_unresolved||0} company names still without a number · `
+    + `${n.leads_waiting||0} inbound leads never contacted · WhatsApp ${n.whatsapp_on ? "on" : "off"}`;
+}
+
+function load(){
+  fetch(API + "?k=" + encodeURIComponent(KEY), {cache:"no-store"})
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(render)
+    .catch(e => {
+      document.getElementById("verdict").className = "verdict bad";
+      document.getElementById("verdict").innerHTML =
+        "<b>Cannot read the machine</b><p>" +
+        (e === 403 ? "That link is missing its key, or the key is wrong." : "Error " + esc(e)) + "</p>";
+    });
+}
+load();
+setInterval(load, 60000);
+document.addEventListener("visibilitychange", () => { if(!document.hidden) load(); });
+</script>
