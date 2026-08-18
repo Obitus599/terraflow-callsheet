@@ -102,7 +102,7 @@ footer{margin-top:26px;font-size:11px;color:var(--dim);font-family:var(--mono)}
 <div class="wrap">
   <header>
     <h1>The machine <span id="sub">loading</span></h1>
-    <div class="stamp" id="stamp"></div>
+    <div class="stamp"><span id="stamp"></span><a id="toinbox" href="#" style="color:#4E9FDC;text-decoration:none;margin-left:10px">the inbox →</a></div>
   </header>
 
   <div id="verdict"></div>
@@ -149,6 +149,7 @@ function render(d){
 
   document.getElementById("stamp").textContent =
     new Date(d.at).toLocaleString("en-GB",{timeZone:"Asia/Dubai",day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}) + " Dubai";
+  document.getElementById("toinbox").href = "../inbox/?k=" + encodeURIComponent(KEY);
 
   // ---- verdict. Broken jobs first, then the human gap, then all clear. ----
   const bad = jobs.filter(j => j.health === "failing");

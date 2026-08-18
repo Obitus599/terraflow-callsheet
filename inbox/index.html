@@ -1,0 +1,417 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0C0F0D">
+<title>Terraflow · the inbox</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📬</text></svg>">
+<style>
+/* Same palette as the machine page. Two screens from one studio should not look like two
+   products, and Alex already reads these colours as meaning something. */
+:root{
+  --void:#0C0F0D; --deck:#131714; --deck2:#181D19; --line:#242B26;
+  --bone:#EDF1EC; --moss:#98A69B; --dim:#6E7A70;
+  --jade:#37B37E; --brass:#D9A441; --ember:#E06A4E; --sky:#4E9FDC;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--bone);
+  font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding:0 0 48px}
+.wrap{max-width:940px;margin:0 auto;padding:20px 16px 0}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-size:19px;font-weight:650;margin:0;letter-spacing:-.01em}
+h1 span{color:var(--dim);font-weight:400;font-size:13px;margin-left:8px}
+.stamp{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.stamp a{color:var(--sky);text-decoration:none;margin-left:10px}
+
+/* ---- counters ---- */
+.nums{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+.num{background:var(--deck);border:1px solid var(--line);border-radius:12px;padding:11px 12px 12px}
+.num .n{font-family:var(--mono);font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.num .l{font-size:11px;color:var(--moss);margin-top:2px}
+.num.good .n{color:var(--jade)} .num.bad .n{color:var(--ember)} .num.warn .n{color:var(--brass)}
+@media(max-width:700px){.nums{grid-template-columns:repeat(3,1fr)}}
+
+/* ---- tabs ---- */
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:14px;overflow-x:auto}
+.tab{padding:9px 13px;font-size:13px;font-weight:600;color:var(--dim);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.on{color:var(--bone);border-bottom-color:var(--jade)}
+.tab b{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--dim);margin-left:6px}
+.tab.on b{color:var(--jade)}
+
+.search{width:100%;background:var(--deck);border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;color:var(--bone);font-size:14px;margin-bottom:12px}
+.search::placeholder{color:var(--dim)}
+.search:focus{outline:2px solid var(--sky);outline-offset:1px}
+
+/* ---- message rows ---- */
+.rows{border:1px solid var(--line);border-radius:14px;background:var(--deck);overflow:hidden}
+.row{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border-top:1px solid var(--line);
+  width:100%;text-align:left}
+.row:first-child{border-top:0}
+.row:hover{background:var(--deck2)}
+.row:focus-visible{outline:2px solid var(--sky);outline-offset:-2px}
+.row .dot{width:8px;height:8px;border-radius:50%;flex:0 0 8px;margin-top:6px;background:var(--dim)}
+.row .dot.rep{background:var(--jade);box-shadow:0 0 0 3px rgba(55,179,126,.15)}
+.row .dot.bad{background:var(--ember);box-shadow:0 0 0 3px rgba(224,106,78,.15)}
+.row .tx{flex:1;min-width:0}
+.row .nm{font-size:13.5px;font-weight:600;display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}
+.row .nm i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--dim);
+  border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+.row .sb{font-size:12.5px;color:var(--moss);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .em{font-size:11.5px;color:var(--dim);font-family:var(--mono);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .rt{flex:0 0 auto;font-family:var(--mono);font-size:11px;color:var(--dim);white-space:nowrap;padding-top:2px}
+.empty{padding:26px 16px;text-align:center;color:var(--dim);font-size:13px}
+
+/* ---- analytics ---- */
+h2{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--dim);
+  font-weight:700;margin:24px 0 10px}
+.box{border:1px solid var(--line);border-radius:12px;background:var(--deck);padding:13px 15px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:6px}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%}
+.bar .stack{width:100%;display:flex;flex-direction:column-reverse;justify-content:flex-start;
+  height:100%;position:relative}
+.bar .s{width:100%;background:var(--sky);border-radius:3px 3px 0 0;min-height:2px}
+.bar .r{width:100%;background:var(--jade)}
+.bar .v{font-family:var(--mono);font-size:11px;color:var(--moss)}
+.bar .d{font-family:var(--mono);font-size:10px;color:var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+td.g{color:var(--jade)} td.b{color:var(--ember)} td.m{font-family:var(--mono);font-size:12px;color:var(--moss)}
+.scroll{overflow-x:auto}
+
+/* ---- person panel ---- */
+.panel{position:fixed;inset:0;background:var(--void);z-index:20;overflow-y:auto;
+  padding:0 0 60px;display:none}
+.panel.on{display:block}
+.pbar{position:sticky;top:0;background:var(--void);border-bottom:1px solid var(--line);
+  padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:2}
+.pbar button{font-size:13px;color:var(--sky);font-weight:600}
+.pbar .t{font-size:13px;color:var(--dim);font-family:var(--mono);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.pwrap{max-width:940px;margin:0 auto;padding:18px 16px 0}
+.phead h3{margin:0;font-size:22px;font-weight:650;letter-spacing:-.01em}
+.phead .role{color:var(--moss);font-size:13.5px;margin-top:3px}
+.phead .co{color:var(--dim);font-size:13px;margin-top:2px;font-family:var(--mono)}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.links a{border:1px solid var(--line);background:var(--deck);border-radius:999px;
+  padding:7px 13px;font-size:12.5px;text-decoration:none;color:var(--bone);display:inline-flex;gap:6px;align-items:center}
+.links a:hover{border-color:var(--sky);color:var(--sky)}
+.links a.nav{border-color:rgba(78,159,220,.4);color:var(--sky)}
+.links a.off{opacity:.45;pointer-events:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.fact{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
+.fact:first-child{border-top:0}
+.fact .k{color:var(--moss)}
+.fact .v{font-family:var(--mono);font-size:12.5px;text-align:right}
+.fact .v.y{color:var(--jade)} .fact .v.n{color:var(--brass)}
+.item{padding:9px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item .k{font-size:13px;font-weight:600}
+.item .d{font-size:12.5px;color:var(--moss);margin-top:1px}
+.item.bad .k{color:var(--ember)} .item.warn .k{color:var(--brass)}
+.msg{border:1px solid var(--line);border-radius:12px;background:var(--deck);padding:12px 14px;margin-bottom:9px}
+.msg.in{border-color:rgba(55,179,126,.45);background:rgba(55,179,126,.06)}
+.msg .mh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:7px}
+.msg .mh b{color:var(--moss);font-weight:400}
+.msg .su{font-size:13px;font-weight:600;margin-bottom:6px}
+.msg .bd{font-size:13.5px;color:var(--moss);white-space:pre-wrap;line-height:1.6}
+.note{font-size:12.5px;color:var(--dim);margin-top:8px}
+footer{margin-top:26px;font-size:11px;color:var(--dim);font-family:var(--mono)}
+.err{border:1px solid rgba(224,106,78,.45);border-radius:12px;background:var(--deck);padding:14px 16px}
+.err b{display:block;margin-bottom:3px}
+.err p{margin:0;font-size:13px;color:var(--moss)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>The inbox <span id="sub">loading</span></h1>
+    <div class="stamp"><span id="stamp"></span><a id="tomachine" href="#">the machine →</a></div>
+  </header>
+
+  <div id="err"></div>
+  <div class="nums" id="nums"></div>
+
+  <div class="tabs" id="tabs"></div>
+  <input class="search" id="q" placeholder="Search by name, company or address" autocomplete="off">
+  <div id="body"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<div class="panel" id="panel">
+  <div class="pbar">
+    <button id="back">← back</button>
+    <span class="t" id="ptitle"></span>
+  </div>
+  <div class="pwrap" id="pbody"></div>
+</div>
+
+<script>
+const KEY  = new URLSearchParams(location.search).get("k") || "";
+const API  = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/inbox-api";
+let DATA = null, TAB = "all", Q = "";
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+// Email bodies arrive as HTML. Turn the line breaks into real ones and drop every other tag,
+// so nothing from a stranger's reply can ever render as markup on this page.
+const bodyText = h => String(h ?? "")
+  .replace(/<br\s*\/?>/gi, "\n").replace(/<\/p>/gi, "\n\n")
+  .replace(/<[^>]*>/g, "")
+  .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+  .replace(/\n{3,}/g, "\n\n").trim();
+
+function ago(iso){
+  if(!iso) return "";
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime())/1000);
+  if(s < 90)     return Math.round(s)+"s ago";
+  if(s < 5400)   return Math.round(s/60)+"m ago";
+  if(s < 172800) return Math.round(s/3600)+"h ago";
+  return Math.round(s/86400)+"d ago";
+}
+const clock = iso => iso ? new Date(iso).toLocaleString("en-GB",
+  {timeZone:"Asia/Dubai",day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}) : "";
+
+function matches(f){
+  if(!Q) return true;
+  const hay = (f.name+" "+f.company+" "+f.email+" "+f.subject+" "+(f.title||"")).toLowerCase();
+  return hay.includes(Q);
+}
+
+function rowsFor(tab){
+  const d = DATA;
+  if(tab === "replies")  return d.replies || [];
+  if(tab === "problems") return d.problems || [];
+  return d.feed || [];
+}
+
+function renderRows(list){
+  if(!list.length) return `<div class="rows"><div class="empty">Nothing here yet.</div></div>`;
+  return `<div class="rows">` + list.map(f => {
+    const cls = f.replied_at ? "rep" : (f.bounced || f.unsubscribed ? "bad" : "");
+    const when = f.replied_at || f.sent_at;
+    const tag = f.replied_at ? "replied" : (f.bounced ? "bounced" : (f.unsubscribed ? "opted out" : "email "+f.step));
+    return `<button class="row" data-email="${esc(f.email)}">
+      <span class="dot ${cls}"></span>
+      <div class="tx">
+        <div class="nm">${esc(f.name || "no name on file")}${f.company ? " · "+esc(f.company) : ""}<i>${esc(tag)}</i></div>
+        <div class="sb">${esc(f.subject || "(no subject, same thread)")}</div>
+        <div class="em">${esc(f.email)}</div>
+      </div>
+      <div class="rt">${esc(ago(when))}</div>
+    </button>`;
+  }).join("") + `</div>`;
+}
+
+function renderAnalytics(){
+  const d = DATA, s = d.series || [], top = Math.max(1, ...s.map(x => x.sent));
+  const chart = s.length ? `<div class="chart">` + s.map(x => {
+    const hs = Math.round(x.sent/top*100), hr = x.sent ? Math.round(x.replied/x.sent*hs) : 0;
+    return `<div class="bar">
+      <div class="v">${x.sent}</div>
+      <div class="stack"><div class="s" style="height:${hs}%"></div>${hr?`<div class="r" style="height:${hr}%"></div>`:""}</div>
+      <div class="d">${esc(x.day.slice(5))}</div>
+    </div>`;
+  }).join("") + `</div>` : `<div class="empty">No sending days yet.</div>`;
+
+  const steps = (d.by_step||[]).map(x => `<tr>
+    <td>Email ${x.step}</td><td>${x.sent}</td>
+    <td class="${x.replied?"g":""}">${x.replied}</td>
+    <td class="${x.bounced?"b":""}">${x.bounced}</td>
+    <td class="m">${x.sent ? (x.replied/x.sent*100).toFixed(1)+"%" : "—"}</td></tr>`).join("");
+
+  const boxes = (d.mailboxes||[]).map(m => `<tr>
+    <td class="m">${esc(m.email)}</td>
+    <td>${m.sent_today} / ${m.per_day}</td>
+    <td class="${m.warmup==="ACTIVE"?"g":"b"}">${esc(m.warmup||"—")}</td>
+    <td class="m">${esc(m.reputation||"—")}</td>
+    <td class="${m.connected?"g":"b"}">${m.connected?"ok":"broken"}</td></tr>`).join("");
+
+  const c = d.campaign || {};
+  return `
+    <h2>Sent per day, green is replies</h2>
+    <div class="box">${chart}</div>
+    <h2>How each email in the sequence performs</h2>
+    <div class="box scroll"><table>
+      <thead><tr><th>Step</th><th>Sent</th><th>Replied</th><th>Bounced</th><th>Reply rate</th></tr></thead>
+      <tbody>${steps}</tbody></table></div>
+    <h2>The list</h2>
+    <div class="box">
+      <div class="fact"><span class="k">People loaded</span><span class="v">${c.leads}</span></div>
+      <div class="fact"><span class="k">Started</span><span class="v">${c.in_progress}</span></div>
+      <div class="fact"><span class="k">Not started yet</span><span class="v">${c.not_started}</span></div>
+      <div class="fact"><span class="k">Finished all three</span><span class="v">${c.completed}</span></div>
+      <div class="fact"><span class="k">Stopped early, they replied</span><span class="v ${c.stopped?"y":""}">${c.stopped}</span></div>
+    </div>
+    <h2>Sending mailboxes</h2>
+    <div class="box scroll"><table>
+      <thead><tr><th>Address</th><th>Today</th><th>Warmup</th><th>Reputation</th><th>Connection</th></tr></thead>
+      <tbody>${boxes}</tbody></table></div>
+    <div class="note">Total capacity ${d.capacity} emails a day. Open and click tracking is deliberately off, so those numbers are not shown: replies are the only signal.</div>`;
+}
+
+function render(){
+  const d = DATA, c = d.campaign || {}, t = d.today || {};
+  document.getElementById("stamp").textContent = clock(d.at) + " Dubai";
+  document.getElementById("sub").textContent = c.status === "ACTIVE" ? "sending" : (c.status||"").toLowerCase();
+
+  document.getElementById("err").innerHTML = d.degraded
+    ? `<div class="err"><b>Some numbers could not be read</b><p>${esc(d.degraded.join(" · "))}</p></div>` : "";
+
+  document.getElementById("nums").innerHTML = [
+    ["Sent today", t.sent, t.sent ? "good" : ""],
+    ["Sent in all", c.sent, ""],
+    ["Replies", c.replies, c.replies ? "good" : ""],
+    ["Bounced", c.bounced, c.bounced ? "bad" : ""],
+    ["Opted out", c.unsubscribed, c.unsubscribed ? "warn" : ""],
+    ["Still to go", c.not_started, ""],
+  ].map(([l,v,k]) => `<div class="num ${k}"><div class="n">${Number(v||0).toLocaleString()}</div><div class="l">${l}</div></div>`).join("");
+
+  const counts = {all:(d.feed||[]).length, replies:(d.replies||[]).length, problems:(d.problems||[]).length};
+  document.getElementById("tabs").innerHTML = [
+    ["all","Everything",counts.all],["replies","Replies",counts.replies],
+    ["problems","Bounced & opted out",counts.problems],["analytics","Analytics",null],
+  ].map(([k,l,n]) => `<button class="tab ${TAB===k?"on":""}" data-tab="${k}">${l}${n!==null?`<b>${n}</b>`:""}</button>`).join("");
+
+  document.getElementById("q").style.display = TAB === "analytics" ? "none" : "";
+  document.getElementById("body").innerHTML = TAB === "analytics"
+    ? renderAnalytics()
+    : renderRows(rowsFor(TAB).filter(matches));
+
+  document.getElementById("foot").textContent =
+    `${esc(c.name||"")} · ${c.leads} people · feeder ${c.sync_on ? "on" : "off"} · refreshes every minute`;
+}
+
+/* ---------------- the person panel ---------------- */
+const panel = document.getElementById("panel");
+
+function factRow(k, v, good){
+  return `<div class="fact"><span class="k">${esc(k)}</span><span class="v ${good===true?"y":good===false?"n":""}">${esc(v)}</span></div>`;
+}
+
+async function openPerson(email){
+  panel.classList.add("on");
+  document.body.style.overflow = "hidden";
+  document.getElementById("ptitle").textContent = email;
+  document.getElementById("pbody").innerHTML = `<div class="empty">Loading…</div>`;
+
+  const [p, th] = await Promise.all([
+    fetch(`${API}?view=profile&email=${encodeURIComponent(email)}&k=${encodeURIComponent(KEY)}`).then(r => r.json()).catch(e => ({error:String(e)})),
+    fetch(`${API}?view=thread&email=${encodeURIComponent(email)}&k=${encodeURIComponent(KEY)}`).then(r => r.json()).catch(e => ({error:String(e)})),
+  ]);
+
+  if(p.error){
+    document.getElementById("pbody").innerHTML =
+      `<div class="err"><b>Cannot open this person</b><p>${esc(p.error)}</p></div>`;
+    return;
+  }
+
+  const per = p.person||{}, co = p.company||{}, w = p.writeup||{}, L = p.links||{};
+  const msgs = (th.messages||[]);
+
+  const conv = msgs.length ? msgs.map(m => `
+    <div class="msg ${m.direction==="in"?"in":""}">
+      <div class="mh"><b>${m.direction==="in" ? "they replied" : "we sent · email "+(m.step||"?")}</b><span>${esc(clock(m.at))}</span></div>
+      ${m.subject ? `<div class="su">${esc(m.subject)}</div>` : ""}
+      <div class="bd">${esc(bodyText(m.body))}</div>
+    </div>`).join("") : `<div class="box"><div class="empty">Nothing sent to this person yet.</div></div>`;
+
+  document.getElementById("pbody").innerHTML = `
+    <div class="phead">
+      <h3>${esc(per.name || "No name on file")}</h3>
+      <div class="role">${esc([per.title, per.seniority && per.seniority!==per.title ? per.seniority : ""].filter(Boolean).join(" · ")) || "Role unknown"}</div>
+      <div class="co">${esc(co.name||"")}${co.industry?" · "+esc(co.industry):""}${co.employees?" · "+co.employees+" staff":""}${per.city?" · "+esc(per.city):""}</div>
+    </div>
+
+    <div class="links">
+      <a href="${esc(L.website||"#")}" target="_blank" rel="noopener" class="${L.website?"":"off"}">Website</a>
+      <a href="${esc(L.linkedin||"#")}" target="_blank" rel="noopener" class="${L.linkedin?"":"off"}">LinkedIn profile</a>
+      <a href="${esc(L.sales_nav_person||"#")}" target="_blank" rel="noopener" class="nav">Sales Navigator · person</a>
+      <a href="${esc(L.sales_nav_company||"#")}" target="_blank" rel="noopener" class="nav ${L.sales_nav_company?"":"off"}">Sales Navigator · company</a>
+      <a href="mailto:${esc(per.email||"")}">Email them</a>
+    </div>
+    ${L.linkedin ? "" : `<div class="note">No LinkedIn address on file for this person, so the Sales Navigator links run a search on their name and company instead of opening a profile.</div>`}
+
+    <h2>Why they were picked</h2>
+    <div class="box grid2">
+      <div>${(p.icp||[]).slice(0,3).map(i => factRow(i.label, i.value, i.good)).join("")}</div>
+      <div>${(p.icp||[]).slice(3).map(i => factRow(i.label, i.value, i.good)).join("")}</div>
+    </div>
+
+    <h2>What to talk to them about</h2>
+    <div class="box">${(p.pains||[]).length
+      ? (p.pains||[]).map(x => `<div class="item"><div class="k">${esc(x.label)}</div><div class="d">${esc(x.detail)}</div></div>`).join("")
+      : `<div class="empty">Nothing specific found. The research on this one came back thin.</div>`}</div>
+
+    <h2>What went wrong</h2>
+    <div class="box">${(p.fallouts||[]).length
+      ? (p.fallouts||[]).map(x => `<div class="item ${esc(x.severity)}"><div class="k">${esc(x.label)}</div><div class="d">${esc(x.detail)}</div></div>`).join("")
+      : `<div class="empty">Nothing has gone wrong with this one.</div>`}</div>
+
+    <h2>The write-up</h2>
+    <div class="box">
+      ${w.what_they_do ? `<div class="item"><div class="k">What they do</div><div class="d">${esc(w.what_they_do)}</div></div>` : ""}
+      ${w.opener ? `<div class="item"><div class="k">Suggested opener</div><div class="d">${esc(w.opener)}</div></div>` : ""}
+      ${w.question ? `<div class="item"><div class="k">Question to ask</div><div class="d">${esc(w.question)}</div></div>` : ""}
+      ${factRow("Site built on", w.platform || "unknown")}
+      ${factRow("Problem found on site", w.site_hook && w.site_hook !== "none" ? w.site_hook : "none found")}
+      ${factRow("Timing trigger", w.trigger && w.trigger !== "none" ? w.trigger : "none")}
+      ${factRow("Depth of research", w.depth || "unknown")}
+      ${factRow("Researched", w.researched_at ? clock(w.researched_at) : "never")}
+    </div>
+
+    ${(p.signals||[]).length ? `<h2>Signals picked up</h2><div class="box">${
+      (p.signals||[]).map(s => `<div class="item"><div class="k">${esc(s.type)} <span style="color:var(--dim);font-weight:400">· strength ${s.strength}</span></div>
+      <div class="d">${esc(s.source)}${s.url?" · "+esc(s.url):""} · ${esc(clock(s.at))}</div></div>`).join("")}</div>` : ""}
+
+    <h2>The conversation</h2>
+    ${conv}
+
+    <footer>Added to the list ${esc(clock(per.added))} · tier ${esc(per.tier ?? "?")} · pushed to sending ${esc(clock(p.outbound?.pushed_at))}</footer>
+  `;
+}
+
+function closePanel(){
+  panel.classList.remove("on");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("back").addEventListener("click", closePanel);
+document.addEventListener("keydown", e => { if(e.key === "Escape" && panel.classList.contains("on")) closePanel(); });
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const b = e.target.closest("[data-tab]"); if(!b) return;
+  TAB = b.dataset.tab; render();
+});
+document.getElementById("body").addEventListener("click", e => {
+  const b = e.target.closest("[data-email]"); if(!b) return;
+  openPerson(b.dataset.email);
+});
+document.getElementById("q").addEventListener("input", e => { Q = e.target.value.trim().toLowerCase(); render(); });
+
+function load(){
+  fetch(`${API}?view=inbox&k=${encodeURIComponent(KEY)}`, {cache:"no-store"})
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(d => { DATA = d; render(); })
+    .catch(e => {
+      document.getElementById("err").innerHTML =
+        `<div class="err"><b>Cannot read the inbox</b><p>${
+          e === 403 ? "That link is missing its key, or the key is wrong." : "Error " + esc(e)}</p></div>`;
+    });
+}
+document.getElementById("tomachine").href = "../ops/?k=" + encodeURIComponent(KEY);
+load();
+setInterval(() => { if(!panel.classList.contains("on")) load(); }, 60000);
+document.addEventListener("visibilitychange", () => { if(!document.hidden && !panel.classList.contains("on")) load(); });
+</script>
