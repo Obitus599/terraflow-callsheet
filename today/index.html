@@ -6,241 +6,390 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Terraflow Today</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230A0A0A'/><rect x='30' y='30' width='40' height='40' fill='%23FAFAFA'/></svg>">
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<!-- Switzer, embedded (switzer.css holds the woff2 faces) so the page never waits on a font CDN. -->
+<link rel="stylesheet" href="switzer.css">
 <style>
-/* Terraflow brand: Onyx, Moon, square corners, tight tracking. The interface carries no colour.
-   Colour only ever means status, and it is one vocabulary across the whole page:
-     needs you (ocean) · broken (red) · watch (amber) · fine (green) · couldn't read (hatched grey) */
+/* Terraflow Today.
+   Brand: Switzer only, Onyx and Moon, square corners, tight tracking on display type.
+   The interface itself carries no colour. Colour only ever means status, one vocabulary:
+     needs you (ocean)  broken (red)  watch (amber)  fine (green)  couldn't read (hatched grey)
+   Numbers are always tabular. Every ink pair below clears WCAG AA on its surface. */
 :root{
-  --bg:#FAFAFA; --panel:#FFFFFF; --ink:#0A0A0A; --ink2:#4A4A48; --ink3:#8A8A86;
-  --line:#E4E4E0; --line2:#D2D2CC; --wash:rgba(10,10,10,.06); --bar:#0A0A0A; --bar-dim:#C9C9C4;
-  --s-act:#0099FF; --s-bad:#D03B3B; --s-warn:#C98A00; --s-ok:#0C8A3E; --s-unk:#8A8A86;
-  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --bg:#FAFAFA; --panel:#FFFFFF; --ink:#0A0A0A; --ink2:#3F3F3C; --ink3:#666661;
+  --line:#E6E6E1; --line2:#CFCFC9; --wash:#F0F0EC; --bar:#0A0A0A; --bar-dim:#C4C4BE; --bar-hi:#0A0A0A;
+  --act:#0099FF; --act-t:#006FC0; --bad:#D12E2E; --bad-t:#B42020; --warn:#D99A00; --warn-t:#8A5F00;
+  --ok:#14934A; --ok-t:#0E7A3C; --unk:#8C8C86;
   --sans:Switzer,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --gut:40px; --max:1200px;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0A0A0A; --panel:#111111; --ink:#FAFAFA; --ink2:#B4B4AE; --ink3:#77776F;
-    --line:#222220; --line2:#33332F; --wash:rgba(250,250,250,.07); --bar:#FAFAFA; --bar-dim:#3A3A36;
-    --s-act:#33ADFF; --s-bad:#F06060; --s-warn:#F2B53A; --s-ok:#3CC46E; --s-unk:#77776F;
+    --bg:#0A0A0A; --panel:#121211; --ink:#FAFAFA; --ink2:#C9C9C3; --ink3:#9C9C95;
+    --line:#232321; --line2:#383835; --wash:#1A1A18; --bar:#FAFAFA; --bar-dim:#4A4A46;
+    --act:#33ADFF; --act-t:#5CBEFF; --bad:#F05A5A; --bad-t:#FF7A7A; --warn:#F2B53A; --warn-t:#F2B53A;
+    --ok:#3CC46E; --ok-t:#5AD487; --unk:#85857E;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0A0A0A; --panel:#111111; --ink:#FAFAFA; --ink2:#B4B4AE; --ink3:#77776F;
-  --line:#222220; --line2:#33332F; --wash:rgba(250,250,250,.07); --bar:#FAFAFA; --bar-dim:#3A3A36;
-  --s-act:#33ADFF; --s-bad:#F06060; --s-warn:#F2B53A; --s-ok:#3CC46E; --s-unk:#77776F;
+  --bg:#0A0A0A; --panel:#121211; --ink:#FAFAFA; --ink2:#C9C9C3; --ink3:#9C9C95;
+  --line:#232321; --line2:#383835; --wash:#1A1A18; --bar:#FAFAFA; --bar-dim:#4A4A46;
+  --act:#33ADFF; --act-t:#5CBEFF; --bad:#F05A5A; --bad-t:#FF7A7A; --warn:#F2B53A; --warn-t:#F2B53A;
+  --ok:#3CC46E; --ok-t:#5AD487; --unk:#85857E;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);letter-spacing:-.005em;
-  -webkit-font-smoothing:antialiased;padding:0 0 64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--sans);letter-spacing:-.006em;
+  -webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
 a{color:inherit}
-button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--act);outline-offset:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.n{font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1,"lnum" 1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]{display:none!important}
 
-/* ---- top bar ---- */
-.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 0 14px;border-bottom:1px solid var(--line)}
-.mark{font-weight:600;letter-spacing:.24em;font-size:12px;text-transform:uppercase}
+/* ---------------------------------------------------------------- top bar */
+.top{display:flex;align-items:center;gap:20px;height:60px;border-bottom:1px solid var(--line)}
+.mark{font-weight:600;letter-spacing:.24em;font-size:12px;text-transform:uppercase;white-space:nowrap}
 .mark span{color:var(--ink3)}
-.top nav{margin-left:auto;display:flex;gap:16px;font-size:13px;align-items:center}
-.top nav a{text-decoration:none;color:var(--ink2)}
-.top nav a:hover{color:var(--ink)}
-.top nav button{color:var(--ink2);font-size:13px}
-.stamp{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.top nav{display:flex;gap:4px;align-items:center;margin-left:8px}
+.top nav a{text-decoration:none;color:var(--ink2);font-size:14px;padding:6px 10px}
+.top nav a:hover{color:var(--ink);background:var(--wash)}
+.fresh{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink3);white-space:nowrap}
+.fresh .when b{font-weight:500;color:var(--ink2)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border:1px solid var(--line2);font-size:13px;font-weight:500;color:var(--ink);background:var(--panel);text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn[disabled]{cursor:default;opacity:.55}
+.btn svg{width:14px;height:14px}
+.btn.solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.solid:hover{opacity:.88}
+.icon{width:32px;padding:0;justify-content:center}
+.progress{position:fixed;left:0;top:0;height:2px;background:var(--ink);width:0;z-index:20;transition:width .4s linear}
 
-/* ---- headline ---- */
-.date{margin:28px 0 6px;font-size:13px;color:var(--ink3);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+/* ---------------------------------------------------------------- hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 40px;align-items:end;padding:36px 0 24px}
+.date{font-size:14px;color:var(--ink3);margin:0 0 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .date b{color:var(--ink);font-weight:600}
-h1{font-size:clamp(24px,4.2vw,38px);line-height:1.12;font-weight:600;letter-spacing:-.035em;margin:0 0 6px;max-width:900px}
-.banner{border:1px solid var(--line2);background:var(--panel);padding:10px 12px;margin:14px 0 0;font-size:13px;display:none}
-.banner.on{display:block}
+.when2{display:none}
+.pill{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line2);padding:2px 7px;color:var(--ink2)}
+h1{font-size:clamp(32px,4.4vw,56px);line-height:1.04;font-weight:600;letter-spacing:-.036em;word-spacing:.04em;margin:0}
+h1 .soft{color:var(--ink3)}
+.healthline{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink2);padding:0 0 4px;text-align:right;justify-content:flex-end}
+.healthline a{color:var(--ink2);text-underline-offset:3px}
 
-/* ---- section heads ---- */
-h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink3);
-  margin:44px 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-h2 .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px}
-h2 .r a{color:var(--ink2)}
+/* ---------------------------------------------------------------- status vocabulary */
+.dot{width:10px;height:10px;flex:0 0 10px;display:inline-block}
+.dot.act{background:var(--act)} .dot.bad{background:var(--bad)} .dot.warn{background:var(--warn)} .dot.ok{background:var(--ok)}
+.dot.unk{background:repeating-linear-gradient(45deg,var(--unk) 0 1.5px,transparent 1.5px 3.5px);box-shadow:inset 0 0 0 1px var(--unk)}
+.tag{font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.tag.act{color:var(--act-t)} .tag.bad{color:var(--bad-t)} .tag.warn{color:var(--warn-t)} .tag.ok{color:var(--ok-t)} .tag.unk{color:var(--ink3)}
 
-/* ---- status vocabulary ---- */
-.st{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
-.st i{width:8px;height:8px;display:block;flex:0 0 8px}
-.st.act{color:var(--s-act)} .st.act i{background:var(--s-act)}
-.st.bad{color:var(--s-bad)} .st.bad i{background:var(--s-bad)}
-.st.warn{color:var(--s-warn)} .st.warn i{background:var(--s-warn)}
-.st.ok{color:var(--s-ok)} .st.ok i{background:var(--s-ok)}
-.st.unk{color:var(--s-unk)} .st.unk i{background:repeating-linear-gradient(45deg,var(--s-unk) 0 2px,transparent 2px 4px);outline:1px solid var(--s-unk);outline-offset:-1px}
+/* ---------------------------------------------------------------- first screen grid */
+.first{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;border-top:2px solid var(--ink);padding-top:0}
+.colhead{display:flex;align-items:baseline;gap:12px;padding:14px 0 12px;border-bottom:1px solid var(--line)}
+.colhead h2{font-size:15px;font-weight:600;letter-spacing:-.01em;margin:0}
+.colhead .r{margin-left:auto;font-size:13px;color:var(--ink3)}
 
-/* ---- tasks ---- */
-.tasks{border-top:1px solid var(--ink)}
-.task{display:grid;grid-template-columns:120px 1fr auto;gap:6px 18px;padding:16px 0;border-bottom:1px solid var(--line)}
-.task .t{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.3}
-.task .d{font-size:13.5px;color:var(--ink2);margin-top:3px;max-width:680px}
-.task .go{align-self:start;font-size:13px;font-weight:600;text-decoration:none;border:1px solid var(--ink);padding:7px 12px;white-space:nowrap}
-.task .go:hover{background:var(--ink);color:var(--bg)}
-.task .go.plain{border-color:var(--line2);font-weight:500;color:var(--ink2)}
-.items{list-style:none;margin:10px 0 0;padding:0;font-size:13px}
-.items li{display:flex;gap:10px;padding:5px 0;border-top:1px dashed var(--line);flex-wrap:wrap}
-.items li:first-child{border-top:0}
-.items .who{font-weight:600}
+/* needs you */
+.task{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.task>.dot{margin-top:7px}
+.task .t{font-size:17px;font-weight:600;letter-spacing:-.022em;line-height:1.3}
+.task .d{font-size:14px;color:var(--ink2);margin-top:3px;max-width:62ch}
+.task .meta{grid-column:2/4;font-size:13px;color:var(--ink3)}
+.task .go{align-self:start}
+.items{list-style:none;margin:8px 0 0;padding:0;font-size:14px}
+.items li{display:flex;gap:6px 12px;padding:6px 0;border-top:1px solid var(--line);align-items:baseline;flex-wrap:wrap}
+.items .who{font-weight:500;color:var(--ink)}
+.items a.who{text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.items a.who:hover{text-decoration-color:var(--ink)}
 .items .why{color:var(--ink2)}
-.items .when{margin-left:auto;color:var(--ink3);font-family:var(--mono);font-size:11px}
-.items a{text-decoration:underline;text-underline-offset:2px}
-.clear{padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
+.items .when{margin-left:auto;color:var(--ink3);font-size:13px;white-space:nowrap}
+.linkish{font-size:13px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line2);margin-top:6px}
+.linkish:hover{color:var(--ink);text-decoration-color:var(--ink)}
+.morebar{padding:14px 0;border-bottom:1px solid var(--line)}
+.clear{padding:22px 0;border-bottom:1px solid var(--line);font-size:16px;display:flex;gap:12px;align-items:center}
+details.tech{margin-top:6px;font-size:12.5px;color:var(--ink3)}
+details.tech summary{cursor:pointer;width:max-content}
+details.tech div{margin-top:4px;word-break:break-word}
 
-/* ---- tiles ---- */
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.tile{background:var(--panel);padding:14px 14px 12px;min-height:168px;display:flex;flex-direction:column}
-.tile .l{font-size:12.5px;font-weight:600;letter-spacing:-.01em}
-.tile .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:34px;font-weight:500;letter-spacing:-.04em;line-height:1.1;margin-top:8px}
-.tile .u{font-size:11.5px;color:var(--ink3)}
-.tile .wk{font-size:11.5px;color:var(--ink2);margin-top:auto;padding-top:8px;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.tile .wk .up{color:var(--s-ok)} .tile .wk .dn{color:var(--s-bad)}
-.tile .note{font-size:11.5px;color:var(--ink2);margin-top:4px}
-.tile .err{font-size:12.5px;color:var(--ink2);margin-top:10px}
-.tile .n.off{color:var(--ink3);font-size:26px;font-family:var(--sans);letter-spacing:-.02em}
-.spark{display:block;width:100%;height:30px;margin-top:10px}
-.spark svg{display:block;width:100%;height:30px}
+/* yesterday ledger */
+.led{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"l n" "c s";gap:2px 16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:end}
+.led .l{grid-area:l;font-size:14px;font-weight:500;color:var(--ink);align-self:start;padding-top:4px}
+.led .l small{display:block;font-size:13px;font-weight:400;color:var(--ink3)}
+.led .big{grid-area:n;font-size:40px;line-height:1;font-weight:500;letter-spacing:-.045em;text-align:right}
+.led .big.off{font-size:20px;letter-spacing:-.02em;color:var(--ink3);font-weight:500;padding-bottom:4px}
+.led .cmp{grid-area:c;font-size:13px;color:var(--ink2)}
+.led .cmp .q{color:var(--ink3)}
+.led .spark{grid-area:s;width:140px;height:28px;justify-self:end}
+.led .spark svg{display:block;width:140px;height:28px}
+.led.err .big{font-size:15px;letter-spacing:0;font-weight:500;color:var(--ink2);display:flex;gap:8px;align-items:center;justify-content:flex-end;padding-bottom:3px}
+.quiet{font-size:13px;color:var(--ink3);padding:12px 0 0}
 
-/* ---- dalil table, generic tables ---- */
-table{border-collapse:collapse;width:100%;font-size:13px}
-th{font-size:11px;font-weight:600;color:var(--ink3);text-align:right;padding:6px 8px;border-bottom:1px solid var(--ink);white-space:nowrap}
-th:first-child,td:first-child{text-align:left;padding-left:0}
-td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
-td:first-child{font-family:var(--sans)}
-.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.sub{font-size:12px;color:var(--ink3);margin-top:8px}
+/* ---------------------------------------------------------------- sections below the fold */
+section.blk{margin-top:72px}
+.sh{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:20px}
+.sh h2{font-size:22px;font-weight:600;letter-spacing:-.03em;margin:0}
+.sh p{margin:0;font-size:14px;color:var(--ink3);flex-basis:100%}
+.sh .r{margin-left:auto;font-size:13px}
 
-/* ---- trend small multiples ---- */
-.multi{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.chart{background:var(--panel);padding:12px 12px 8px;position:relative}
-.chart .l{font-size:12.5px;font-weight:600;display:flex;gap:8px;align-items:baseline}
-.chart .l .tot{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink3);font-weight:400}
-.chart svg{display:block;width:100%;height:120px;margin-top:6px;overflow:visible}
-.chart .err{height:120px;display:flex;align-items:center;font-size:12.5px;color:var(--ink2)}
-.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font:12px/1.35 var(--mono);padding:6px 8px;z-index:9;display:none;white-space:nowrap}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink3);margin-top:8px}
-.legend span{display:inline-flex;gap:6px;align-items:center}
+/* trends */
+.multi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 32px}
+.chart .ct{display:flex;align-items:baseline;gap:8px;font-size:14px;font-weight:500}
+.chart .ct .tot{margin-left:auto;font-size:13px;color:var(--ink3);font-weight:400}
+.chart svg{display:block;width:100%;height:110px;margin-top:8px;overflow:visible}
+.chart .cerr{height:110px;margin-top:8px;display:flex;gap:10px;align-items:center;font-size:14px;color:var(--ink2);background:var(--wash);padding:0 14px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink3);margin-top:20px;align-items:center}
+.legend span{display:inline-flex;gap:7px;align-items:center}
 .legend i{width:10px;height:10px;display:inline-block}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;line-height:1.35;padding:6px 9px;z-index:30;display:none;white-space:nowrap}
 
-/* ---- funnel ---- */
-.funnel{border-top:1px solid var(--ink)}
-.fs{display:grid;grid-template-columns:190px 100px 1fr 230px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
-.fs .fl{font-size:14px;font-weight:600}
-.fs .fn{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:20px;text-align:right;letter-spacing:-.03em}
-.fs .fb{height:10px;background:var(--wash);position:relative}
-.fs .fb i{position:absolute;left:0;top:0;bottom:0;background:var(--bar)}
-.fs .fp{font-family:var(--mono);font-size:11.5px;color:var(--ink3);text-align:right}
+/* tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:12.5px;font-weight:500;color:var(--ink3);text-align:right;padding:8px 10px;border-bottom:1px solid var(--ink);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;padding-left:0;white-space:normal}
+td.z{color:var(--ink3)}
 
-/* ---- health ---- */
-.health{display:flex;gap:18px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--ink);padding:14px 0;border-bottom:1px solid var(--line)}
-.health .big{font-size:17px;font-weight:600;letter-spacing:-.02em}
-.broken{list-style:none;padding:0;margin:0;width:100%}
-.broken li{padding:8px 0;border-top:1px dashed var(--line);font-size:13px;display:flex;gap:12px;flex-wrap:wrap}
-.broken .e{font-family:var(--mono);font-size:11.5px;color:var(--ink2);word-break:break-word}
+/* funnel rail */
+.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stage{padding:18px 16px 18px 0;position:relative;min-width:0}
+.stage+.stage{padding-left:16px;border-left:1px solid var(--line)}
+.stage.unit{border-left:2px solid var(--ink)}
+.stage .sl{font-size:13px;color:var(--ink2);font-weight:500;min-height:2.6em;line-height:1.3}
+.stage .sn{font-size:clamp(26px,2.6vw,36px);font-weight:500;letter-spacing:-.045em;line-height:1.05;margin-top:6px}
+.stage .su{font-size:12.5px;color:var(--ink3);margin-top:2px}
+.stage .conv{font-size:12.5px;color:var(--ink2);margin-top:12px;padding-top:8px;border-top:1px dashed var(--line2)}
+.stage .conv.none{color:var(--ink3)}
+.railnote{font-size:14px;color:var(--ink2);margin-top:14px;max-width:80ch}
 
-/* ---- cohort ---- */
-.cohort{display:grid;grid-template-columns:1fr 300px;gap:24px;border-top:1px solid var(--ink);padding-top:14px}
-.groups{columns:2;column-gap:28px}
-.grp{break-inside:avoid;margin:0 0 16px}
-.grp h3{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin:0 0 6px;font-weight:600}
-.sig{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:5px 0;font-size:13px;border-bottom:1px solid var(--line)}
-.sig .box{width:18px;height:18px;border:1.5px solid var(--ink3);flex:0 0 18px;display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--mono)}
-.sig[data-s="must"] .box{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.sig[data-s="not"] .box{border-color:var(--ink);color:var(--ink)}
-.sig[data-s="not"] .lab{text-decoration:line-through;text-decoration-thickness:1px}
-.sig .lab{flex:1}
-.sig .c{font-family:var(--mono);font-size:11px;color:var(--ink3)}
-.result{position:sticky;top:12px;align-self:start;border:1px solid var(--ink);padding:16px;background:var(--panel)}
-.result .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:44px;letter-spacing:-.05em;line-height:1}
-.result .what{font-size:12.5px;color:var(--ink2);margin-top:8px}
-.result ul{list-style:none;padding:0;margin:12px 0 0;font-size:12.5px}
-.result li{padding:4px 0;border-top:1px solid var(--line)}
-.result li span{color:var(--ink3)}
-.result .reset{font-size:12px;text-decoration:underline;margin-top:12px;color:var(--ink2)}
-.howto{font-size:12px;color:var(--ink3);margin:0 0 12px}
-.more{font-size:12px;text-decoration:underline;color:var(--ink2);margin:4px 0 0}
+/* disclosure */
+details.disc{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+details.disc>summary{list-style:none;cursor:pointer;display:flex;gap:16px;align-items:baseline;padding:16px 0;flex-wrap:wrap}
+details.disc>summary::-webkit-details-marker{display:none}
+details.disc>summary .chev{width:12px;height:12px;flex:0 0 12px;transition:transform .15s;align-self:center}
+details.disc[open]>summary .chev{transform:rotate(90deg)}
+details.disc>summary b{font-weight:600;font-size:15px}
+details.disc>summary span{color:var(--ink2);font-size:14px}
+details.disc>summary .r{margin-left:auto;color:var(--ink3);font-size:13px}
+details.disc .hide,details.disc[open] .show{display:none}
+details.disc[open] .hide{display:inline}
+.disc .inner{padding:0 0 20px}
+.seg{display:inline-flex;border:1px solid var(--line2);margin-bottom:14px}
+.seg button{padding:6px 12px;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 
-footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink3);line-height:1.6}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* explorer */
+.ex{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:start}
+.search{display:flex;align-items:center;gap:10px;border:1px solid var(--line2);background:var(--panel);height:44px;padding:0 14px;margin-bottom:8px}
+.search:focus-within{border-color:var(--ink)}
+.search svg{width:16px;height:16px;color:var(--ink3);flex:0 0 16px}
+.search input{border:0;outline:0;background:transparent;flex:1;font-size:15px;min-width:0}
+.howto{font-size:13px;color:var(--ink3);margin:0 0 6px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.howto i{display:inline-flex;align-items:center;gap:6px;font-style:normal}
+.grp{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 16px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.grp h3{font-size:13px;font-weight:600;margin:0;color:var(--ink);padding-top:7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 10px;border:1px solid var(--line2);background:var(--panel);font-size:13.5px;color:var(--ink);max-width:100%}
+.chip:hover{border-color:var(--ink)}
+.chip .lab{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip .c{font-size:12.5px;color:var(--ink3)}
+.chip .mk{width:12px;height:12px;flex:0 0 12px;display:none}
+.chip[data-s="must"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[data-s="must"] .c{color:var(--bg);opacity:.7}
+.chip[data-s="not"]{border-color:var(--ink);border-style:dashed}
+.chip[data-s="not"] .lab{text-decoration:line-through;text-decoration-thickness:1.5px}
+.chip[data-s="must"] .mk.plus,.chip[data-s="not"] .mk.minus{display:block}
+.chip.more{color:var(--ink2);border-style:dashed}
+.nomatch{font-size:14px;color:var(--ink3);padding:16px 0}
+.result{position:sticky;top:20px;border:1px solid var(--ink);background:var(--panel);padding:20px}
+.result .rn{font-size:56px;font-weight:500;letter-spacing:-.05em;line-height:1}
+.result .ro{font-size:14px;color:var(--ink3);margin-top:6px}
+.result .active{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.result .active button{font-size:12.5px;border:1px solid var(--line2);padding:3px 8px;display:inline-flex;gap:6px;align-items:center}
+.result .active button:hover{border-color:var(--ink)}
+.result .active button.neg{text-decoration:line-through}
+.result h4{font-size:12.5px;font-weight:500;color:var(--ink3);margin:18px 0 4px}
+.result ul{list-style:none;padding:0;margin:0;font-size:14px}
+.result li{padding:6px 0;border-top:1px solid var(--line);display:flex;gap:10px}
+.result li span{margin-left:auto;color:var(--ink3);font-size:13px;white-space:nowrap}
+.result .reset{margin-top:14px}
 
-@media (max-width:860px){
-  .tiles{grid-template-columns:repeat(2,1fr)}
-  .multi{grid-template-columns:repeat(2,1fr)}
-  .cohort{grid-template-columns:1fr}
-  .result{position:static;order:-1}
-  .fs{grid-template-columns:1fr 90px;grid-template-areas:"l n" "b b" "p p";gap:4px 12px}
-  .fs .fl{grid-area:l} .fs .fn{grid-area:n} .fs .fb{grid-area:b} .fs .fp{grid-area:p;text-align:left}
+footer{margin:80px 0 0;padding:18px 0 48px;border-top:1px solid var(--line);font-size:13px;color:var(--ink3);line-height:1.6;display:flex;gap:24px;flex-wrap:wrap}
+footer p{margin:0;max-width:70ch}
+
+/* failure panel */
+.down{border:1px solid var(--line2);background:var(--panel);padding:24px;margin-top:8px;display:flex;gap:14px;align-items:flex-start}
+.down .t{font-size:17px;font-weight:600}
+.down .d{font-size:14px;color:var(--ink2);margin:4px 0 14px}
+.banner{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--ink2);background:var(--wash);padding:10px 14px;margin:0 0 16px}
+
+/* skeleton */
+.sk{background:var(--wash);position:relative;overflow:hidden}
+.sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(127,127,127,.12),transparent);animation:sh 1.4s infinite}
+@keyframes sh{to{transform:translateX(100%)}}
+@media (prefers-reduced-motion:reduce){.sk::after{animation:none} .progress{transition:none} details.disc>summary .chev{transition:none}}
+
+/* ---------------------------------------------------------------- responsive */
+@media (max-width:1100px){
+  .multi{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rail{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stage:nth-child(4){border-left:2px solid var(--ink);padding-left:16px}
+  .stage:nth-child(n+4){border-top:1px solid var(--line)}
+  .ex{grid-template-columns:minmax(0,1fr) 300px;gap:28px}
 }
-@media (max-width:560px){
-  .task{grid-template-columns:1fr}
-  .task .go{justify-self:start}
+@media (max-width:900px){
+  :root{--gut:24px}
+  .first{grid-template-columns:1fr;gap:28px;border-top:0}
+  .first>div{border-top:2px solid var(--ink)}
+  .hero{grid-template-columns:1fr}
+  .healthline{justify-content:flex-start;text-align:left}
+  .ex{grid-template-columns:1fr}
+  .result{position:static;order:-1}
+}
+@media (max-width:600px){
+  :root{--gut:16px}
+  body{font-size:15px}
+  .top{height:auto;padding:12px 0;flex-wrap:wrap;gap:8px 12px}
+  .top nav{margin-left:-10px;order:3;width:100%}
+  .fresh .when{display:none}
+  .when2{display:inline;margin-left:auto;font-size:13px}
+  .hero{padding:24px 0 20px}
+  .task{grid-template-columns:14px minmax(0,1fr);gap:4px 12px}
+  .task .go{grid-column:2;justify-self:start;margin-top:8px}
+  .task>.dot{margin-top:6px}
+  .led .big{font-size:34px}
+  .led .spark,.led .spark svg{width:110px}
   .multi{grid-template-columns:1fr}
-  .groups{columns:1}
-  .tile{min-height:150px;padding:12px}
-  .tile .n{font-size:28px}
-  .top nav{margin-left:0;width:100%}
+  .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stage,.stage+.stage{padding:14px 12px 14px 0;border-left:0}
+  .stage:nth-child(even){padding-left:12px;border-left:1px solid var(--line)}
+  .stage:nth-child(4){border-left:1px solid var(--line);padding-left:12px}
+  .stage:nth-child(n+3){border-top:1px solid var(--line)}
+  .stage.unit{border-left:0}
+  section.blk{margin-top:56px}
+  .result .rn{font-size:44px}
+  .grp{grid-template-columns:1fr}
+  .grp h3{padding-top:0}
+  .items .when{margin-left:0}
 }
 </style>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
 <div class="wrap">
-  <div class="top">
+  <header class="top">
     <div class="mark">Terraflow<span>.today</span></div>
-    <nav>
+    <nav aria-label="Other pages">
       <a id="toops" href="#">The machine</a>
       <a id="toinbox" href="#">The inbox</a>
-      <button id="theme" type="button" aria-label="Switch light or dark">Dark</button>
-      <span class="stamp" id="stamp">loading</span>
     </nav>
-  </div>
-
-  <div class="date"><b id="dayname">Today</b><span id="datefull"></span><span id="mockflag"></span></div>
-  <h1 id="headline">Reading the engine</h1>
-  <div class="banner" id="banner"></div>
-
-  <h2>Waiting on you <span class="r" id="taskcount"></span></h2>
-  <div class="tasks" id="tasks"></div>
-
-  <h2 id="yhead">Yesterday <span class="r">bars are the last 14 days, grey bars are days with no sending</span></h2>
-  <div class="tiles" id="tiles"></div>
-
-  <h2>LinkedIn and WhatsApp, by sequence <span class="r" id="dalilage"></span></h2>
-  <div class="scroll"><table id="dalil"></table></div>
-  <div class="sub">Dalil counts people, not messages. Someone sent three messages counts once.</div>
-
-  <h2>Last 30 days <span class="r"><button class="more" id="tabletoggle" type="button">Show the numbers</button></span></h2>
-  <div class="multi" id="multi"></div>
-  <div class="legend"><span><i style="background:var(--bar)"></i>day with activity</span><span><i style="background:var(--bar-dim)"></i>no-send day</span><span><i style="background:repeating-linear-gradient(45deg,var(--s-unk) 0 2px,transparent 2px 4px);outline:1px solid var(--s-unk);outline-offset:-1px"></i>no data for that day</span></div>
-  <div class="scroll" id="trendtable" hidden></div>
-
-  <h2>Where the work goes <span class="r">all time</span></h2>
-  <div class="funnel" id="funnel"></div>
-  <div class="sub" id="funnelnote"></div>
-
-  <h2>Engine health <span class="r"><a id="toops2" href="#">every job</a></span></h2>
-  <div id="health"></div>
-
-  <h2>Who to target <span class="r" id="cohorttotal"></span></h2>
-  <p class="howto">Tap once for must have, twice for must not have, three times to clear. The count updates as you go. Nothing is changed or sent.</p>
-  <div class="cohort">
-    <div class="groups" id="groups"></div>
-    <div class="result" id="result">
-      <div class="n num" id="ccount">...</div>
-      <div class="what" id="cwhat">companies in the engine</div>
-      <ul id="csample"></ul>
-      <button class="reset" id="creset" type="button">Clear all</button>
+    <div class="fresh">
+      <span class="when" id="when" aria-live="polite">Loading</span>
+      <button class="btn" id="refresh" type="button" aria-describedby="when">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3"/></svg>
+        <span id="refreshlab">Refresh</span>
+      </button>
+      <button class="btn icon" id="theme" type="button" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 1 0 0 13z"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
     </div>
-  </div>
+  </header>
 
-  <footer id="foot"></footer>
+  <main id="main">
+    <!-- skeleton, replaced on first render -->
+    <div id="skeleton" aria-busy="true" aria-label="Loading today's numbers">
+      <div class="hero"><div><div class="sk" style="height:14px;width:220px;margin-bottom:16px"></div><div class="sk" style="height:48px;width:min(560px,90%)"></div></div></div>
+      <div class="first">
+        <div>
+          <div class="colhead"><div class="sk" style="height:16px;width:120px"></div></div>
+          <div style="padding:16px 0;border-bottom:1px solid var(--line)"><div class="sk" style="height:18px;width:70%"></div><div class="sk" style="height:14px;width:45%;margin-top:10px"></div></div>
+          <div style="padding:16px 0;border-bottom:1px solid var(--line)"><div class="sk" style="height:18px;width:60%"></div><div class="sk" style="height:14px;width:50%;margin-top:10px"></div></div>
+          <div style="padding:16px 0;border-bottom:1px solid var(--line)"><div class="sk" style="height:18px;width:66%"></div><div class="sk" style="height:14px;width:40%;margin-top:10px"></div></div>
+        </div>
+        <div>
+          <div class="colhead"><div class="sk" style="height:16px;width:140px"></div></div>
+          <div style="padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between"><div class="sk" style="height:16px;width:40%"></div><div class="sk" style="height:36px;width:70px"></div></div>
+          <div style="padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between"><div class="sk" style="height:16px;width:35%"></div><div class="sk" style="height:36px;width:60px"></div></div>
+          <div style="padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between"><div class="sk" style="height:16px;width:45%"></div><div class="sk" style="height:36px;width:50px"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page" hidden>
+      <div class="hero">
+        <div>
+          <p class="date"><b id="dayname">Today</b><span id="datefull"></span><span class="pill" id="mockflag" hidden>Sample data</span><span class="when2" id="when2"></span></p>
+          <h1 id="headline"></h1>
+        </div>
+        <div class="healthline" id="healthline"></div>
+      </div>
+      <div id="banner"></div>
+
+      <div class="first">
+        <div>
+          <div class="colhead"><h2>Needs you</h2><span class="r" id="taskcount"></span></div>
+          <div id="tasks"></div>
+        </div>
+        <div>
+          <div class="colhead"><h2 id="yhead">Yesterday</h2><span class="r">last 14 days</span></div>
+          <div id="ledger"></div>
+          <div class="quiet" id="notrunning"></div>
+        </div>
+      </div>
+
+      <section class="blk" aria-labelledby="h-trend">
+        <div class="sh"><h2 id="h-trend">Last 30 days</h2><span class="r"><button class="linkish" id="tabletoggle" type="button" aria-expanded="false">Show as a table</button></span></div>
+        <div class="multi" id="multi"></div>
+        <div class="legend" id="legend"></div>
+        <div class="scroll" id="trendtable" hidden style="margin-top:20px"></div>
+      </section>
+
+      <section class="blk" aria-labelledby="h-funnel">
+        <div class="sh"><h2 id="h-funnel">From found to meeting</h2><span class="r" style="color:var(--ink3)">all time</span>
+          <p>Each step counts only what made it through the step before.</p></div>
+        <div id="funnel"></div>
+        <p class="railnote" id="funnelnote"></p>
+      </section>
+
+      <section class="blk" aria-labelledby="h-dalil">
+        <div class="sh"><h2 id="h-dalil">LinkedIn, by sequence</h2><span class="r" style="color:var(--ink3)" id="dalilage"></span></div>
+        <details class="disc" id="dalilbox">
+          <summary><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 2l4 4-4 4"/></svg><b id="dalilsum">Sequences</b><span id="dalilsub"></span><span class="r"><span class="show">Show detail</span><span class="hide">Hide detail</span></span></summary>
+          <div class="inner" id="dalilinner"></div>
+        </details>
+      </section>
+
+      <section class="blk" aria-labelledby="h-target">
+        <div class="sh"><h2 id="h-target">Who to target</h2><span class="r" style="color:var(--ink3)" id="cohorttotal"></span>
+          <p>Narrow the engine's companies by what we know about them. Read only: nothing is changed or sent.</p></div>
+        <div class="ex">
+          <div>
+            <label class="search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3.5 3.5"/></svg>
+              <span class="sr">Search filters</span><input id="q" type="search" placeholder="Search, e.g. Google Ads, Shopify, UAE" autocomplete="off"></label>
+            <p class="howto"><span>Click a filter to require it, again to exclude it, a third time to clear.</span></p>
+            <div id="groups"></div>
+          </div>
+          <aside class="result" id="result" aria-live="polite">
+            <div class="rn n" id="ccount">&nbsp;</div>
+            <div class="ro" id="cwhat"></div>
+            <div class="active" id="cactive"></div>
+            <h4 id="csamplehead">Examples</h4>
+            <ul id="csample"></ul>
+            <button class="linkish reset" id="creset" type="button" hidden>Clear all filters</button>
+          </aside>
+        </div>
+      </section>
+
+      <footer id="foot"></footer>
+    </div>
+  </main>
 </div>
-<div class="tip" id="tip"></div>
+<div class="tip" id="tip" role="tooltip"></div>
 
 <script>
 const P = new URLSearchParams(location.search);
@@ -252,310 +401,558 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = n => n == null ? "?" : Number(n).toLocaleString("en-GB");
 const safeUrl = u => (/^(https:\/\/|\.\.\/)/.test(String(u || "")) ? String(u) : null);
+const WORDS = ["Nothing","One thing","Two things","Three things","Four things","Five things","Six things","Seven things","Eight things","Nine things"];
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const plural = (n, one, many) => `${fmt(n)} ${n === 1 ? one : many}`;
 
 // ---------------------------------------------------------------- theme (per viewer only)
-function store(k, v){ try{ v === undefined ? null : localStorage.setItem(k, v); return localStorage.getItem(k); }catch(e){ return null; } }
+function store(k, v){ try{ if(v !== undefined) localStorage.setItem(k, v); return localStorage.getItem(k); }catch(e){ return null; } }
+const sysDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
 function applyTheme(t){
   if(t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
   else document.documentElement.removeAttribute("data-theme");
-  const dark = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  $("theme").textContent = dark ? "Light" : "Dark";
+  const dark = (t === "light" || t === "dark") ? t === "dark" : sysDark();
+  $("theme").setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
 }
 applyTheme(P.get("theme") || store("today-theme"));
 $("theme").onclick = () => {
-  const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const cur = document.documentElement.getAttribute("data-theme") || (sysDark() ? "dark" : "light");
   const next = cur === "dark" ? "light" : "dark";
   store("today-theme", next); applyTheme(next);
 };
 
-// ---------------------------------------------------------------- helpers
+// ---------------------------------------------------------------- words
 function ago(iso){
   if(!iso) return "";
-  const s = Math.max(0, (Date.now() - new Date(iso).getTime())/1000);
-  if(s < 5400) return Math.max(1, Math.round(s/60)) + "m ago";
-  if(s < 172800) return Math.round(s/3600) + "h ago";
-  return Math.round(s/86400) + "d ago";
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+  if(s < 60) return "just now";
+  if(s < 5400) return Math.round(s / 60) + " min ago";
+  if(s < 172800) return Math.round(s / 3600) + " hours ago";
+  return Math.round(s / 86400) + " days ago";
 }
 const dubai = (iso, opts) => new Date(iso).toLocaleString("en-GB", Object.assign({timeZone:"Asia/Dubai"}, opts));
 const dayShort = iso => new Date(iso + "T12:00:00Z").toLocaleDateString("en-GB", {weekday:"short", day:"numeric", month:"short", timeZone:"UTC"});
-const STATUS = {
-  act:  ["act",  "Needs you"],
-  bad:  ["bad",  "Broken"],
-  warn: ["warn", "Watch"],
-  ok:   ["ok",   "Fine"],
-  unknown: ["unk", "Couldn't read"],
-};
-const st = level => { const [c, w] = STATUS[level] || STATUS.unknown; return `<span class="st ${c}"><i></i>${w}</span>`; };
+const dayTiny = iso => new Date(iso + "T12:00:00Z").toLocaleDateString("en-GB", {day:"numeric", month:"short", timeZone:"UTC"});
+
+// The engine's own error text is for debugging. On the page it becomes one calm reason.
+function plainErr(e){
+  const s = String(e || "");
+  if(/timeout|timed out|took too long/i.test(s)) return "the engine took too long to answer";
+  if(/permission denied|forbidden/i.test(s)) return "the engine refused the read";
+  if(/429|rate limit/i.test(s)) return "Smartlead asked us to slow down";
+  if(/missing from the engine/i.test(s)) return "the engine left it out of its answer";
+  if(/smartlead key/i.test(s)) return "the Smartlead key could not be read";
+  if(/no live campaign/i.test(s)) return "no live cold email campaign is set";
+  if(/no dalil numbers have arrived/i.test(s)) return "no Dalil numbers have arrived yet";
+  return "the source returned an error";
+}
+const tech = e => e ? `<details class="tech"><summary>Technical detail</summary><div>${esc(e)}</div></details>` : "";
 
 // ---------------------------------------------------------------- tooltip
 const tip = $("tip");
-function showTip(e, html){ tip.innerHTML = html; tip.style.display = "block";
-  const x = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8); tip.style.left = x + "px"; tip.style.top = (e.clientY - tip.offsetHeight - 10) + "px"; }
+function showTip(x, y, html){ tip.innerHTML = html; tip.style.display = "block";
+  tip.style.left = Math.max(8, Math.min(x + 12, innerWidth - tip.offsetWidth - 8)) + "px";
+  tip.style.top = Math.max(8, y - tip.offsetHeight - 12) + "px"; }
 function hideTip(){ tip.style.display = "none"; }
+document.addEventListener("mousemove", e => { const t = e.target.closest && e.target.closest("[data-tip]"); t ? showTip(e.clientX, e.clientY, esc(t.getAttribute("data-tip"))) : hideTip(); });
+document.addEventListener("touchstart", e => { const t = e.target.closest && e.target.closest("[data-tip]"); if(t){ const p = e.touches[0]; showTip(p.clientX, p.clientY, esc(t.getAttribute("data-tip"))); setTimeout(hideTip, 1800); } }, {passive:true});
+document.addEventListener("scroll", hideTip, {passive:true});
 
-// ---------------------------------------------------------------- column chart (one series, ink)
-// Columns, not a line: these are daily counts with whole days of deliberate silence, and a line
-// would draw a slope through a weekend. Unknown days get a hatched stub, never a zero bar.
-function columns(points, days, opts){
-  const W = opts.w || 300, H = opts.h || 120, padB = opts.axis ? 16 : 0, padT = opts.axis ? 12 : 2;
-  const vals = points.map(v => v == null ? 0 : v);
-  const max = Math.max(1, ...vals);
-  const n = points.length, slot = W / n, bw = Math.max(2, Math.min(24, slot - 2));
-  const ch = H - padB - padT;
-  let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(opts.label || "")}">`;
-  if(opts.axis){
-    s += `<line x1="0" x2="${W}" y1="${H-padB}" y2="${H-padB}" stroke="var(--line2)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
-    s += `<text x="0" y="9" font-size="9" fill="var(--ink3)" font-family="var(--mono)">${fmt(max)}</text>`;
+// ---------------------------------------------------------------- column chart
+// Columns, not a line: daily counts with whole days of deliberate silence; a line would draw a
+// slope through a weekend. A day with no data is a dashed stub, never a zero bar.
+function columns(points, days, o){
+  const W = o.w, H = o.h, padB = o.axis ? 18 : 0, padT = o.axis ? 14 : 1;
+  const known = points.filter(v => v != null);
+  const max = o.cap || Math.max(1, ...known);
+  const n = points.length, slot = W / n, gap = n > 20 ? 2 : 3, bw = Math.max(1.5, slot - gap);
+  const ch = H - padB - padT, base = H - padB;
+  let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(o.label)}">`;
+  if(o.axis){
+    s += `<line x1="0" x2="${W}" y1="${padT}" y2="${padT}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
   }
+  s += `<line x1="0" x2="${W}" y1="${base}" y2="${base}" stroke="var(--line2)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
   points.forEach((v, i) => {
-    const x = i * slot + (slot - bw) / 2;
-    const off = opts.offDays && opts.offDays.includes(new Date(days[i] + "T12:00:00Z").getUTCDay());
-    const tipTxt = `${dayShort(days[i])}: ${v == null ? "no data" : fmt(v)}${off ? " (no-send day)" : ""}`;
+    const x = i * slot + gap / 2;
+    const off = o.offDays && o.offDays.includes(new Date(days[i] + "T12:00:00Z").getUTCDay());
+    const tipTxt = `${dayShort(days[i])}: ${v == null ? "no data" : fmt(v)}${off ? ", not a send day" : ""}`;
     if(v == null){
-      s += `<rect x="${x}" y="${H-padB-4}" width="${bw}" height="4" fill="none" stroke="var(--s-unk)" stroke-width="1" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/>`;
-    } else {
-      const h = v === 0 ? 1 : Math.max(2, v / max * ch);
-      s += `<rect x="${x}" y="${H-padB-h}" width="${bw}" height="${h}" fill="${off || v === 0 ? "var(--bar-dim)" : "var(--bar)"}"/>`;
+      s += `<rect x="${x}" y="${base - 3}" width="${bw}" height="3" fill="none" stroke="var(--unk)" stroke-width="1" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/>`;
+    } else if(v > 0){
+      const over = v > max;
+      const h = over ? ch : Math.max(1.5, v / max * ch);
+      s += `<rect x="${x}" y="${base - h}" width="${bw}" height="${h}" fill="${off ? "var(--bar-dim)" : "var(--bar)"}"/>`;
+      // Off the scale: a break in the bar says "taller than drawn"; the real value is in the label.
+      if(over) s += `<rect x="${x - 1}" y="${padT + ch * 0.16}" width="${bw + 2}" height="2" fill="var(--bg)"/><rect x="${x - 1}" y="${padT + ch * 0.16 + 4}" width="${bw + 2}" height="2" fill="var(--bg)"/>`;
     }
-    s += `<rect x="${i*slot}" y="0" width="${slot}" height="${H}" fill="transparent" data-tip="${esc(tipTxt)}"/>`;
+    s += `<rect x="${i * slot}" y="0" width="${slot}" height="${H}" fill="transparent" data-tip="${esc(tipTxt)}"/>`;
   });
-  if(opts.axis && days.length){
-    s += `<text x="0" y="${H-2}" font-size="9" fill="var(--ink3)" font-family="var(--mono)">${esc(dayShort(days[0]))}</text>`;
-    s += `<text x="${W}" y="${H-2}" font-size="9" fill="var(--ink3)" font-family="var(--mono)" text-anchor="end">${esc(dayShort(days[days.length-1]))}</text>`;
-  }
   return s + `</svg>`;
 }
-document.addEventListener("mousemove", e => { const t = e.target.closest && e.target.closest("[data-tip]"); t ? showTip(e, esc(t.getAttribute("data-tip"))) : hideTip(); });
-document.addEventListener("touchstart", e => { const t = e.target.closest && e.target.closest("[data-tip]"); if(t){ const p = e.touches[0]; showTip({clientX:p.clientX, clientY:p.clientY}, esc(t.getAttribute("data-tip"))); setTimeout(hideTip, 1800);} }, {passive:true});
+// HTML axis labels so text never stretches with the SVG.
+const axis = (days, max) => `<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);margin-top:4px"><span>${esc(dayTiny(days[0]))}</span><span>${esc(dayTiny(days[days.length - 1]))}</span></div>`;
+
+// ---------------------------------------------------------------- tasks
+const TASK_RANK = {clients:0, unanswered:1, approve:2, readers:3, calls:4, health:5, dalil_sync:6, unknown:7, pool:8, stuck_drafts:9, dalil_stale:10};
+const SHORT = {drafts:"reply drafts", unanswered:"unanswered replies", readers:"who read their teardown", health:"the engine's jobs",
+  dalil_sync:"the Dalil sync", calls:"today's call sheet", clients:"client sites"};
+const statusOf = t => t.level === "unknown" ? "unk" : (t.kind === "health" || t.kind === "clients") && t.level === "act" ? "bad" : t.level;
+const STATUS_WORD = {act:"Needs you", bad:"Broken", warn:"Watch", ok:"Fine", unk:"Couldn't check"};
+
+function prepTasks(raw){
+  const unk = raw.filter(t => t.level === "unknown");
+  let list = raw.filter(t => t.level !== "unknown");
+  if(unk.length === 1) list.push(unk[0]);
+  else if(unk.length > 1){
+    const reasons = [...new Set(unk.map(t => plainErr(t.detail)))];
+    list.push({kind:"unknown", level:"unknown",
+      title: `${unk.length} checks couldn't run`,
+      detail: `${cap(unk.map(t => SHORT[t.kind] || t.kind).join(", "))}. ${cap(reasons.join("; "))}. These are unknown, not clear.`,
+      tech: [...new Set(unk.map(t => t.detail))].join(" | ")});
+  }
+  list.sort((a, b) => (TASK_RANK[a.kind] ?? 6.5) - (TASK_RANK[b.kind] ?? 6.5));
+  return list;
+}
+function taskHtml(t, links){
+  const s = statusOf(t);
+  const items = t.items || [];
+  const link = safeUrl(t.link) || (t.kind === "approve" ? null : null);
+  const go = link ? `<a class="btn${s === "act" || s === "bad" ? " solid" : ""} go" href="${esc(link)}" ${link.startsWith("..") ? "" : `target="_blank" rel="noopener"`}>${esc(t.action || "Open")}</a>`
+           : "<span></span>";
+  const shown = items.slice(0, 3);
+  const detail = t.level === "unknown" && t.kind !== "unknown" ? `${cap(plainErr(t.detail))}. Unknown, not clear.` : t.detail;
+  return `<div class="task">
+    <span class="dot ${s}" aria-hidden="true"></span>
+    <div><span class="sr">${STATUS_WORD[s]}: </span><div class="t">${esc(t.title)}</div>${detail ? `<div class="d">${esc(detail)}</div>` : ""}
+      ${t.level === "unknown" ? tech(t.tech || t.detail) : ""}
+      ${shown.length ? `<ul class="items">${shown.map(itemHtml).join("")}</ul>` : ""}
+      ${items.length > 3 ? `<button class="linkish" type="button" data-items="${esc(JSON.stringify(items.slice(3)))}">Show ${items.length - 3} more</button>` : ""}
+    </div>
+    ${go}
+  </div>`;
+}
+function itemHtml(i){
+  const il = safeUrl(i.link);
+  const who = il ? `<a class="who" href="${esc(il)}" target="_blank" rel="noopener">${esc(i.name || "")}</a>` : `<span class="who">${esc(i.name || "")}</span>`;
+  return `<li>${who}${i.company ? `<span class="why">${esc(i.company)}</span>` : ""}${i.note ? `<span class="why">${esc(i.note)}</span>` : ""}${i.at ? `<span class="when">${esc(ago(i.at))}</span>` : ""}</li>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-items]"); if(!b) return;
+  const ul = b.previousElementSibling && b.previousElementSibling.tagName === "UL" ? b.previousElementSibling : null;
+  if(ul) ul.insertAdjacentHTML("beforeend", JSON.parse(b.getAttribute("data-items")).map(itemHtml).join(""));
+  b.remove();
+});
+
+function moreWords(rest){
+  const c = {}; for(const t of rest){ const s = statusOf(t); c[s] = (c[s] || 0) + 1; }
+  return [c.bad ? `${c.bad} broken` : "", c.act ? `${c.act} to do` : "", c.warn ? `${c.warn} to watch` : "", c.unk ? `${c.unk} unknown` : ""].filter(Boolean).join(", ");
+}
+
+// ---------------------------------------------------------------- yesterday ledger
+const DALIL_KEYS = ["li_requests","li_accepted","li_messages","whatsapp","dalil_email"];
+const SHORT_LABEL = {email:"Cold emails sent", li_requests:"LinkedIn requests sent", li_accepted:"LinkedIn accepts", li_messages:"LinkedIn messages",
+  whatsapp:"WhatsApp messages", dalil_email:"Dalil emails", replies:"People who wrote back", teardown_reads:"Teardown pages read"};
+const UNIT = {email:"to new and existing leads", li_requests:"people sent a request", li_accepted:"people accepted", li_messages:"people messaged",
+  whatsapp:"people messaged", dalil_email:"people emailed", replies:"real replies to cold email", teardown_reads:"real reads, not bots"};
+
+function compareText(c){
+  if(c.week == null) return `<span class="q">No full week of numbers yet</span>`;
+  if(c.prev_week == null) return `${fmt(c.week)} in the last 7 days`;
+  const diff = c.week - c.prev_week;
+  if(diff === 0) return `${fmt(c.week)} in 7 days, same as the week before`;
+  if(c.prev_week === 0) return `${fmt(c.week)} in 7 days, none the week before`;
+  // Percentages of tiny numbers are noise ("up 133%" on 3). Below 20, say both numbers.
+  if(c.prev_week < 20) return `${fmt(c.week)} in 7 days, ${fmt(c.prev_week)} the week before`;
+  const pct = Math.round(Math.abs(diff) / c.prev_week * 100);
+  return `${fmt(c.week)} in 7 days, ${diff > 0 ? "up" : "down"} ${pct}% on the week before (${fmt(c.prev_week)})`;
+}
+function renderLedger(d, offDays){
+  const ch = d.channels || [];
+  const dal = ch.filter(c => DALIL_KEYS.includes(c.key));
+  const dalErr = dal.length && dal.every(c => c.error);
+  const rows = [], never = [];
+  // Older engine answers have no "ran" flag: work it out from Dalil's all-time totals.
+  const FIELD = {li_requests:"requests", li_accepted:"accepted", li_messages:"linkedin_msgs", whatsapp:"whatsapp", dalil_email:"email"};
+  const all = d.dalil && d.dalil.all;
+  for(const c of ch) if(c.ran === undefined && DALIL_KEYS.includes(c.key) && !c.error && all)
+    c.ran = (all[FIELD[c.key === "li_accepted" ? "li_requests" : c.key]] || 0) > 0 || (c.week || 0) > 0;
+  for(const c of ch){
+    if(DALIL_KEYS.includes(c.key)){
+      if(dalErr) continue;
+      if(c.ran === false){ never.push(SHORT_LABEL[c.key] || c.label); continue; }
+    }
+    rows.push(c);
+  }
+  // LinkedIn is one row when Dalil could not be read, not five identical error rows.
+  if(dalErr) rows.splice(1, 0, {key:"linkedin", label:"LinkedIn", error: dal[0].error, group:true});
+  const order = ["email","replies","teardown_reads","li_requests","linkedin","li_accepted","li_messages","whatsapp","dalil_email"];
+  rows.sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
+  const top = rows.slice(0, 5);
+  $("ledger").innerHTML = top.map(c => {
+    const label = SHORT_LABEL[c.key] || c.label;
+    if(c.error){
+      return `<div class="led err"><div class="l">${esc(label)}<small>${esc(cap(plainErr(c.error)))}</small></div>
+        <div class="big"><span class="dot unk" aria-hidden="true"></span>Couldn't read</div><div class="cmp">${tech(c.error)}</div></div>`;
+    }
+    const days = (c.series || []).map(p => p.day), pts = (c.series || []).map(p => p.n);
+    const off = c.key === "email" ? offDays : null;
+    const big = c.no_send_day ? `<div class="big off">Not a send day</div>` : `<div class="big n">${c.yesterday == null ? "?" : fmt(c.yesterday)}</div>`;
+    let cmp = compareText(c);
+    if(c.key === "replies" && c.also && c.also.dalil) cmp += `. Plus ${fmt(c.also.dalil)} on LinkedIn`;
+    if(c.note && !c.no_send_day) cmp = `<span class="tag warn">${esc(c.note)}.</span> ` + cmp;
+    return `<div class="led"><div class="l">${esc(label)}<small>${esc(c.no_send_day ? (c.note || "") : (UNIT[c.key] || c.unit || ""))}</small></div>${big}
+      <div class="cmp n">${cmp}</div>
+      <div class="spark">${columns(pts, days, {w:140, h:28, offDays: off, label: label + ", last 14 days"})}</div></div>`;
+  }).join("");
+  const bits = [];
+  if(never.length) bits.push(`Not running yet: ${never.join(", ")}.`);
+  const extra = rows.slice(5).map(c => `${SHORT_LABEL[c.key] || c.label} ${c.error ? "unknown" : fmt(c.yesterday)}`);
+  if(extra.length) bits.push(`Also yesterday: ${extra.join(", ")}.`);
+  $("notrunning").textContent = bits.join(" ");
+  return never;
+}
 
 // ---------------------------------------------------------------- render
 let LAST = null;
 function render(d){
   LAST = d;
+  $("skeleton").hidden = true; $("page").hidden = false;
   const k = encodeURIComponent(KEY);
-  $("toops").href = $("toops2").href = "../ops/?k=" + k;
+  $("toops").href = "../ops/?k=" + k;
   $("toinbox").href = "../inbox/?k=" + k;
-  $("stamp").textContent = "updated " + dubai(d.at, {hour:"2-digit", minute:"2-digit"}) + " Dubai";
   $("dayname").textContent = dubai(d.at, {weekday:"long"});
   $("datefull").textContent = dubai(d.at, {day:"numeric", month:"long", year:"numeric"});
-  document.title = "Today, " + dubai(d.at, {day:"numeric", month:"short"}) + " · Terraflow";
-  $("headline").textContent = d.headline || "";
-  $("yhead").firstChild.textContent = "Yesterday, " + (d.yesterday_name || "") + " ";
+  document.title = "Today, " + dubai(d.at, {day:"numeric", month:"short"}) + ", Terraflow";
+  $("yhead").textContent = "Yesterday, " + (d.yesterday_name || "");
+  stamp();
 
-  // ---- tasks
-  const tasks = d.tasks || [];
-  const actN = tasks.filter(t => t.level === "act").length;
-  $("taskcount").textContent = tasks.length ? `${actN} to do, ${tasks.length - actN} to watch` : "";
-  $("tasks").innerHTML = tasks.length ? tasks.map(t => {
-    const lvl = (t.kind === "health" || t.kind === "clients") && t.level === "act" ? "bad" : t.level;
-    const items = (t.items || []);
-    const shown = items.slice(0, 5);
-    const link = safeUrl(t.link);
-    const go = link ? `<a class="go" href="${esc(link)}" target="${link.startsWith("..") ? "_self" : "_blank"}" rel="noopener">${esc(t.action || "Open")}</a>`
-                    : (t.action ? `<span class="go plain">${esc(t.action)}</span>` : "<span></span>");
-    return `<div class="task">
-      <div>${st(lvl)}</div>
-      <div><div class="t">${esc(t.title)}</div>${t.detail ? `<div class="d">${esc(t.detail)}</div>` : ""}
-        ${shown.length ? `<ul class="items">${shown.map(i => {
-          const il = safeUrl(i.link);
-          const who = il ? `<a class="who" href="${esc(il)}" target="_blank" rel="noopener">${esc(i.name || "")}</a>` : `<span class="who">${esc(i.name || "")}</span>`;
-          return `<li>${who}${i.company ? `<span class="why">${esc(i.company)}</span>` : ""}${i.note ? `<span class="why">${esc(i.note)}</span>` : ""}${i.at ? `<span class="when">${esc(ago(i.at))}</span>` : ""}</li>`;
-        }).join("")}${items.length > 5 ? `<li><span class="why">and ${items.length - 5} more</span></li>` : ""}</ul>` : ""}
-      </div>
-      <div>${go}</div>
-    </div>`;
-  }).join("") : `<div class="clear">${st("ok")} &nbsp;Nothing is waiting on you.</div>`;
+  // ---- needs you
+  const tasks = prepTasks(d.tasks || []);
+  const actN = tasks.filter(t => ["act","bad"].includes(statusOf(t))).length;
+  const unkT = tasks.find(t => t.level === "unknown");
+  const unkN = (d.tasks || []).filter(t => t.level === "unknown").length;
+  $("headline").innerHTML = actN
+    ? `${esc(WORDS[actN] || actN + " things")} ${actN === 1 ? "needs" : "need"} you today.`
+    : unkN ? `Nothing needs you <span class="soft">that the engine could see.</span>` : `Nothing needs you today.`;
+  const watchN = tasks.length - actN - (unkT ? 1 : 0);
+  $("taskcount").textContent = [actN ? `${actN} to do` : "", watchN ? `${watchN} to watch` : "", unkT ? `${unkN} unknown` : ""].filter(Boolean).join(", ");
+  const VIS = 4;
+  $("tasks").innerHTML = tasks.length
+    ? tasks.slice(0, VIS).map(t => taskHtml(t)).join("") +
+      (tasks.length > VIS ? `<div id="moretasks" hidden>${tasks.slice(VIS).map(t => taskHtml(t)).join("")}</div><div class="morebar"><button class="linkish" type="button" id="moretbtn" aria-expanded="false">Show ${tasks.length - VIS} more: ${esc(moreWords(tasks.slice(VIS)))}</button></div>` : "")
+    : `<div class="clear"><span class="dot ok" aria-hidden="true"></span>Nothing is waiting on you.</div>`;
+  if($("moretbtn")) $("moretbtn").onclick = e => { $("moretasks").hidden = false; e.target.parentElement.remove(); };
 
-  // ---- tiles
+  // ---- health, one line
+  const h = d.health || {};
+  if(h.error) $("healthline").innerHTML = `<span class="dot unk" aria-hidden="true"></span><span>Couldn't read the machine: ${esc(plainErr(h.error))}.</span>`;
+  else {
+    const c = h.counts || {}, running = (c.working || 0) + (c.idle || 0) + (c.failing || 0) + (c.stalled || 0), b = (h.broken || []).length;
+    $("healthline").innerHTML = b
+      ? `<span class="dot bad" aria-hidden="true"></span><span>${b} of ${running} engine jobs broken: ${esc(h.broken.map(x => x.label).join(", "))}. <a href="../ops/?k=${k}">See the machine</a></span>`
+      : `<span class="dot ok" aria-hidden="true"></span><span>All ${running} engine jobs running fine. <a href="../ops/?k=${k}">See the machine</a></span>`;
+  }
+
+  // ---- whole-source banner: only when most of the page is unknown
+  const failed = (d.channels || []).filter(c => c.error).length;
+  $("banner").innerHTML = failed >= 4
+    ? `<div class="banner"><span class="dot unk" aria-hidden="true"></span><span>Most numbers couldn't be read this time. They show as unknown, never as zero. Try Refresh in a minute.</span></div>` : "";
+
+  // ---- yesterday
   const sendDays = (d.trend && d.trend.send_days) || [1,2,3,4];
   const offDays = [0,1,2,3,4,5,6].filter(x => !sendDays.includes(x));
-  $("tiles").innerHTML = (d.channels || []).map(c => {
-    const days = (c.series || []).map(p => p.day), pts = (c.series || []).map(p => p.n);
-    let big, foot = "";
-    if(c.error){
-      big = `<div class="err">${st("unknown")}<br>${esc(c.error)}</div>`;
-    } else if(c.no_send_day){
-      big = `<div class="n off">No send day</div><div class="note">${esc(c.note || "")}</div>`;
-    } else {
-      big = `<div class="n">${c.yesterday == null ? "?" : fmt(c.yesterday)}</div><div class="u">${esc(c.unit)}</div>${c.note ? `<div class="note">${st("warn")} ${esc(c.note)}</div>` : ""}`;
-    }
-    if(!c.error){
-      let delta = "";
-      if(c.week != null && c.prev_week != null){
-        const diff = c.week - c.prev_week;
-        delta = diff === 0 ? " (same)" : ` (<span class="${diff > 0 ? "up" : "dn"}">${diff > 0 ? "+" : ""}${fmt(diff)}</span>)`;
-        foot = `7 days ${fmt(c.week)} vs ${fmt(c.prev_week)} before${delta}`;
-      } else if(c.week != null){
-        foot = `7 days ${fmt(c.week)}, no earlier week to compare`;
-      } else foot = "no 7-day total yet";
-    }
-    const extra = c.also && !c.error ? `<div class="note">plus ${fmt(c.also.auto)} auto replies, ${fmt(c.also.opt_out)} opt-outs${c.also.dalil != null ? `, ${fmt(c.also.dalil)} on Dalil` : ""}</div>` : "";
-    const spark = c.error ? "" : `<div class="spark">${columns(pts, days, {w:140, h:30, offDays: c.key === "email" ? offDays : null, label: c.label + ", last 14 days"})}</div>`;
-    return `<div class="tile"><div class="l">${esc(c.label)}</div>${big}${extra}${spark}<div class="wk">${foot}</div></div>`;
-  }).join("");
+  const never = renderLedger(d, offDays);
 
-  // ---- dalil per sequence
-  const dl = d.dalil || {};
-  if(dl.error && !(dl.sequences || []).length){
-    $("dalil").innerHTML = `<tr><td>${st("unknown")} ${esc(dl.error)}</td></tr>`;
-  } else {
-    const cols = [["requests","Requests sent"],["accepted","Accepted"],["linkedin_msgs","LinkedIn msgs"],["whatsapp","WhatsApp"],["email","Dalil email"],["replied","Replied"]];
-    const rows = [];
-    for(const s of dl.sequences || []){
-      for(const [p, lab] of [["yesterday","yesterday"],["week","last 7 days"],["all","all time"]]){
-        const m = s[p]; if(!m) continue;
-        rows.push(`<tr><td>${p === "yesterday" || !s.yesterday && p === "week" ? `<b>${esc(s.name)}</b>${s.test ? " <span class='u'>(test, not counted)</span>" : ""}<br>` : ""}<span style="color:var(--ink3)">${lab}${p === "yesterday" && m.start ? ", " + esc(dayShort(m.start)) : ""}</span></td>${cols.map(([f]) => `<td>${fmt(m[f])}</td>`).join("")}<td>${fmt(m.enrolled)}</td></tr>`);
-      }
-    }
-    $("dalil").innerHTML = `<thead><tr><th>Sequence</th>${cols.map(c => `<th>${c[1]}</th>`).join("")}<th>In sequence</th></tr></thead><tbody>${rows.join("") || `<tr><td colspan="8">${st("unknown")} No Dalil numbers have arrived yet.</td></tr>`}</tbody>`;
-  }
-  $("dalilage").innerHTML = dl.taken_at
-    ? (dl.stale ? `${st("warn")} taken ${esc(ago(dl.taken_at))}, older than 30 hours` : `taken ${esc(dubai(dl.taken_at, {hour:"2-digit", minute:"2-digit"}))} Dubai`)
-    : "";
-
-  // ---- trend small multiples
+  // ---- trends
   const tr = d.trend || {lines:[], days:[]};
-  $("multi").innerHTML = tr.lines.map(l => {
-    if(l.error) return `<div class="chart"><div class="l">${esc(l.label)}</div><div class="err">${st("unknown")}&nbsp; ${esc(l.error)}</div></div>`;
+  const neverKeys = new Set((d.channels || []).filter(c => c.ran === false).map(c => c.key));
+  // A trend line's error is terse; borrow the fuller reason from the matching row above.
+  const TWIN = {replies:"replies", reads:"teardown_reads", email:"email", li_requests:"li_requests"};
+  const lines = tr.lines.filter(l => !neverKeys.has(l.key)).map(l => {
+    const twin = (d.channels || []).find(c => c.key === TWIN[l.key]);
+    const label = l.key === "replies" ? "People who wrote back" : l.key === "li_requests" ? "LinkedIn requests sent" : l.label;
+    return Object.assign({}, l, {label}, l.error && twin && twin.error ? {error: twin.error} : {});
+  });
+  $("multi").innerHTML = lines.map(l => {
+    if(l.error) return `<div class="chart"><div class="ct">${esc(l.label)}</div><div class="cerr"><span class="dot unk" aria-hidden="true"></span>Couldn't read: ${esc(plainErr(l.error))}</div></div>`;
     const known = l.points.filter(v => v != null);
+    const firstDay = tr.days[l.points.findIndex(v => v != null)];
+    // Under 5 days of history a chart is mostly empty and reads as broken. Say it in words.
+    if(known.length < 5){
+      const why = /^li_|dalil/.test(l.key) ? "Dalil numbers arrive each morning." : "More days fill in as the engine runs.";
+      return `<div class="chart"><div class="ct">${esc(l.label)}</div><div class="cerr">${known.length ? `History starts ${esc(dayTiny(firstDay))}. ${why}` : `No history yet. ${why}`}</div></div>`;
+    }
     const tot = known.reduce((a, b) => a + b, 0);
-    return `<div class="chart"><div class="l">${esc(l.label)}<span class="tot">${fmt(tot)} in ${known.length} days</span></div>${columns(l.points, tr.days, {w:300, h:120, axis:true, offDays: l.key === "email" ? offDays : null, label: l.label + ", last 30 days"})}</div>`;
+    // One freak day (a bulk import) flattens every other bar. Cap the scale at twice the 90th
+    // percentile of the other days and break the bars above it. The table keeps the real values.
+    const sorted = known.slice().sort((a, b) => a - b), p90 = sorted[Math.floor((sorted.length - 1) * 0.9)];
+    const capV = p90 > 0 && sorted[sorted.length - 1] > 4 * p90 ? Math.ceil(2 * p90) : null;
+    const outl = capV ? l.points.map((v, i) => v > capV ? i : -1).filter(i => i >= 0) : [];
+    const max = capV || Math.max(0, ...known);
+    const big = outl.slice().sort((a, b) => l.points[b] - l.points[a]);
+    const capNote = !outl.length ? "" : `Off the scale: one bulk import on ${dayTiny(tr.days[big[0]])} (${fmt(l.points[big[0]])})`
+      + (big.length > 1 ? `, and ${big.slice(1).map(i => `${fmt(l.points[i])} on ${dayTiny(tr.days[i])}`).join(", ")}.` : ".");
+    const outLabels = outl.length !== 1 ? "" : outl.map(i => `<span class="n" style="position:absolute;top:10px;left:calc(${(i + 0.5) / l.points.length * 100}% + 6px);font-size:11.5px;color:var(--ink2);background:var(--bg);padding:0 3px;white-space:nowrap${i / l.points.length > 0.7 ? ";transform:translateX(calc(-100% - 12px))" : ""}">${fmt(l.points[i])}</span>`).join("");
+    const totTxt = known.length === l.points.length ? `${fmt(tot)} in 30 days` : known.length ? `${fmt(tot)} in the ${plural(known.length, "day", "days")} we have` : "no days yet";
+    return `<div class="chart"><div class="ct">${esc(l.label)}<span class="tot n">${totTxt}</span></div>
+      <div style="position:relative"><span class="n" style="position:absolute;left:0;top:-2px;font-size:11.5px;color:var(--ink3);background:var(--bg);padding-right:4px">${fmt(max)}</span>
+      ${outLabels}${columns(l.points, tr.days, {w:300, h:110, axis:true, cap: capV, offDays: l.key === "email" ? offDays : null, label: `${l.label}, last 30 days, ${totTxt}${capNote ? ". " + capNote : ""}`})}</div>${axis(tr.days)}${capNote ? `<div style="font-size:12.5px;color:var(--ink3);margin-top:4px">${esc(capNote)}</div>` : ""}</div>`;
   }).join("");
-  $("trendtable").innerHTML = `<table><thead><tr><th>Day</th>${tr.lines.map(l => `<th>${esc(l.label)}</th>`).join("")}</tr></thead><tbody>${
-    tr.days.slice().reverse().map((day) => { const i = tr.days.indexOf(day); return `<tr><td>${esc(dayShort(day))}</td>${tr.lines.map(l => `<td>${l.error ? "?" : (l.points[i] == null ? "no data" : fmt(l.points[i]))}</td>`).join("")}</tr>`; }).join("")}</tbody></table>`;
+  $("legend").innerHTML = `<span><i style="background:var(--bar)"></i>a day's count</span><span><i style="background:var(--bar-dim)"></i>cold email off day (${esc(offDays.map(x => ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][x]).join(", "))})</span><span><i style="border:1px dashed var(--unk);height:5px"></i>no data for that day</span><span>Hover a bar for the day.</span>`;
+  $("trendtable").innerHTML = `<table><thead><tr><th>Day</th>${lines.map(l => `<th>${esc(l.label)}</th>`).join("")}</tr></thead><tbody>${
+    tr.days.map((day, i) => i).reverse().map(i => `<tr><td>${esc(dayShort(tr.days[i]))}</td>${lines.map(l => { const v = l.error ? null : l.points[i]; return `<td class="n${!v ? " z" : ""}">${l.error ? "unknown" : v == null ? "no data" : fmt(v)}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`;
 
-  // ---- funnel
-  const f = d.funnel || {};
-  if(f.error){ $("funnel").innerHTML = `<div class="fs"><div class="fl">${st("unknown")}</div><div class="fp">${esc(f.error)}</div></div>`; $("funnelnote").textContent = ""; }
-  else {
-    $("funnel").innerHTML = f.steps.map((s, i) => {
-      const prev = i ? f.steps[i-1].n : null;
-      const pct = prev ? s.n / prev * 100 : 100;
-      const zero = s.n === 0;
-      // Cold emailed can exceed "checked and real": early sends went to addresses before the check
-      // existed. Say so rather than print a percentage over 100.
-      const pctTxt = i === 0 ? "" : (!prev ? "" : pct > 100 ? "more than the step before: early sends predate the email check"
-        : `${pct < 1 && pct > 0 ? pct.toFixed(1) : Math.round(pct)}% of the step before`);
-      return `<div class="fs"><div class="fl">${esc(s.label)}${zero ? " " + st("warn") : ""}</div><div class="fn">${fmt(s.n)}</div>
-        <div class="fb" data-tip="${esc(s.label + ": " + fmt(s.n) + (pctTxt ? ", " + pctTxt : ""))}"><i style="width:${i === 0 ? 100 : Math.max(s.n > 0 ? 0.6 : 0, Math.min(100, pct))}%"></i></div><div class="fp">${pctTxt}</div></div>`;
-    }).join("");
-    const bits = [];
-    if(f.email_pool != null) bits.push(`${fmt(f.email_pool)} checked people left that cold email has never written to`);
-    bits.push(`${fmt(f.bounced)} bounced, ${fmt(f.opted_out)} opted out`);
-    if(f.dalil_reached != null) bits.push(`Dalil has reached ${fmt(f.dalil_reached)} of ${fmt(f.dalil_enrolled)} people in its sequences`);
-    $("funnelnote").textContent = "Bars show how much of the step before made it through. " + bits.join(". ") + ".";
-  }
-
-  // ---- health
-  const h = d.health || {};
-  if(h.error){ $("health").innerHTML = `<div class="health">${st("unknown")} <span>${esc(h.error)}</span></div>`; }
-  else {
-    const c = h.counts || {}, fine = (c.working || 0) + (c.idle || 0), off = (c.off || 0) + (c.unscheduled || 0);
-    $("health").innerHTML = `<div class="health">
-      ${h.broken.length ? st("bad") : st("ok")}
-      <span class="big">${h.broken.length ? `${h.broken.length} broken, ${fine} running fine` : `All ${fine} running jobs are fine`}</span>
-      <span class="mono" style="font-size:12px;color:var(--ink3)">${fmt(c.working || 0)} working, ${fmt(c.idle || 0)} quiet with nothing to do, ${fmt(off)} switched off</span>
-      ${h.broken.length ? `<ul class="broken">${h.broken.map(b => `<li><b>${esc(b.label)}</b><span>${esc(b.blurb || "")}</span>${b.error ? `<span class="e">${esc(b.error)}</span>` : ""}</li>`).join("")}</ul>` : ""}
-    </div>`;
-  }
-
-  // ---- cohort boxes (built once; refresh only updates the counts beside them)
+  renderFunnel(d.funnel || {});
+  renderDalil(d.dalil || {}, d);
   renderCohort(d.cohort || {});
 
-  // ---- footer + banner
-  const errs = [];
-  for(const c of d.channels || []) if(c.error) errs.push(c.label);
-  const ban = $("banner");
-  if(errs.length){ ban.className = "banner on"; ban.innerHTML = `${st("unknown")} &nbsp;Some numbers could not be read and are shown as unknown, not zero: ${esc(errs.join(", "))}.`; }
-  else { ban.className = "banner"; ban.textContent = ""; }
-  $("foot").innerHTML = `Cold email numbers come live from Smartlead. LinkedIn, WhatsApp and Dalil email come from Dalil, copied over each morning by the laptop. Replies, page reads, the call sheet and the funnel come from the engine. Refreshes every 5 minutes. Dubai time throughout.`;
+  const list = never.length > 1 ? never.slice(0, -1).join(", ") + " and " + never[never.length - 1] : never[0];
+  const nv = never.length ? ` ${list} ${never.length > 1 ? "have" : "has"} never run, so ${never.length > 1 ? "they get" : "it gets"} no row.` : "";
+  $("foot").innerHTML = `<p>Cold email comes live from Smartlead. LinkedIn comes from Dalil, copied over each morning by the laptop. Replies, page reads, the call sheet and the funnel come from the engine. A number that couldn't be read shows as unknown, never as zero.${esc(nv)} Dubai time throughout. Checks for new numbers every 5 minutes.</p>`;
+}
+
+// ---------------------------------------------------------------- funnel
+function renderFunnel(f){
+  if(f.error){ $("funnel").innerHTML = `<div class="cerr" style="display:flex;gap:10px;align-items:center;padding:18px;background:var(--wash);font-size:14px;color:var(--ink2)"><span class="dot unk" aria-hidden="true"></span>Couldn't read the funnel: ${esc(plainErr(f.error))}.</div>`; $("funnelnote").textContent = ""; return; }
+  // Older engine answers carried "Email checked and real" as a step, which is a stock not a stage.
+  let steps = (f.steps || []).filter(s => s.key !== "verified");
+  if(!steps.find(s => s.key === "people") && f.people != null) steps.splice(2, 0, {key:"people", label:"People with an email", unit:"people", n:f.people});
+  const unitOf = s => s.unit || (["found","researched"].includes(s.key) ? "companies" : s.key === "meetings" ? "meetings" : "people");
+  $("funnel").innerHTML = `<div class="rail">${steps.map((s, i) => {
+    const prev = steps[i - 1];
+    const sameUnit = prev && (unitOf(prev) === unitOf(s) || (s.key === "meetings" && unitOf(prev) === "people"));
+    const newUnit = prev && !sameUnit;
+    let conv = "";
+    if(i === 0) conv = `<div class="conv none">Every company in the engine</div>`;
+    else if(newUnit) conv = `<div class="conv none">At those companies</div>`;
+    else if(prev.n > 0 && s.n <= prev.n){
+      const r = s.n / prev.n;
+      conv = s.n === 0 ? `<div class="conv">None yet</div>`
+        : `<div class="conv">${r >= 0.1 ? Math.round(r * 100) + "% of the step before" : "1 in " + fmt(Math.round(prev.n / s.n))}</div>`;
+    } else conv = `<div class="conv none">&nbsp;</div>`;
+    return `<div class="stage${newUnit ? " unit" : ""}"><div class="sl">${esc(s.label)}</div><div class="sn n">${fmt(s.n)}</div><div class="su">${esc(unitOf(s))}</div>${conv}</div>`;
+  }).join("")}</div>`;
+  const bits = [];
+  const chk = f.checked_now ?? (f.steps || []).find(s => s.key === "verified")?.n;
+  if(chk != null) bits.push(`${fmt(chk)} addresses pass the email check today.`);
+  if(f.email_pool != null) bits.push(f.email_pool === 0 ? "Cold email has already written to every one it is allowed to, so new first emails wait on new addresses." : `${fmt(f.email_pool)} of them haven't been written to yet.`);
+  bits.push(`${fmt(f.bounced)} bounced and ${fmt(f.opted_out)} opted out, all time.`);
+  if(f.dalil_reached != null) bits.push(`On LinkedIn, Dalil has reached ${fmt(f.dalil_reached)} of the ${fmt(f.dalil_enrolled)} people in its sequences.`);
+  $("funnelnote").textContent = bits.join(" ");
+}
+
+// ---------------------------------------------------------------- Dalil per sequence
+let dPeriod = "week";
+function renderDalil(dl, d){
+  const seqs = (dl.sequences || []).filter(s => !s.test);
+  $("dalilage").textContent = dl.taken_at ? `copied from Dalil ${ago(dl.taken_at)}${dl.stale ? ", out of date" : ""}` : "";
+  if(dl.error && !seqs.length){
+    $("dalilsum").textContent = "Couldn't read Dalil numbers";
+    $("dalilsub").textContent = cap(plainErr(dl.error)) + ".";
+    $("dalilinner").innerHTML = tech(dl.error);
+    return;
+  }
+  const w = dl.week || {}, a = dl.all || {};
+  $("dalilsum").textContent = `${plural(seqs.length, "sequence", "sequences")}`;
+  $("dalilsub").textContent = dl.week ? `${fmt(w.requests)} requests, ${fmt(w.accepted)} accepted, ${fmt(w.replied)} replied in the last 7 days` : "No 7-day numbers yet";
+  const COLS = [["requests","Requests"],["accepted","Accepted"],["linkedin_msgs","Messages"],["whatsapp","WhatsApp"],["email","Dalil email"],["replied","Replied"],["enrolled","In sequence"]];
+  // A column that is zero everywhere, in every period, is a channel that has not run. Drop it.
+  const used = COLS.filter(([f]) => f === "enrolled" || ["requests","accepted","replied"].includes(f) || seqs.some(s => ["yesterday","week","all"].some(p => s[p] && s[p][f] > 0)));
+  const draw = () => {
+    const rows = seqs.map(s => {
+      const m = s[dPeriod];
+      return `<tr><td>${esc(s.name)}</td>${used.map(([f]) => m ? `<td class="n${m[f] ? "" : " z"}">${fmt(m[f])}</td>` : `<td class="z">no data</td>`).join("")}</tr>`;
+    });
+    $("dalilinner").querySelector("tbody").innerHTML = rows.join("");
+    $("dalilinner").querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.p === dPeriod)));
+  };
+  $("dalilinner").innerHTML = `<div class="seg" role="group" aria-label="Period"><button type="button" data-p="yesterday">Yesterday</button><button type="button" data-p="week">Last 7 days</button><button type="button" data-p="all">All time</button></div>
+    <div class="scroll"><table><thead><tr><th>Sequence</th>${used.map(c => `<th>${c[1]}</th>`).join("")}</tr></thead><tbody></tbody></table></div>
+    <p style="font-size:13px;color:var(--ink3);margin:10px 0 0">Dalil counts people, not messages: three messages to one person count once.</p>`;
+  $("dalilinner").querySelector(".seg").onclick = e => { const b = e.target.closest("button"); if(b){ dPeriod = b.dataset.p; draw(); } };
+  draw();
 }
 
 // ---------------------------------------------------------------- who to target
+const ALLOWED = ["AE","SA","QA","KW","BH","OM","GB","US","CA","AU","SG"];
+const MARKET_NAME = {AE:"UAE",SA:"Saudi Arabia",QA:"Qatar",KW:"Kuwait",BH:"Bahrain",OM:"Oman",GB:"UK",US:"USA",CA:"Canada",AU:"Australia",SG:"Singapore"};
+// Fallback labels, so an older engine answer still reads in plain words.
+const LABEL_FIX = {"track:google_ads":["Runs Google Ads","Ad spend"], "flag:agency":["Footer credits a web agency","On their site"],
+  "flag:agency_credit":["Footer credits a web agency","On their site"], "flag:hiring":["Has a careers page","Buying signals"]};
+const GROUP_ORDER = ["Where","Buying signals","Fit","Website problems","Website","Ad spend","On their site","Our angle","People we have","People","Tools they run","Built on","Social","Outreach so far","Outreach","Other"];
+const PER_GROUP = 6;
 const cstate = {};
-let cohortBuilt = false;
+let cohortBuilt = false, SIG = [], openGroups = new Set();
+function cleanSignals(c){
+  return (c.signals || []).map(s => {
+    const out = Object.assign({}, s);
+    if(LABEL_FIX[s.key]){ out.label = LABEL_FIX[s.key][0]; out.group = LABEL_FIX[s.key][1]; }
+    if(s.key.startsWith("market:")){
+      const cc = s.key.slice(7).toUpperCase();
+      if(!ALLOWED.includes(cc)) return null;
+      out.label = MARKET_NAME[cc]; out.group = "Where"; out.rank = ALLOWED.indexOf(cc);
+    }
+    if(s.key === "city_dubai"){ out.group = "Where"; out.rank = -1; }
+    return out;
+  }).filter(Boolean);
+}
 function renderCohort(c){
-  if(c.error){ $("groups").innerHTML = `<div>${st("unknown")} ${esc(c.error)}</div>`; $("ccount").textContent = "?"; return; }
-  $("cohorttotal").textContent = fmt(c.total) + " companies in the engine";
-  if(cohortBuilt){
-    for(const s of c.signals) { const el = document.querySelector(`.sig[data-k="${CSS.escape(s.key)}"] .c`); if(el) el.textContent = fmt(s.n); }
-    return;
-  }
-  cohortBuilt = true;
-  const order = ["Buying signals","Fit","Where","People","Website","Ad spend","Tools they run","Built on","Social","Outreach","Other"];
+  if(c.error){ $("groups").innerHTML = `<div class="nomatch"><span class="dot unk" aria-hidden="true"></span> Couldn't read company details: ${esc(plainErr(c.error))}.</div>`; $("ccount").textContent = "?"; $("cwhat").textContent = "unknown"; return; }
+  $("cohorttotal").textContent = fmt(c.total) + " companies";
+  SIG = cleanSignals(c);
+  if(!cohortBuilt){ cohortBuilt = true; wireCohort(); countCohort(); }
+  drawGroups();
+}
+function drawGroups(){
+  const q = $("q").value.trim().toLowerCase();
   const groups = {};
-  for(const s of c.signals) (groups[s.group] = groups[s.group] || []).push(s);
-  const names = Object.keys(groups).sort((a, b) => (order.indexOf(a) + 99 * (order.indexOf(a) < 0)) - (order.indexOf(b) + 99 * (order.indexOf(b) < 0)));
+  for(const s of SIG){ if(q && !(s.label + " " + s.group).toLowerCase().includes(q)) continue; (groups[s.group] = groups[s.group] || []).push(s); }
+  const names = Object.keys(groups).sort((a, b) => ((GROUP_ORDER.indexOf(a) + 1) || 99) - ((GROUP_ORDER.indexOf(b) + 1) || 99));
+  if(!names.length){ $("groups").innerHTML = `<div class="nomatch">No filter matches "${esc(q)}".</div>`; return; }
   $("groups").innerHTML = names.map(g => {
-    const list = groups[g], cap = 8;
-    return `<div class="grp"><h3>${esc(g)}</h3>${list.map((s, i) => `<button type="button" class="sig" data-k="${esc(s.key)}" data-s="" ${i >= cap ? "hidden" : ""}><span class="box" aria-hidden="true"></span><span class="lab">${esc(s.label)}</span><span class="c">${fmt(s.n)}</span></button>`).join("")}
-      ${list.length > cap ? `<button type="button" class="more" data-more>show ${list.length - cap} more</button>` : ""}</div>`;
+    const list = groups[g].slice().sort((a, b) => (a.rank != null || b.rank != null) ? (a.rank ?? 99) - (b.rank ?? 99) : b.n - a.n);
+    const open = q || openGroups.has(g);
+    // Keep anything already selected visible even when the group is folded.
+    const vis = open ? list : list.filter((s, i) => i < PER_GROUP || cstate[s.key]);
+    const hidden = list.length - vis.length;
+    return `<div class="grp"><h3>${esc(g)}</h3><div class="chips">${vis.map(chip).join("")}${hidden ? `<button type="button" class="chip more" data-open="${esc(g)}">${hidden} more</button>` : ""}</div></div>`;
   }).join("");
+}
+function chip(s){
+  const st = cstate[s.key] || "";
+  const sr = st === "must" ? ", required" : st === "not" ? ", excluded" : "";
+  return `<button type="button" class="chip" data-k="${esc(s.key)}" data-s="${st}" aria-label="${esc(s.label)}, ${fmt(s.n)} companies${sr}">
+    <svg class="mk plus" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 1.5v9M1.5 6h9"/></svg>
+    <svg class="mk minus" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1.5 6h9"/></svg>
+    <span class="lab">${esc(s.label)}</span><span class="c n">${fmt(s.n)}</span></button>`;
+}
+function wireCohort(){
   $("groups").onclick = e => {
-    const m = e.target.closest("[data-more]");
-    if(m){ m.parentElement.querySelectorAll(".sig[hidden]").forEach(x => x.hidden = false); m.remove(); return; }
-    const b = e.target.closest(".sig"); if(!b) return;
-    const next = {"": "must", "must": "not", "not": ""}[b.dataset.s || ""];
-    b.dataset.s = next; b.querySelector(".box").textContent = next === "must" ? "+" : next === "not" ? "-" : "";
-    b.setAttribute("aria-label", b.querySelector(".lab").textContent + (next ? ` (${next === "must" ? "must have" : "must not have"})` : ""));
-    if(next) cstate[b.dataset.k] = next; else delete cstate[b.dataset.k];
+    const m = e.target.closest("[data-open]");
+    if(m){ openGroups.add(m.dataset.open); drawGroups(); return; }
+    const b = e.target.closest(".chip[data-k]"); if(!b) return;
+    const k = b.dataset.k, next = {"": "must", "must": "not", "not": ""}[cstate[k] || ""];
+    if(next) cstate[k] = next; else delete cstate[k];
+    drawGroups();
+    const again = document.querySelector(`.chip[data-k="${CSS.escape(k)}"]`); if(again) again.focus();
     countCohort();
   };
-  $("creset").onclick = () => { for(const k in cstate) delete cstate[k]; document.querySelectorAll(".sig").forEach(b => { b.dataset.s = ""; b.querySelector(".box").textContent = ""; }); countCohort(); };
-  countCohort();
+  $("q").oninput = drawGroups;
+  $("cactive").onclick = e => { const b = e.target.closest("[data-k]"); if(!b) return; delete cstate[b.dataset.k]; drawGroups(); countCohort(); };
+  $("creset").onclick = () => { for(const k in cstate) delete cstate[k]; drawGroups(); countCohort(); };
 }
 let ctimer = null, cseq = 0;
 function countCohort(){
   clearTimeout(ctimer);
+  const must = Object.keys(cstate).filter(k => cstate[k] === "must"), not = Object.keys(cstate).filter(k => cstate[k] === "not");
+  const label = k => (SIG.find(s => s.key === k) || {}).label || k;
+  $("cactive").innerHTML = must.map(k => `<button type="button" data-k="${esc(k)}" aria-label="Remove ${esc(label(k))}">${esc(label(k))} <span aria-hidden="true">&times;</span></button>`).join("")
+    + not.map(k => `<button type="button" class="neg" data-k="${esc(k)}" aria-label="Remove not ${esc(label(k))}">${esc(label(k))} <span aria-hidden="true">&times;</span></button>`).join("");
+  $("creset").hidden = !(must.length || not.length);
+  const total = LAST && LAST.cohort && LAST.cohort.total;
+  $("cwhat").textContent = !must.length && !not.length ? "companies in the engine. Pick a filter to narrow it." : `of ${fmt(total)} companies match`;
+  $("ccount").style.opacity = ".35";
   ctimer = setTimeout(async () => {
-    const must = Object.keys(cstate).filter(k => cstate[k] === "must"), not = Object.keys(cstate).filter(k => cstate[k] === "not");
-    const label = k => (document.querySelector(`.sig[data-k="${CSS.escape(k)}"] .lab`) || {}).textContent || k;
-    $("cwhat").textContent = !must.length && !not.length ? "companies in the engine. Tick something to narrow it."
-      : "companies " + [must.length ? "with " + must.map(label).join(" + ") : "", not.length ? "without " + not.map(label).join(", ") : ""].filter(Boolean).join(", ");
-    $("ccount").textContent = "...";
     const my = ++cseq;
     try {
       let r;
       if(MOCK){
-        const n = (LAST.cohort.signals || []);
-        const base = must.length ? Math.min(...must.map(k => (n.find(s => s.key === k) || {n:0}).n)) : LAST.cohort.total;
-        r = {count: Math.round(base * Math.pow(0.35, Math.max(0, must.length - 1)) * Math.pow(0.8, not.length)), sample: [{name:"Example Joinery LLC", city:"Dubai"},{name:"Sample Dental Care", city:"Dubai"}]};
+        const n = SIG;
+        const base = must.length ? Math.min(...must.map(k => (n.find(s => s.key === k) || {n:0}).n)) : total;
+        r = {count: Math.round(base * Math.pow(0.35, Math.max(0, must.length - 1)) * Math.pow(0.8, not.length)),
+             sample: [{name:"Cedar Joinery LLC", city:"Dubai", gulf:true},{name:"Harbour Dental Clinic", city:"Dubai", gulf:true},{name:"Saffron Lane Bakery", city:"Sharjah", gulf:true},{name:"Northgate Events", city:"London", gulf:false}]};
       } else {
         const res = await fetch(API + "?k=" + encodeURIComponent(KEY), {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({cohort:{must, not}})});
         r = await res.json(); if(!res.ok) throw new Error(r.error || res.status);
       }
       if(my !== cseq) return;
-      $("ccount").textContent = fmt(r.count);
-      $("csample").innerHTML = (r.sample || []).map(s => `<li>${esc(s.name || s.domain || "")} <span>${esc(s.city || "")}</span></li>`).join("");
+      $("ccount").textContent = fmt(r.count); $("ccount").style.opacity = "1";
+      const sample = r.sample || [];
+      $("csamplehead").textContent = !sample.length ? "No examples" : r.sample_scope ? "Examples, Gulf first" : "Examples";
+      $("csample").innerHTML = sample.map(s => `<li>${esc(s.name || s.domain || "")} <span>${esc(s.city || MARKET_NAME[s.country] || "")}</span></li>`).join("");
     } catch(e){
       if(my !== cseq) return;
-      $("ccount").textContent = "?";
-      $("csample").innerHTML = `<li>${st("unknown")} couldn't count: ${esc(e.message || e)}</li>`;
+      $("ccount").textContent = "?"; $("ccount").style.opacity = "1";
+      $("csample").innerHTML = `<li><span class="dot unk" aria-hidden="true" style="margin-top:5px"></span>Couldn't count: ${esc(plainErr(e.message || e))}</li>`;
     }
-  }, 250);
+  }, 220);
 }
 
-$("tabletoggle").onclick = () => { const t = $("trendtable"); t.hidden = !t.hidden; $("tabletoggle").textContent = t.hidden ? "Show the numbers" : "Hide the numbers"; };
+$("tabletoggle").onclick = () => { const t = $("trendtable"); t.hidden = !t.hidden; $("tabletoggle").textContent = t.hidden ? "Show as a table" : "Hide the table"; $("tabletoggle").setAttribute("aria-expanded", String(!t.hidden)); };
 
-// ---------------------------------------------------------------- load
-function fail(msg){
-  $("headline").textContent = "Couldn't read the engine";
-  $("banner").className = "banner on";
-  $("banner").innerHTML = `${st("unknown")} &nbsp;${esc(msg)}. Nothing below is current.`;
-  $("stamp").textContent = "failed " + new Date().toLocaleTimeString("en-GB", {hour:"2-digit", minute:"2-digit"});
+// ---------------------------------------------------------------- freshness + refresh
+function builtAt(){ return LAST ? ((LAST.cache && LAST.cache.built_at) || LAST.at) : null; }
+let REFRESHING = false;
+function stamp(){
+  if(REFRESHING) return;
+  const b = builtAt(); if(!b) return;
+  const bg = LAST.cache && LAST.cache.refreshing;
+  $("when").innerHTML = `Updated <b>${esc(ago(b))}</b>${bg ? ", newer numbers coming" : ""}`;
+  $("when2").textContent = "Updated " + ago(b);
+  $("when").title = "Built " + dubai(b, {hour:"2-digit", minute:"2-digit"}) + " Dubai";
+}
+setInterval(stamp, 30000);
+
+async function getJSON(url){
+  const r = await fetch(url, {cache:"no-store"});
+  let j = null; try { j = await r.json(); } catch(e){}
+  if(!r.ok) throw new Error(r.status === 403 ? "That link's key is wrong" : (j && j.error) || "Error " + r.status);
+  if(j && j.error && !j.channels) throw new Error(j.error);
+  return j;
+}
+function srcUrl(fresh){
+  if(MOCK) return MOCK === "fail" ? "mock-fail.json" : "mock.json";
+  return API + "?k=" + encodeURIComponent(KEY) + (fresh ? "&fresh=1" : "");
+}
+function showDown(msg){
+  if(LAST){ // keep the last good numbers on screen; say they are old
+    $("when").innerHTML = `<span class="tag unk">Couldn't refresh</span>, showing numbers from ${esc(ago(builtAt()))}`;
+    return;
+  }
+  $("skeleton").hidden = true; $("page").hidden = true;
+  let el = $("downpanel");
+  if(!el){ el = document.createElement("div"); el.id = "downpanel"; $("main").appendChild(el); }
+  el.innerHTML = `<div class="hero"><div><p class="date"><b>${esc(new Date().toLocaleDateString("en-GB", {weekday:"long", timeZone:"Asia/Dubai"}))}</b></p><h1>Couldn't reach the engine.</h1></div></div>
+    <div class="down"><span class="dot unk" aria-hidden="true" style="margin-top:6px"></span><div><div class="t">${esc(cap(plainErr(msg)))}</div>
+    <div class="d">${/key/i.test(msg) ? "Open the page from the saved link that carries the key." : "Nothing on this page is current. Try again in a minute."}</div>
+    <button class="btn solid" type="button" onclick="location.reload()">Try again</button>${tech(msg)}</div></div>`;
+  $("when").textContent = "Not loaded";
 }
 function load(){
-  const src = MOCK ? (MOCK === "fail" ? "mock-fail.json" : "mock.json") : API + "?k=" + encodeURIComponent(KEY);
-  if(MOCK) $("mockflag").textContent = "SAMPLE DATA, not live";
-  if(!MOCK && !KEY){ fail("This link is missing its key"); return; }
-  fetch(src, {cache:"no-store"})
-    .then(r => r.ok ? r.json() : r.json().catch(() => ({})).then(j => Promise.reject(r.status === 403 ? "That link's key is wrong" : (j.error || "Error " + r.status))))
-    .then(d => d.error ? fail(d.error) : render(d))
-    .catch(e => fail(String(e)));
+  if(MOCK) $("mockflag").hidden = false;
+  if(!MOCK && !KEY){ showDown("This link is missing its key"); return; }
+  getJSON(srcUrl(false)).then(d => { const p = $("downpanel"); if(p) p.remove(); render(d); }).catch(e => showDown(String(e.message || e)));
 }
+$("refresh").onclick = async () => {
+  if(REFRESHING) return;
+  REFRESHING = true;
+  const btn = $("refresh"), bar = $("progress"), t0 = Date.now();
+  btn.disabled = true;
+  const tick = () => {
+    const s = Math.round((Date.now() - t0) / 1000);
+    $("refreshlab").textContent = `Rebuilding, ${s}s`;
+    $("when").innerHTML = `Reading every source again, usually about 25 seconds`;
+    bar.style.width = Math.min(92, s / 28 * 100) + "%";
+  };
+  tick(); const iv = setInterval(tick, 500);
+  try {
+    if(MOCK) await new Promise(r => setTimeout(r, 1500));
+    const d = await getJSON(srcUrl(true));
+    REFRESHING = false; render(d);
+  } catch(e){
+    REFRESHING = false;
+    $("when").innerHTML = `<span class="tag unk">Refresh failed</span>: ${esc(plainErr(e.message || e))}`;
+  } finally {
+    clearInterval(iv); REFRESHING = false;
+    bar.style.width = "100%"; setTimeout(() => { bar.style.transition = "none"; bar.style.width = "0"; requestAnimationFrame(() => bar.style.transition = ""); }, 300);
+    btn.disabled = false; $("refreshlab").textContent = "Refresh";
+    if(LAST && !$("when").querySelector(".tag")) stamp();
+  }
+};
+
 load();
-setInterval(load, REFRESH_MS);
-document.addEventListener("visibilitychange", () => { if(!document.hidden && LAST && Date.now() - new Date(LAST.at).getTime() > 60000) load(); });
+setInterval(() => { if(!REFRESHING) load(); }, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if(!document.hidden && !REFRESHING && LAST && Date.now() - new Date(builtAt()).getTime() > 60000) load(); });
 </script>
 </body>
 </html>

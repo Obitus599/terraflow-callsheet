@@ -1,5 +1,5 @@
 {
- "at": "2026-10-22T12:54:26.836Z",
+ "at": "2026-10-22T14:13:53.086Z",
  "today": "2026-10-22",
  "yesterday": "2026-10-21",
  "yesterday_name": "Wednesday",
@@ -54,12 +54,6 @@
    "level": "unknown",
    "title": "Couldn't check client sites",
    "detail": "clients missing from the engine's answer"
-  },
-  {
-   "kind": "dalil_stale",
-   "level": "warn",
-   "title": "No Dalil numbers yet",
-   "detail": "The laptop script that copies LinkedIn and WhatsApp numbers from Dalil has not posted anything yet. The LinkedIn tiles stay unknown until it does."
   }
  ],
  "channels": [
@@ -129,6 +123,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read sends from Smartlead (429: Rate limit exceeded)",
+   "ran": true,
    "no_send_day": false,
    "note": null,
    "source": "Smartlead, live"
@@ -199,6 +194,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "ran": null,
    "source": "Dalil, posted each morning"
   },
   {
@@ -267,6 +263,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "ran": null,
    "source": "Dalil, posted each morning"
   },
   {
@@ -335,6 +332,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "ran": null,
    "source": "Dalil, posted each morning"
   },
   {
@@ -403,6 +401,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "ran": null,
    "source": "Dalil, posted each morning"
   },
   {
@@ -471,6 +470,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "ran": null,
    "source": "Dalil, posted each morning"
   },
   {
@@ -539,6 +539,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read replies: permission denied for table prospect_event",
+   "ran": true,
    "source": "the reply watcher (cold email)",
    "also": {
     "auto": null,
@@ -612,6 +613,7 @@
    "week": null,
    "prev_week": null,
    "error": "couldn't read page visits: teardowns missing from the engine's answer",
+   "ran": true,
    "source": "notes page counter"
   }
  ],
@@ -1065,7 +1067,7 @@
     "blurb": "Finds companies similar to ones already in the list.",
     "state": "failing",
     "error": "search uae-wellness-founders-li: INVALID_FILTERS",
-    "last_worked": "2026-10-22T05:54:26.829Z"
+    "last_worked": "2026-10-22T07:13:53.080Z"
    }
   ],
   "total": 16
@@ -1078,7 +1080,7 @@
   "signals": [
    {
     "key": "fit_small",
-    "label": "Small fit (cafes, salons, the rest)",
+    "label": "Small fit: cafes, salons, the rest",
     "group": "Fit",
     "n": 22633
    },
@@ -1086,47 +1088,49 @@
     "key": "market:GB",
     "label": "UK",
     "group": "Where",
+    "rank": 6,
+    "gulf": false,
     "n": 18373
    },
    {
     "key": "social:facebook",
-    "label": "On Facebook",
+    "label": "Facebook",
     "group": "Social",
     "n": 17084
    },
    {
     "key": "social:instagram",
-    "label": "On Instagram",
+    "label": "Instagram",
     "group": "Social",
     "n": 16493
    },
    {
     "key": "track:google_analytics",
-    "label": "Google Analytics",
+    "label": "Uses Google Analytics",
     "group": "Ad spend",
     "n": 11341
    },
    {
     "key": "built:WordPress",
-    "label": "Built on WordPress",
+    "label": "WordPress",
     "group": "Built on",
     "n": 10853
    },
    {
     "key": "hook_any",
-    "label": "Strong or medium opener found",
-    "group": "Website",
+    "label": "We found a strong or decent opening line",
+    "group": "Our angle",
     "n": 9655
    },
    {
     "key": "fit_big",
-    "label": "Big fish (fit-out, clinics, property, trades...)",
+    "label": "Big fish: fit-out, clinics, property, trades",
     "group": "Fit",
     "n": 7733
    },
    {
     "key": "track:google_tag_manager",
-    "label": "Google Tag Manager",
+    "label": "Uses Google Tag Manager",
     "group": "Ad spend",
     "n": 7545
    },
@@ -1134,17 +1138,19 @@
     "key": "market:CA",
     "label": "Canada",
     "group": "Where",
+    "rank": 8,
+    "gulf": false,
     "n": 6987
    },
    {
     "key": "fit_mid",
-    "label": "Mid fit (retail, gyms, schools, hotels)",
+    "label": "Mid fit: retail, gyms, schools, hotels",
     "group": "Fit",
     "n": 6769
    },
    {
     "key": "social:linkedin",
-    "label": "On Linkedin",
+    "label": "LinkedIn",
     "group": "Social",
     "n": 5202
    },
@@ -1152,35 +1158,39 @@
     "key": "market:AU",
     "label": "Australia",
     "group": "Where",
+    "rank": 9,
+    "gulf": false,
     "n": 5039
    },
    {
     "key": "hook_strong",
-    "label": "Strong opener found",
-    "group": "Website",
+    "label": "We found a strong opening line",
+    "group": "Our angle",
     "n": 4962
    },
    {
     "key": "dead_site",
     "label": "Website is down or gone",
-    "group": "Website",
+    "group": "Website problems",
     "n": 4304
    },
    {
     "key": "market:AE",
     "label": "UAE",
     "group": "Where",
+    "rank": 0,
+    "gulf": true,
     "n": 3790
    },
    {
     "key": "old_copyright",
-    "label": "Footer copyright out of date",
-    "group": "Website",
+    "label": "Footer year is out of date",
+    "group": "Website problems",
     "n": 3664
    },
    {
     "key": "track:meta_pixel",
-    "label": "Meta pixel (spends on Meta ads)",
+    "label": "Runs Meta ads (has the Meta pixel)",
     "group": "Ad spend",
     "n": 3385
    },
@@ -1194,65 +1204,67 @@
     "key": "market:SG",
     "label": "Singapore",
     "group": "Where",
+    "rank": 10,
+    "gulf": false,
     "n": 2597
    },
    {
     "key": "built:Squarespace",
-    "label": "Built on Squarespace",
+    "label": "Squarespace",
     "group": "Built on",
     "n": 2218
    },
    {
     "key": "emailed",
     "label": "Cold emailed already",
-    "group": "Outreach",
+    "group": "Outreach so far",
     "n": 2152
    },
    {
     "key": "built:Shopify",
-    "label": "Built on Shopify",
+    "label": "Shopify",
     "group": "Built on",
     "n": 1712
    },
    {
     "key": "built:Wix",
-    "label": "Built on Wix",
+    "label": "Wix",
     "group": "Built on",
     "n": 1680
    },
    {
     "key": "whatsapp_on_site",
-    "label": "WhatsApp on the site",
-    "group": "Website",
+    "label": "WhatsApp button on the site",
+    "group": "On their site",
     "n": 1635
    },
    {
     "key": "not_mobile",
     "label": "Site does not fit phones",
-    "group": "Website",
+    "group": "Website problems",
     "n": 1514
    },
    {
     "key": "no_contact_path",
     "label": "No way to book or get in touch on the homepage",
-    "group": "Website",
+    "group": "Website problems",
     "n": 1411
    },
    {
     "key": "insecure_only",
-    "label": "Site only works on the insecure address",
-    "group": "Website",
+    "label": "Site has no padlock (not secure)",
+    "group": "Website problems",
     "n": 1377
    },
    {
     "key": "valid_email",
     "label": "We have a checked, sendable email",
-    "group": "People",
+    "group": "People we have",
     "n": 1209
    },
    {
     "key": "track:google_ads",
-    "label": "Google ads",
+    "label": "Runs Google Ads",
     "group": "Ad spend",
     "n": 812
    },
@@ -1271,13 +1283,13 @@
    {
     "key": "arabic_site",
     "label": "Site has Arabic",
-    "group": "Website",
+    "group": "On their site",
     "n": 526
    },
    {
     "key": "no_site",
     "label": "No website on file",
-    "group": "Website",
+    "group": "Website problems",
     "n": 378
    },
    {
@@ -1295,18 +1307,18 @@
    {
     "key": "named_person",
     "label": "We have a named person",
-    "group": "People",
+    "group": "People we have",
     "n": 306
    },
    {
     "key": "has_linkedin",
-    "label": "We have a LinkedIn profile",
-    "group": "People",
+    "label": "We have their LinkedIn",
+    "group": "People we have",
     "n": 260
    },
    {
     "key": "track:tiktok_pixel",
-    "label": "TikTok pixel",
+    "label": "Runs TikTok ads (has the TikTok pixel)",
     "group": "Ad spend",
     "n": 240
    },
@@ -1319,14 +1331,46 @@
    {
     "key": "placeholder",
     "label": "Site is a coming-soon page",
-    "group": "Website",
+    "group": "Website problems",
     "n": 231
    },
    {
     "key": "flag:agency_credit",
-    "label": "Agency credit",
-    "group": "Website",
+    "label": "Footer credits a web agency",
+    "group": "On their site",
     "n": 190
+   },
+   {
+    "key": "flag:hiring",
+    "label": "Has a careers page",
+    "group": "Buying signals",
+    "n": 412
+   },
+   {
+    "key": "market:SA",
+    "label": "Saudi Arabia",
+    "group": "Where",
+    "rank": 1,
+    "gulf": true,
+    "n": 24
+   },
+   {
+    "key": "tool:a live chat widget",
+    "label": "Uses a live chat widget",
+    "group": "Tools they run",
+    "n": 562
+   },
+   {
+    "key": "social:youtube",
+    "label": "YouTube",
+    "group": "Social",
+    "n": 4317
+   },
+   {
+    "key": "built:Custom",
+    "label": "Custom built",
+    "group": "Built on",
+    "n": 1075
    },
    {
     "key": "tool:Fresha",
@@ -1342,16 +1386,31 @@
    },
    {
     "key": "disqualified",
-    "label": "Disqualified",
-    "group": "Outreach",
+    "label": "Ruled out",
+    "group": "Outreach so far",
     "n": 107
    },
    {
     "key": "replied",
     "label": "Replied to us",
-    "group": "Outreach",
+    "group": "Outreach so far",
     "n": 43
    }
+  ],
+  "groups": [
+   "Where",
+   "Buying signals",
+   "Fit",
+   "Website problems",
+   "Ad spend",
+   "On their site",
+   "Our angle",
+   "People we have",
+   "Tools they run",
+   "Built on",
+   "Social",
+   "Outreach so far",
+   "Other"
   ]
  },
  "links": {
@@ -1360,5 +1419,10 @@
   "call_sheet": "https://obitus599.github.io/terraflow-callsheet/?k=sheet",
   "dalil": "https://terraflow-studio.usedalil.ai"
  },
- "errors": null
+ "errors": null,
+ "cache": {
+  "built_at": "2026-10-22T14:13:53.086Z",
+  "age_min": 0,
+  "refreshing": false
+ }
 }
