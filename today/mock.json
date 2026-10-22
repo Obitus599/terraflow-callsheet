@@ -1,0 +1,1646 @@
+{
+ "at": "2026-10-22T12:54:26.796Z",
+ "today": "2026-10-22",
+ "yesterday": "2026-10-21",
+ "yesterday_name": "Wednesday",
+ "headline": "Yesterday: 98 cold emails, 10 LinkedIn requests, 0 replies. Six things need you.",
+ "tasks": [
+  {
+   "kind": "approve",
+   "level": "act",
+   "title": "2 replies are written and waiting for your yes",
+   "detail": "Approve, edit or skip each one in Telegram.",
+   "action": "Approve in Telegram",
+   "items": [
+    {
+     "name": "Maya Haddad",
+     "company": "Cedar Joinery LLC",
+     "note": "asked for the notes",
+     "at": "2026-10-21T22:54:26.777Z"
+    },
+    {
+     "name": "Omar Siddiqui",
+     "company": "Harbour Dental Clinic",
+     "note": "wants a call next week",
+     "at": "2026-10-22T07:54:26.777Z"
+    }
+   ]
+  },
+  {
+   "kind": "unanswered",
+   "level": "act",
+   "title": "1 person wrote back and nobody has answered",
+   "detail": "No draft exists for these. Answer from the inbox page.",
+   "action": "Open the inbox",
+   "link": "../inbox/?k=test",
+   "items": [
+    {
+     "name": "Priya Nair",
+     "company": "Saffron Lane Bakery",
+     "note": "interested",
+     "at": "2026-10-20T20:54:26.777Z"
+    }
+   ]
+  },
+  {
+   "kind": "readers",
+   "level": "act",
+   "title": "2 businesses read their teardown in the last 3 days",
+   "detail": "Follow up while it is fresh.",
+   "items": [
+    {
+     "name": "greenleaf florist",
+     "note": "11 min on the page",
+     "at": "2026-10-22T01:54:26.777Z",
+     "link": "https://notes.terraflow.studio/greenleaf-florist-0e66669c39d4/?me"
+    },
+    {
+     "name": "Atlas Auto Parts",
+     "note": "1 min on the page, clicked get it fixed",
+     "at": "2026-10-21T10:54:26.777Z",
+     "link": "https://notes.terraflow.studio/atlas-auto-parts-ce2189f48161/?me"
+    }
+   ]
+  },
+  {
+   "kind": "health",
+   "level": "act",
+   "title": "1 engine job is broken",
+   "detail": "Everything else is running.",
+   "action": "See the machine",
+   "link": "../ops/?k=test",
+   "items": [
+    {
+     "name": "Lookalikes",
+     "note": "search uae-wellness-founders-li: INVALID_FILTERS"
+    }
+   ]
+  },
+  {
+   "kind": "dalil_sync",
+   "level": "act",
+   "title": "Turn on the two Engine sync workflows in Dalil",
+   "detail": "Nothing has arrived from Dalil yet, so LinkedIn and WhatsApp replies never reach the engine and the cold email lane cannot see who Dalil already contacted. In Dalil: Workflows, open each \"Engine sync\" workflow, switch it on.",
+   "action": "Open Dalil",
+   "link": "https://terraflow-studio.usedalil.ai"
+  },
+  {
+   "kind": "calls",
+   "level": "act",
+   "title": "1 warmed lead to call today",
+   "detail": "These already engaged on another channel. Only warmed leads are worth a call.",
+   "action": "Open the call sheet",
+   "link": "https://obitus599.github.io/terraflow-callsheet/?k=sheet",
+   "items": [
+    {
+     "name": "Atlas Auto Parts",
+     "note": "read their teardown or clicked (1)"
+    }
+   ]
+  },
+  {
+   "kind": "stuck_drafts",
+   "level": "warn",
+   "title": "1 reply has not been drafted yet",
+   "detail": "The agent that writes reply drafts has not picked these up. It runs on the mini PC; check it is on.",
+   "items": [
+    {
+     "name": "info@northgate-events.com",
+     "company": "Northgate Events",
+     "at": "2026-10-19T04:54:26.777Z"
+    }
+   ]
+  },
+  {
+   "kind": "pool",
+   "level": "warn",
+   "title": "Cold email has nobody new left to send to",
+   "detail": "Sends continue for people already in the sequence. New first emails stop until more addresses pass the email check."
+  }
+ ],
+ "channels": [
+  {
+   "key": "email",
+   "label": "Cold emails sent",
+   "unit": "emails",
+   "yesterday": 98,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": 0
+    },
+    {
+     "day": "2026-10-10",
+     "n": 0
+    },
+    {
+     "day": "2026-10-11",
+     "n": 0
+    },
+    {
+     "day": "2026-10-12",
+     "n": 92
+    },
+    {
+     "day": "2026-10-13",
+     "n": 81
+    },
+    {
+     "day": "2026-10-14",
+     "n": 46
+    },
+    {
+     "day": "2026-10-15",
+     "n": 157
+    },
+    {
+     "day": "2026-10-16",
+     "n": 0
+    },
+    {
+     "day": "2026-10-17",
+     "n": 0
+    },
+    {
+     "day": "2026-10-18",
+     "n": 0
+    },
+    {
+     "day": "2026-10-19",
+     "n": 69
+    },
+    {
+     "day": "2026-10-20",
+     "n": 65
+    },
+    {
+     "day": "2026-10-21",
+     "n": 98
+    },
+    {
+     "day": "2026-10-22",
+     "n": 98
+    }
+   ],
+   "week": 389,
+   "prev_week": 305,
+   "error": null,
+   "no_send_day": false,
+   "note": null,
+   "source": "Smartlead, live"
+  },
+  {
+   "key": "li_requests",
+   "label": "LinkedIn connection requests",
+   "unit": "people sent a request",
+   "yesterday": 10,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": 6
+    },
+    {
+     "day": "2026-10-18",
+     "n": 6
+    },
+    {
+     "day": "2026-10-19",
+     "n": 0
+    },
+    {
+     "day": "2026-10-20",
+     "n": 0
+    },
+    {
+     "day": "2026-10-21",
+     "n": 10
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": 35,
+   "prev_week": null,
+   "error": null,
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "li_accepted",
+   "label": "LinkedIn accepts",
+   "unit": "people accepted",
+   "yesterday": 1,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": 0
+    },
+    {
+     "day": "2026-10-16",
+     "n": 0
+    },
+    {
+     "day": "2026-10-17",
+     "n": 0
+    },
+    {
+     "day": "2026-10-18",
+     "n": 1
+    },
+    {
+     "day": "2026-10-19",
+     "n": 0
+    },
+    {
+     "day": "2026-10-20",
+     "n": 1
+    },
+    {
+     "day": "2026-10-21",
+     "n": 0
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": 4,
+   "prev_week": null,
+   "error": null,
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "li_messages",
+   "label": "LinkedIn messages",
+   "unit": "people messaged",
+   "yesterday": 2,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": 2
+    },
+    {
+     "day": "2026-10-18",
+     "n": 2
+    },
+    {
+     "day": "2026-10-19",
+     "n": 2
+    },
+    {
+     "day": "2026-10-20",
+     "n": 2
+    },
+    {
+     "day": "2026-10-21",
+     "n": 2
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": 9,
+   "prev_week": null,
+   "error": null,
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "whatsapp",
+   "label": "WhatsApp messages",
+   "unit": "people messaged",
+   "yesterday": 0,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": 0
+    },
+    {
+     "day": "2026-10-18",
+     "n": 0
+    },
+    {
+     "day": "2026-10-19",
+     "n": 0
+    },
+    {
+     "day": "2026-10-20",
+     "n": 0
+    },
+    {
+     "day": "2026-10-21",
+     "n": 0
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": 0,
+   "prev_week": null,
+   "error": null,
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "dalil_email",
+   "label": "Dalil emails",
+   "unit": "people emailed",
+   "yesterday": 0,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": 0
+    },
+    {
+     "day": "2026-10-18",
+     "n": 0
+    },
+    {
+     "day": "2026-10-19",
+     "n": 0
+    },
+    {
+     "day": "2026-10-20",
+     "n": 0
+    },
+    {
+     "day": "2026-10-21",
+     "n": 0
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": 0,
+   "prev_week": null,
+   "error": null,
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "replies",
+   "label": "Real replies",
+   "unit": "people wrote back",
+   "yesterday": 0,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": 0
+    },
+    {
+     "day": "2026-10-10",
+     "n": 0
+    },
+    {
+     "day": "2026-10-11",
+     "n": 0
+    },
+    {
+     "day": "2026-10-12",
+     "n": 1
+    },
+    {
+     "day": "2026-10-13",
+     "n": 1
+    },
+    {
+     "day": "2026-10-14",
+     "n": 2
+    },
+    {
+     "day": "2026-10-15",
+     "n": 2
+    },
+    {
+     "day": "2026-10-16",
+     "n": 0
+    },
+    {
+     "day": "2026-10-17",
+     "n": 0
+    },
+    {
+     "day": "2026-10-18",
+     "n": 0
+    },
+    {
+     "day": "2026-10-19",
+     "n": 1
+    },
+    {
+     "day": "2026-10-20",
+     "n": 2
+    },
+    {
+     "day": "2026-10-21",
+     "n": 0
+    },
+    {
+     "day": "2026-10-22",
+     "n": 0
+    }
+   ],
+   "week": 5,
+   "prev_week": 6,
+   "error": null,
+   "source": "the reply watcher (cold email)",
+   "also": {
+    "auto": 1,
+    "opt_out": 0,
+    "dalil": 0
+   }
+  },
+  {
+   "key": "teardown_reads",
+   "label": "Teardown pages read",
+   "unit": "real reads",
+   "yesterday": 2,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": 0
+    },
+    {
+     "day": "2026-10-10",
+     "n": 0
+    },
+    {
+     "day": "2026-10-11",
+     "n": 0
+    },
+    {
+     "day": "2026-10-12",
+     "n": 1
+    },
+    {
+     "day": "2026-10-13",
+     "n": 1
+    },
+    {
+     "day": "2026-10-14",
+     "n": 1
+    },
+    {
+     "day": "2026-10-15",
+     "n": 1
+    },
+    {
+     "day": "2026-10-16",
+     "n": 1
+    },
+    {
+     "day": "2026-10-17",
+     "n": 1
+    },
+    {
+     "day": "2026-10-18",
+     "n": 1
+    },
+    {
+     "day": "2026-10-19",
+     "n": 1
+    },
+    {
+     "day": "2026-10-20",
+     "n": 0
+    },
+    {
+     "day": "2026-10-21",
+     "n": 2
+    },
+    {
+     "day": "2026-10-22",
+     "n": 1
+    }
+   ],
+   "week": 7,
+   "prev_week": 3,
+   "error": null,
+   "source": "notes page counter"
+  }
+ ],
+ "email": {
+  "source": "Smartlead",
+  "campaign_id": "3701299",
+  "error": null,
+  "campaign": {
+   "name": "Terraflow Outbound - Founders v1",
+   "status": "ACTIVE",
+   "send_days": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "tz": "Asia/Dubai"
+  },
+  "series": [
+   {
+    "day": "2026-09-23",
+    "n": 67,
+    "replied": 3,
+    "bounced": 1
+   },
+   {
+    "day": "2026-09-24",
+    "n": 153,
+    "replied": 1,
+    "bounced": 1
+   },
+   {
+    "day": "2026-09-25",
+    "n": 0,
+    "replied": 4,
+    "bounced": 0
+   },
+   {
+    "day": "2026-09-26",
+    "n": 0,
+    "replied": 0,
+    "bounced": 0
+   },
+   {
+    "day": "2026-09-27",
+    "n": 0,
+    "replied": 0,
+    "bounced": 1
+   },
+   {
+    "day": "2026-09-28",
+    "n": 110,
+    "replied": 4,
+    "bounced": 0
+   },
+   {
+    "day": "2026-09-29",
+    "n": 82,
+    "replied": 1,
+    "bounced": 0
+   },
+   {
+    "day": "2026-09-30",
+    "n": 150,
+    "replied": 3,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-01",
+    "n": 124,
+    "replied": 1,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-02",
+    "n": 0,
+    "replied": 0,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-03",
+    "n": 0,
+    "replied": 4,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-04",
+    "n": 0,
+    "replied": 1,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-05",
+    "n": 106,
+    "replied": 2,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-06",
+    "n": 86,
+    "replied": 4,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-07",
+    "n": 103,
+    "replied": 2,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-08",
+    "n": 86,
+    "replied": 0,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-09",
+    "n": 0,
+    "replied": 1,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-10",
+    "n": 0,
+    "replied": 3,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-11",
+    "n": 0,
+    "replied": 2,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-12",
+    "n": 92,
+    "replied": 0,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-13",
+    "n": 81,
+    "replied": 1,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-14",
+    "n": 46,
+    "replied": 1,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-15",
+    "n": 157,
+    "replied": 4,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-16",
+    "n": 0,
+    "replied": 2,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-17",
+    "n": 0,
+    "replied": 2,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-18",
+    "n": 0,
+    "replied": 2,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-19",
+    "n": 69,
+    "replied": 2,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-20",
+    "n": 65,
+    "replied": 2,
+    "bounced": 1
+   },
+   {
+    "day": "2026-10-21",
+    "n": 98,
+    "replied": 0,
+    "bounced": 0
+   },
+   {
+    "day": "2026-10-22",
+    "n": 98,
+    "replied": 2,
+    "bounced": 0
+   }
+  ]
+ },
+ "dalil": {
+  "error": null,
+  "taken_at": "2026-10-22T09:54:26.777Z",
+  "sequences": [
+   {
+    "id": "459f",
+    "name": "TerraFlow.Studio",
+    "test": false,
+    "yesterday": {
+     "requests": 7,
+     "accepted": 1,
+     "linkedin_msgs": 2,
+     "whatsapp": 0,
+     "email": 0,
+     "replied": 0,
+     "reached": 7,
+     "enrolled": 16,
+     "start": "2026-10-21",
+     "end": "2026-10-21",
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    },
+    "week": {
+     "requests": 31,
+     "accepted": 4,
+     "linkedin_msgs": 9,
+     "whatsapp": 0,
+     "email": 0,
+     "replied": 1,
+     "reached": 33,
+     "enrolled": 198,
+     "start": "2026-10-15",
+     "end": "2026-10-21",
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    },
+    "all": {
+     "requests": 64,
+     "accepted": 9,
+     "linkedin_msgs": 18,
+     "whatsapp": 0,
+     "email": 0,
+     "replied": 2,
+     "reached": 70,
+     "enrolled": 198,
+     "start": null,
+     "end": null,
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    }
+   },
+   {
+    "id": "b052",
+    "name": "TerraFlow External Leads (Agent B)",
+    "test": false,
+    "yesterday": {
+     "requests": 3,
+     "accepted": 0,
+     "linkedin_msgs": 0,
+     "whatsapp": 0,
+     "email": 0,
+     "replied": 0,
+     "reached": 3,
+     "enrolled": 10,
+     "start": "2026-10-21",
+     "end": "2026-10-21",
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    },
+    "week": {
+     "requests": 4,
+     "accepted": 0,
+     "linkedin_msgs": 0,
+     "whatsapp": 0,
+     "email": 0,
+     "replied": 0,
+     "reached": 4,
+     "enrolled": 10,
+     "start": "2026-10-15",
+     "end": "2026-10-21",
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    },
+    "all": {
+     "requests": 4,
+     "accepted": 0,
+     "linkedin_msgs": 0,
+     "whatsapp": 0,
+     "email": 0,
+     "replied": 0,
+     "reached": 4,
+     "enrolled": 10,
+     "start": null,
+     "end": null,
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    }
+   },
+   {
+    "id": "69dc",
+    "name": "di",
+    "test": true,
+    "yesterday": {
+     "requests": 0,
+     "accepted": 0,
+     "linkedin_msgs": 0,
+     "whatsapp": 0,
+     "email": 1,
+     "replied": 0,
+     "reached": 1,
+     "enrolled": 1,
+     "start": "2026-10-21",
+     "end": "2026-10-21",
+     "taken_at": "2026-10-22T09:54:26.777Z"
+    }
+   }
+  ],
+  "stale": false,
+  "age_hours": 3,
+  "yesterday": {
+   "requests": 10,
+   "accepted": 1,
+   "linkedin_msgs": 2,
+   "whatsapp": 0,
+   "email": 0,
+   "replied": 0,
+   "reached": 10,
+   "enrolled": 26
+  },
+  "yesterday_note": null,
+  "week": {
+   "requests": 35,
+   "accepted": 4,
+   "linkedin_msgs": 9,
+   "whatsapp": 0,
+   "email": 0,
+   "replied": 1,
+   "reached": 37,
+   "enrolled": 208
+  },
+  "all": {
+   "requests": 68,
+   "accepted": 9,
+   "linkedin_msgs": 18,
+   "whatsapp": 0,
+   "email": 0,
+   "replied": 2,
+   "reached": 74,
+   "enrolled": 208
+  }
+ },
+ "drafts": {
+  "counts": {
+   "sent": 12,
+   "queued": 3,
+   "drafted": 2,
+   "skipped": 31
+  },
+  "sent_7d": 5
+ },
+ "calls": {
+  "counts": {
+   "todo": 25
+  },
+  "warmed": 1
+ },
+ "funnel": {
+  "steps": [
+   {
+    "key": "found",
+    "label": "Companies found",
+    "n": 37135
+   },
+   {
+    "key": "researched",
+    "label": "Website checked",
+    "n": 36659
+   },
+   {
+    "key": "verified",
+    "label": "Email checked and real",
+    "n": 1592
+   },
+   {
+    "key": "sent",
+    "label": "Cold emailed",
+    "n": 2152
+   },
+   {
+    "key": "replied",
+    "label": "Real replies",
+    "n": 43
+   },
+   {
+    "key": "meetings",
+    "label": "Meetings",
+    "n": 0
+   }
+  ],
+  "people": 10902,
+  "bounced": 36,
+  "opted_out": 38,
+  "email_pool": 0,
+  "dalil_reached": 74,
+  "dalil_enrolled": 208
+ },
+ "trend": {
+  "days": [
+   "2026-09-23",
+   "2026-09-24",
+   "2026-09-25",
+   "2026-09-26",
+   "2026-09-27",
+   "2026-09-28",
+   "2026-09-29",
+   "2026-09-30",
+   "2026-10-01",
+   "2026-10-02",
+   "2026-10-03",
+   "2026-10-04",
+   "2026-10-05",
+   "2026-10-06",
+   "2026-10-07",
+   "2026-10-08",
+   "2026-10-09",
+   "2026-10-10",
+   "2026-10-11",
+   "2026-10-12",
+   "2026-10-13",
+   "2026-10-14",
+   "2026-10-15",
+   "2026-10-16",
+   "2026-10-17",
+   "2026-10-18",
+   "2026-10-19",
+   "2026-10-20",
+   "2026-10-21",
+   "2026-10-22"
+  ],
+  "lines": [
+   {
+    "key": "email",
+    "label": "Cold emails sent",
+    "points": [
+     67,
+     153,
+     0,
+     0,
+     0,
+     110,
+     82,
+     150,
+     124,
+     0,
+     0,
+     0,
+     106,
+     86,
+     103,
+     86,
+     0,
+     0,
+     0,
+     92,
+     81,
+     46,
+     157,
+     0,
+     0,
+     0,
+     69,
+     65,
+     98,
+     98
+    ],
+    "error": null
+   },
+   {
+    "key": "li_requests",
+    "label": "LinkedIn requests",
+    "points": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     6,
+     6,
+     0,
+     0,
+     10,
+     null
+    ],
+    "error": null
+   },
+   {
+    "key": "replies",
+    "label": "Real replies",
+    "points": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     2,
+     1,
+     0,
+     2,
+     0,
+     0,
+     0,
+     1,
+     1,
+     2,
+     2,
+     0,
+     0,
+     0,
+     1,
+     2,
+     0,
+     0
+    ],
+    "error": null
+   },
+   {
+    "key": "reads",
+    "label": "Teardown reads",
+    "points": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     2,
+     1
+    ],
+    "error": null
+   },
+   {
+    "key": "new_companies",
+    "label": "New companies found",
+    "points": [
+     90,
+     93,
+     60,
+     53,
+     105,
+     86,
+     6,
+     44,
+     56,
+     118,
+     79,
+     18,
+     81,
+     20,
+     24,
+     63,
+     37,
+     2,
+     115,
+     61,
+     4,
+     46,
+     22,
+     78,
+     27,
+     88,
+     36,
+     108,
+     71,
+     47
+    ],
+    "error": null
+   },
+   {
+    "key": "verified",
+    "label": "Emails passing the check",
+    "points": [
+     1,
+     2,
+     2,
+     5,
+     3,
+     0,
+     0,
+     2,
+     1,
+     2,
+     3,
+     1,
+     0,
+     0,
+     4,
+     2,
+     3,
+     5,
+     0,
+     2,
+     1,
+     2,
+     0,
+     0,
+     4,
+     5,
+     0,
+     3,
+     1,
+     2
+    ],
+    "error": null
+   }
+  ],
+  "send_days": [
+   1,
+   2,
+   3,
+   4
+  ]
+ },
+ "health": {
+  "counts": {
+   "working": 9,
+   "idle": 3,
+   "off": 3,
+   "failing": 1
+  },
+  "broken": [
+   {
+    "job": "lookalike-pull",
+    "label": "Lookalikes",
+    "blurb": "Finds companies similar to ones already in the list.",
+    "state": "failing",
+    "error": "search uae-wellness-founders-li: INVALID_FILTERS",
+    "last_worked": "2026-10-22T05:54:26.777Z"
+   }
+  ],
+  "total": 16
+ },
+ "clients": {
+  "open": []
+ },
+ "cohort": {
+  "total": 37135,
+  "signals": [
+   {
+    "key": "fit_small",
+    "label": "Small fit (cafes, salons, the rest)",
+    "group": "Fit",
+    "n": 22633
+   },
+   {
+    "key": "market:GB",
+    "label": "UK",
+    "group": "Where",
+    "n": 18373
+   },
+   {
+    "key": "social:facebook",
+    "label": "On Facebook",
+    "group": "Social",
+    "n": 17084
+   },
+   {
+    "key": "social:instagram",
+    "label": "On Instagram",
+    "group": "Social",
+    "n": 16493
+   },
+   {
+    "key": "track:google_analytics",
+    "label": "Google Analytics",
+    "group": "Ad spend",
+    "n": 11341
+   },
+   {
+    "key": "built:WordPress",
+    "label": "Built on WordPress",
+    "group": "Built on",
+    "n": 10853
+   },
+   {
+    "key": "hook_any",
+    "label": "Strong or medium opener found",
+    "group": "Website",
+    "n": 9655
+   },
+   {
+    "key": "fit_big",
+    "label": "Big fish (fit-out, clinics, property, trades...)",
+    "group": "Fit",
+    "n": 7733
+   },
+   {
+    "key": "track:google_tag_manager",
+    "label": "Google Tag Manager",
+    "group": "Ad spend",
+    "n": 7545
+   },
+   {
+    "key": "market:CA",
+    "label": "Canada",
+    "group": "Where",
+    "n": 6987
+   },
+   {
+    "key": "fit_mid",
+    "label": "Mid fit (retail, gyms, schools, hotels)",
+    "group": "Fit",
+    "n": 6769
+   },
+   {
+    "key": "social:linkedin",
+    "label": "On Linkedin",
+    "group": "Social",
+    "n": 5202
+   },
+   {
+    "key": "market:AU",
+    "label": "Australia",
+    "group": "Where",
+    "n": 5039
+   },
+   {
+    "key": "hook_strong",
+    "label": "Strong opener found",
+    "group": "Website",
+    "n": 4962
+   },
+   {
+    "key": "dead_site",
+    "label": "Website is down or gone",
+    "group": "Website",
+    "n": 4304
+   },
+   {
+    "key": "market:AE",
+    "label": "UAE",
+    "group": "Where",
+    "n": 3790
+   },
+   {
+    "key": "old_copyright",
+    "label": "Footer copyright out of date",
+    "group": "Website",
+    "n": 3664
+   },
+   {
+    "key": "track:meta_pixel",
+    "label": "Meta pixel (spends on Meta ads)",
+    "group": "Ad spend",
+    "n": 3385
+   },
+   {
+    "key": "city_dubai",
+    "label": "In Dubai",
+    "group": "Where",
+    "n": 2775
+   },
+   {
+    "key": "market:SG",
+    "label": "Singapore",
+    "group": "Where",
+    "n": 2597
+   },
+   {
+    "key": "built:Squarespace",
+    "label": "Built on Squarespace",
+    "group": "Built on",
+    "n": 2218
+   },
+   {
+    "key": "emailed",
+    "label": "Cold emailed already",
+    "group": "Outreach",
+    "n": 2152
+   },
+   {
+    "key": "built:Shopify",
+    "label": "Built on Shopify",
+    "group": "Built on",
+    "n": 1712
+   },
+   {
+    "key": "built:Wix",
+    "label": "Built on Wix",
+    "group": "Built on",
+    "n": 1680
+   },
+   {
+    "key": "whatsapp_on_site",
+    "label": "WhatsApp on the site",
+    "group": "Website",
+    "n": 1635
+   },
+   {
+    "key": "not_mobile",
+    "label": "Site does not fit phones",
+    "group": "Website",
+    "n": 1514
+   },
+   {
+    "key": "no_contact_path",
+    "label": "No way to book or get in touch on the homepage",
+    "group": "Website",
+    "n": 1411
+   },
+   {
+    "key": "insecure_only",
+    "label": "Site only works on the insecure address",
+    "group": "Website",
+    "n": 1377
+   },
+   {
+    "key": "valid_email",
+    "label": "We have a checked, sendable email",
+    "group": "People",
+    "n": 1209
+   },
+   {
+    "key": "track:google_ads",
+    "label": "Google ads",
+    "group": "Ad spend",
+    "n": 812
+   },
+   {
+    "key": "tool:SevenRooms",
+    "label": "Uses SevenRooms",
+    "group": "Tools they run",
+    "n": 593
+   },
+   {
+    "key": "tool:OpenTable",
+    "label": "Uses OpenTable",
+    "group": "Tools they run",
+    "n": 530
+   },
+   {
+    "key": "arabic_site",
+    "label": "Site has Arabic",
+    "group": "Website",
+    "n": 526
+   },
+   {
+    "key": "no_site",
+    "label": "No website on file",
+    "group": "Website",
+    "n": 378
+   },
+   {
+    "key": "funded",
+    "label": "Raised money recently",
+    "group": "Buying signals",
+    "n": 325
+   },
+   {
+    "key": "tool:Cal.com",
+    "label": "Uses Cal.com",
+    "group": "Tools they run",
+    "n": 312
+   },
+   {
+    "key": "named_person",
+    "label": "We have a named person",
+    "group": "People",
+    "n": 306
+   },
+   {
+    "key": "has_linkedin",
+    "label": "We have a LinkedIn profile",
+    "group": "People",
+    "n": 260
+   },
+   {
+    "key": "track:tiktok_pixel",
+    "label": "TikTok pixel",
+    "group": "Ad spend",
+    "n": 240
+   },
+   {
+    "key": "hiring",
+    "label": "Hiring for web, ecommerce or marketing (60 days)",
+    "group": "Buying signals",
+    "n": 236
+   },
+   {
+    "key": "placeholder",
+    "label": "Site is a coming-soon page",
+    "group": "Website",
+    "n": 231
+   },
+   {
+    "key": "flag:agency_credit",
+    "label": "Agency credit",
+    "group": "Website",
+    "n": 190
+   },
+   {
+    "key": "tool:Fresha",
+    "label": "Uses Fresha",
+    "group": "Tools they run",
+    "n": 142
+   },
+   {
+    "key": "tool:Calendly",
+    "label": "Uses Calendly",
+    "group": "Tools they run",
+    "n": 107
+   },
+   {
+    "key": "disqualified",
+    "label": "Disqualified",
+    "group": "Outreach",
+    "n": 107
+   },
+   {
+    "key": "replied",
+    "label": "Replied to us",
+    "group": "Outreach",
+    "n": 43
+   }
+  ]
+ },
+ "links": {
+  "ops": "../ops/?k=test",
+  "inbox": "../inbox/?k=test",
+  "call_sheet": "https://obitus599.github.io/terraflow-callsheet/?k=sheet",
+  "dalil": "https://terraflow-studio.usedalil.ai"
+ },
+ "errors": null
+}

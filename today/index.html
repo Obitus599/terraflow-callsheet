@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Terraflow Today</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230A0A0A'/><rect x='30' y='30' width='40' height='40' fill='%23FAFAFA'/></svg>">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<style>
+/* Terraflow brand: Onyx, Moon, square corners, tight tracking. The interface carries no colour.
+   Colour only ever means status, and it is one vocabulary across the whole page:
+     needs you (ocean) · broken (red) · watch (amber) · fine (green) · couldn't read (hatched grey) */
+:root{
+  --bg:#FAFAFA; --panel:#FFFFFF; --ink:#0A0A0A; --ink2:#4A4A48; --ink3:#8A8A86;
+  --line:#E4E4E0; --line2:#D2D2CC; --wash:rgba(10,10,10,.06); --bar:#0A0A0A; --bar-dim:#C9C9C4;
+  --s-act:#0099FF; --s-bad:#D03B3B; --s-warn:#C98A00; --s-ok:#0C8A3E; --s-unk:#8A8A86;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:Switzer,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A0A0A; --panel:#111111; --ink:#FAFAFA; --ink2:#B4B4AE; --ink3:#77776F;
+    --line:#222220; --line2:#33332F; --wash:rgba(250,250,250,.07); --bar:#FAFAFA; --bar-dim:#3A3A36;
+    --s-act:#33ADFF; --s-bad:#F06060; --s-warn:#F2B53A; --s-ok:#3CC46E; --s-unk:#77776F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A0A0A; --panel:#111111; --ink:#FAFAFA; --ink2:#B4B4AE; --ink3:#77776F;
+  --line:#222220; --line2:#33332F; --wash:rgba(250,250,250,.07); --bar:#FAFAFA; --bar-dim:#3A3A36;
+  --s-act:#33ADFF; --s-bad:#F06060; --s-warn:#F2B53A; --s-ok:#3CC46E; --s-unk:#77776F;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);letter-spacing:-.005em;
+  -webkit-font-smoothing:antialiased;padding:0 0 64px}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+/* ---- top bar ---- */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px 0 14px;border-bottom:1px solid var(--line)}
+.mark{font-weight:600;letter-spacing:.24em;font-size:12px;text-transform:uppercase}
+.mark span{color:var(--ink3)}
+.top nav{margin-left:auto;display:flex;gap:16px;font-size:13px;align-items:center}
+.top nav a{text-decoration:none;color:var(--ink2)}
+.top nav a:hover{color:var(--ink)}
+.top nav button{color:var(--ink2);font-size:13px}
+.stamp{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+
+/* ---- headline ---- */
+.date{margin:28px 0 6px;font-size:13px;color:var(--ink3);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.date b{color:var(--ink);font-weight:600}
+h1{font-size:clamp(24px,4.2vw,38px);line-height:1.12;font-weight:600;letter-spacing:-.035em;margin:0 0 6px;max-width:900px}
+.banner{border:1px solid var(--line2);background:var(--panel);padding:10px 12px;margin:14px 0 0;font-size:13px;display:none}
+.banner.on{display:block}
+
+/* ---- section heads ---- */
+h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink3);
+  margin:44px 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h2 .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px}
+h2 .r a{color:var(--ink2)}
+
+/* ---- status vocabulary ---- */
+.st{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.st i{width:8px;height:8px;display:block;flex:0 0 8px}
+.st.act{color:var(--s-act)} .st.act i{background:var(--s-act)}
+.st.bad{color:var(--s-bad)} .st.bad i{background:var(--s-bad)}
+.st.warn{color:var(--s-warn)} .st.warn i{background:var(--s-warn)}
+.st.ok{color:var(--s-ok)} .st.ok i{background:var(--s-ok)}
+.st.unk{color:var(--s-unk)} .st.unk i{background:repeating-linear-gradient(45deg,var(--s-unk) 0 2px,transparent 2px 4px);outline:1px solid var(--s-unk);outline-offset:-1px}
+
+/* ---- tasks ---- */
+.tasks{border-top:1px solid var(--ink)}
+.task{display:grid;grid-template-columns:120px 1fr auto;gap:6px 18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.task .t{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.3}
+.task .d{font-size:13.5px;color:var(--ink2);margin-top:3px;max-width:680px}
+.task .go{align-self:start;font-size:13px;font-weight:600;text-decoration:none;border:1px solid var(--ink);padding:7px 12px;white-space:nowrap}
+.task .go:hover{background:var(--ink);color:var(--bg)}
+.task .go.plain{border-color:var(--line2);font-weight:500;color:var(--ink2)}
+.items{list-style:none;margin:10px 0 0;padding:0;font-size:13px}
+.items li{display:flex;gap:10px;padding:5px 0;border-top:1px dashed var(--line);flex-wrap:wrap}
+.items li:first-child{border-top:0}
+.items .who{font-weight:600}
+.items .why{color:var(--ink2)}
+.items .when{margin-left:auto;color:var(--ink3);font-family:var(--mono);font-size:11px}
+.items a{text-decoration:underline;text-underline-offset:2px}
+.clear{padding:18px 0;border-bottom:1px solid var(--line);font-size:15px}
+
+/* ---- tiles ---- */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.tile{background:var(--panel);padding:14px 14px 12px;min-height:168px;display:flex;flex-direction:column}
+.tile .l{font-size:12.5px;font-weight:600;letter-spacing:-.01em}
+.tile .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:34px;font-weight:500;letter-spacing:-.04em;line-height:1.1;margin-top:8px}
+.tile .u{font-size:11.5px;color:var(--ink3)}
+.tile .wk{font-size:11.5px;color:var(--ink2);margin-top:auto;padding-top:8px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tile .wk .up{color:var(--s-ok)} .tile .wk .dn{color:var(--s-bad)}
+.tile .note{font-size:11.5px;color:var(--ink2);margin-top:4px}
+.tile .err{font-size:12.5px;color:var(--ink2);margin-top:10px}
+.tile .n.off{color:var(--ink3);font-size:26px;font-family:var(--sans);letter-spacing:-.02em}
+.spark{display:block;width:100%;height:30px;margin-top:10px}
+.spark svg{display:block;width:100%;height:30px}
+
+/* ---- dalil table, generic tables ---- */
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font-size:11px;font-weight:600;color:var(--ink3);text-align:right;padding:6px 8px;border-bottom:1px solid var(--ink);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+td:first-child{font-family:var(--sans)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sub{font-size:12px;color:var(--ink3);margin-top:8px}
+
+/* ---- trend small multiples ---- */
+.multi{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.chart{background:var(--panel);padding:12px 12px 8px;position:relative}
+.chart .l{font-size:12.5px;font-weight:600;display:flex;gap:8px;align-items:baseline}
+.chart .l .tot{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink3);font-weight:400}
+.chart svg{display:block;width:100%;height:120px;margin-top:6px;overflow:visible}
+.chart .err{height:120px;display:flex;align-items:center;font-size:12.5px;color:var(--ink2)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font:12px/1.35 var(--mono);padding:6px 8px;z-index:9;display:none;white-space:nowrap}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink3);margin-top:8px}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend i{width:10px;height:10px;display:inline-block}
+
+/* ---- funnel ---- */
+.funnel{border-top:1px solid var(--ink)}
+.fs{display:grid;grid-template-columns:190px 100px 1fr 230px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.fs .fl{font-size:14px;font-weight:600}
+.fs .fn{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:20px;text-align:right;letter-spacing:-.03em}
+.fs .fb{height:10px;background:var(--wash);position:relative}
+.fs .fb i{position:absolute;left:0;top:0;bottom:0;background:var(--bar)}
+.fs .fp{font-family:var(--mono);font-size:11.5px;color:var(--ink3);text-align:right}
+
+/* ---- health ---- */
+.health{display:flex;gap:18px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--ink);padding:14px 0;border-bottom:1px solid var(--line)}
+.health .big{font-size:17px;font-weight:600;letter-spacing:-.02em}
+.broken{list-style:none;padding:0;margin:0;width:100%}
+.broken li{padding:8px 0;border-top:1px dashed var(--line);font-size:13px;display:flex;gap:12px;flex-wrap:wrap}
+.broken .e{font-family:var(--mono);font-size:11.5px;color:var(--ink2);word-break:break-word}
+
+/* ---- cohort ---- */
+.cohort{display:grid;grid-template-columns:1fr 300px;gap:24px;border-top:1px solid var(--ink);padding-top:14px}
+.groups{columns:2;column-gap:28px}
+.grp{break-inside:avoid;margin:0 0 16px}
+.grp h3{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin:0 0 6px;font-weight:600}
+.sig{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:5px 0;font-size:13px;border-bottom:1px solid var(--line)}
+.sig .box{width:18px;height:18px;border:1.5px solid var(--ink3);flex:0 0 18px;display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--mono)}
+.sig[data-s="must"] .box{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.sig[data-s="not"] .box{border-color:var(--ink);color:var(--ink)}
+.sig[data-s="not"] .lab{text-decoration:line-through;text-decoration-thickness:1px}
+.sig .lab{flex:1}
+.sig .c{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.result{position:sticky;top:12px;align-self:start;border:1px solid var(--ink);padding:16px;background:var(--panel)}
+.result .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:44px;letter-spacing:-.05em;line-height:1}
+.result .what{font-size:12.5px;color:var(--ink2);margin-top:8px}
+.result ul{list-style:none;padding:0;margin:12px 0 0;font-size:12.5px}
+.result li{padding:4px 0;border-top:1px solid var(--line)}
+.result li span{color:var(--ink3)}
+.result .reset{font-size:12px;text-decoration:underline;margin-top:12px;color:var(--ink2)}
+.howto{font-size:12px;color:var(--ink3);margin:0 0 12px}
+.more{font-size:12px;text-decoration:underline;color:var(--ink2);margin:4px 0 0}
+
+footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink3);line-height:1.6}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:860px){
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .multi{grid-template-columns:repeat(2,1fr)}
+  .cohort{grid-template-columns:1fr}
+  .result{position:static;order:-1}
+  .fs{grid-template-columns:1fr 90px;grid-template-areas:"l n" "b b" "p p";gap:4px 12px}
+  .fs .fl{grid-area:l} .fs .fn{grid-area:n} .fs .fb{grid-area:b} .fs .fp{grid-area:p;text-align:left}
+}
+@media (max-width:560px){
+  .task{grid-template-columns:1fr}
+  .task .go{justify-self:start}
+  .multi{grid-template-columns:1fr}
+  .groups{columns:1}
+  .tile{min-height:150px;padding:12px}
+  .tile .n{font-size:28px}
+  .top nav{margin-left:0;width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="mark">Terraflow<span>.today</span></div>
+    <nav>
+      <a id="toops" href="#">The machine</a>
+      <a id="toinbox" href="#">The inbox</a>
+      <button id="theme" type="button" aria-label="Switch light or dark">Dark</button>
+      <span class="stamp" id="stamp">loading</span>
+    </nav>
+  </div>
+
+  <div class="date"><b id="dayname">Today</b><span id="datefull"></span><span id="mockflag"></span></div>
+  <h1 id="headline">Reading the engine</h1>
+  <div class="banner" id="banner"></div>
+
+  <h2>Waiting on you <span class="r" id="taskcount"></span></h2>
+  <div class="tasks" id="tasks"></div>
+
+  <h2 id="yhead">Yesterday <span class="r">bars are the last 14 days, grey bars are days with no sending</span></h2>
+  <div class="tiles" id="tiles"></div>
+
+  <h2>LinkedIn and WhatsApp, by sequence <span class="r" id="dalilage"></span></h2>
+  <div class="scroll"><table id="dalil"></table></div>
+  <div class="sub">Dalil counts people, not messages. Someone sent three messages counts once.</div>
+
+  <h2>Last 30 days <span class="r"><button class="more" id="tabletoggle" type="button">Show the numbers</button></span></h2>
+  <div class="multi" id="multi"></div>
+  <div class="legend"><span><i style="background:var(--bar)"></i>day with activity</span><span><i style="background:var(--bar-dim)"></i>no-send day</span><span><i style="background:repeating-linear-gradient(45deg,var(--s-unk) 0 2px,transparent 2px 4px);outline:1px solid var(--s-unk);outline-offset:-1px"></i>no data for that day</span></div>
+  <div class="scroll" id="trendtable" hidden></div>
+
+  <h2>Where the work goes <span class="r">all time</span></h2>
+  <div class="funnel" id="funnel"></div>
+  <div class="sub" id="funnelnote"></div>
+
+  <h2>Engine health <span class="r"><a id="toops2" href="#">every job</a></span></h2>
+  <div id="health"></div>
+
+  <h2>Who to target <span class="r" id="cohorttotal"></span></h2>
+  <p class="howto">Tap once for must have, twice for must not have, three times to clear. The count updates as you go. Nothing is changed or sent.</p>
+  <div class="cohort">
+    <div class="groups" id="groups"></div>
+    <div class="result" id="result">
+      <div class="n num" id="ccount">...</div>
+      <div class="what" id="cwhat">companies in the engine</div>
+      <ul id="csample"></ul>
+      <button class="reset" id="creset" type="button">Clear all</button>
+    </div>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const P = new URLSearchParams(location.search);
+const KEY = P.get("k") || "";
+const MOCK = P.get("mock");
+const API = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/today-api";
+const REFRESH_MS = 5 * 60 * 1000;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => n == null ? "?" : Number(n).toLocaleString("en-GB");
+const safeUrl = u => (/^(https:\/\/|\.\.\/)/.test(String(u || "")) ? String(u) : null);
+
+// ---------------------------------------------------------------- theme (per viewer only)
+function store(k, v){ try{ v === undefined ? null : localStorage.setItem(k, v); return localStorage.getItem(k); }catch(e){ return null; } }
+function applyTheme(t){
+  if(t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  else document.documentElement.removeAttribute("data-theme");
+  const dark = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  $("theme").textContent = dark ? "Light" : "Dark";
+}
+applyTheme(P.get("theme") || store("today-theme"));
+$("theme").onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = cur === "dark" ? "light" : "dark";
+  store("today-theme", next); applyTheme(next);
+};
+
+// ---------------------------------------------------------------- helpers
+function ago(iso){
+  if(!iso) return "";
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime())/1000);
+  if(s < 5400) return Math.max(1, Math.round(s/60)) + "m ago";
+  if(s < 172800) return Math.round(s/3600) + "h ago";
+  return Math.round(s/86400) + "d ago";
+}
+const dubai = (iso, opts) => new Date(iso).toLocaleString("en-GB", Object.assign({timeZone:"Asia/Dubai"}, opts));
+const dayShort = iso => new Date(iso + "T12:00:00Z").toLocaleDateString("en-GB", {weekday:"short", day:"numeric", month:"short", timeZone:"UTC"});
+const STATUS = {
+  act:  ["act",  "Needs you"],
+  bad:  ["bad",  "Broken"],
+  warn: ["warn", "Watch"],
+  ok:   ["ok",   "Fine"],
+  unknown: ["unk", "Couldn't read"],
+};
+const st = level => { const [c, w] = STATUS[level] || STATUS.unknown; return `<span class="st ${c}"><i></i>${w}</span>`; };
+
+// ---------------------------------------------------------------- tooltip
+const tip = $("tip");
+function showTip(e, html){ tip.innerHTML = html; tip.style.display = "block";
+  const x = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8); tip.style.left = x + "px"; tip.style.top = (e.clientY - tip.offsetHeight - 10) + "px"; }
+function hideTip(){ tip.style.display = "none"; }
+
+// ---------------------------------------------------------------- column chart (one series, ink)
+// Columns, not a line: these are daily counts with whole days of deliberate silence, and a line
+// would draw a slope through a weekend. Unknown days get a hatched stub, never a zero bar.
+function columns(points, days, opts){
+  const W = opts.w || 300, H = opts.h || 120, padB = opts.axis ? 16 : 0, padT = opts.axis ? 12 : 2;
+  const vals = points.map(v => v == null ? 0 : v);
+  const max = Math.max(1, ...vals);
+  const n = points.length, slot = W / n, bw = Math.max(2, Math.min(24, slot - 2));
+  const ch = H - padB - padT;
+  let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(opts.label || "")}">`;
+  if(opts.axis){
+    s += `<line x1="0" x2="${W}" y1="${H-padB}" y2="${H-padB}" stroke="var(--line2)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
+    s += `<text x="0" y="9" font-size="9" fill="var(--ink3)" font-family="var(--mono)">${fmt(max)}</text>`;
+  }
+  points.forEach((v, i) => {
+    const x = i * slot + (slot - bw) / 2;
+    const off = opts.offDays && opts.offDays.includes(new Date(days[i] + "T12:00:00Z").getUTCDay());
+    const tipTxt = `${dayShort(days[i])}: ${v == null ? "no data" : fmt(v)}${off ? " (no-send day)" : ""}`;
+    if(v == null){
+      s += `<rect x="${x}" y="${H-padB-4}" width="${bw}" height="4" fill="none" stroke="var(--s-unk)" stroke-width="1" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/>`;
+    } else {
+      const h = v === 0 ? 1 : Math.max(2, v / max * ch);
+      s += `<rect x="${x}" y="${H-padB-h}" width="${bw}" height="${h}" fill="${off || v === 0 ? "var(--bar-dim)" : "var(--bar)"}"/>`;
+    }
+    s += `<rect x="${i*slot}" y="0" width="${slot}" height="${H}" fill="transparent" data-tip="${esc(tipTxt)}"/>`;
+  });
+  if(opts.axis && days.length){
+    s += `<text x="0" y="${H-2}" font-size="9" fill="var(--ink3)" font-family="var(--mono)">${esc(dayShort(days[0]))}</text>`;
+    s += `<text x="${W}" y="${H-2}" font-size="9" fill="var(--ink3)" font-family="var(--mono)" text-anchor="end">${esc(dayShort(days[days.length-1]))}</text>`;
+  }
+  return s + `</svg>`;
+}
+document.addEventListener("mousemove", e => { const t = e.target.closest && e.target.closest("[data-tip]"); t ? showTip(e, esc(t.getAttribute("data-tip"))) : hideTip(); });
+document.addEventListener("touchstart", e => { const t = e.target.closest && e.target.closest("[data-tip]"); if(t){ const p = e.touches[0]; showTip({clientX:p.clientX, clientY:p.clientY}, esc(t.getAttribute("data-tip"))); setTimeout(hideTip, 1800);} }, {passive:true});
+
+// ---------------------------------------------------------------- render
+let LAST = null;
+function render(d){
+  LAST = d;
+  const k = encodeURIComponent(KEY);
+  $("toops").href = $("toops2").href = "../ops/?k=" + k;
+  $("toinbox").href = "../inbox/?k=" + k;
+  $("stamp").textContent = "updated " + dubai(d.at, {hour:"2-digit", minute:"2-digit"}) + " Dubai";
+  $("dayname").textContent = dubai(d.at, {weekday:"long"});
+  $("datefull").textContent = dubai(d.at, {day:"numeric", month:"long", year:"numeric"});
+  document.title = "Today, " + dubai(d.at, {day:"numeric", month:"short"}) + " · Terraflow";
+  $("headline").textContent = d.headline || "";
+  $("yhead").firstChild.textContent = "Yesterday, " + (d.yesterday_name || "") + " ";
+
+  // ---- tasks
+  const tasks = d.tasks || [];
+  const actN = tasks.filter(t => t.level === "act").length;
+  $("taskcount").textContent = tasks.length ? `${actN} to do, ${tasks.length - actN} to watch` : "";
+  $("tasks").innerHTML = tasks.length ? tasks.map(t => {
+    const lvl = (t.kind === "health" || t.kind === "clients") && t.level === "act" ? "bad" : t.level;
+    const items = (t.items || []);
+    const shown = items.slice(0, 5);
+    const link = safeUrl(t.link);
+    const go = link ? `<a class="go" href="${esc(link)}" target="${link.startsWith("..") ? "_self" : "_blank"}" rel="noopener">${esc(t.action || "Open")}</a>`
+                    : (t.action ? `<span class="go plain">${esc(t.action)}</span>` : "<span></span>");
+    return `<div class="task">
+      <div>${st(lvl)}</div>
+      <div><div class="t">${esc(t.title)}</div>${t.detail ? `<div class="d">${esc(t.detail)}</div>` : ""}
+        ${shown.length ? `<ul class="items">${shown.map(i => {
+          const il = safeUrl(i.link);
+          const who = il ? `<a class="who" href="${esc(il)}" target="_blank" rel="noopener">${esc(i.name || "")}</a>` : `<span class="who">${esc(i.name || "")}</span>`;
+          return `<li>${who}${i.company ? `<span class="why">${esc(i.company)}</span>` : ""}${i.note ? `<span class="why">${esc(i.note)}</span>` : ""}${i.at ? `<span class="when">${esc(ago(i.at))}</span>` : ""}</li>`;
+        }).join("")}${items.length > 5 ? `<li><span class="why">and ${items.length - 5} more</span></li>` : ""}</ul>` : ""}
+      </div>
+      <div>${go}</div>
+    </div>`;
+  }).join("") : `<div class="clear">${st("ok")} &nbsp;Nothing is waiting on you.</div>`;
+
+  // ---- tiles
+  const sendDays = (d.trend && d.trend.send_days) || [1,2,3,4];
+  const offDays = [0,1,2,3,4,5,6].filter(x => !sendDays.includes(x));
+  $("tiles").innerHTML = (d.channels || []).map(c => {
+    const days = (c.series || []).map(p => p.day), pts = (c.series || []).map(p => p.n);
+    let big, foot = "";
+    if(c.error){
+      big = `<div class="err">${st("unknown")}<br>${esc(c.error)}</div>`;
+    } else if(c.no_send_day){
+      big = `<div class="n off">No send day</div><div class="note">${esc(c.note || "")}</div>`;
+    } else {
+      big = `<div class="n">${c.yesterday == null ? "?" : fmt(c.yesterday)}</div><div class="u">${esc(c.unit)}</div>${c.note ? `<div class="note">${st("warn")} ${esc(c.note)}</div>` : ""}`;
+    }
+    if(!c.error){
+      let delta = "";
+      if(c.week != null && c.prev_week != null){
+        const diff = c.week - c.prev_week;
+        delta = diff === 0 ? " (same)" : ` (<span class="${diff > 0 ? "up" : "dn"}">${diff > 0 ? "+" : ""}${fmt(diff)}</span>)`;
+        foot = `7 days ${fmt(c.week)} vs ${fmt(c.prev_week)} before${delta}`;
+      } else if(c.week != null){
+        foot = `7 days ${fmt(c.week)}, no earlier week to compare`;
+      } else foot = "no 7-day total yet";
+    }
+    const extra = c.also && !c.error ? `<div class="note">plus ${fmt(c.also.auto)} auto replies, ${fmt(c.also.opt_out)} opt-outs${c.also.dalil != null ? `, ${fmt(c.also.dalil)} on Dalil` : ""}</div>` : "";
+    const spark = c.error ? "" : `<div class="spark">${columns(pts, days, {w:140, h:30, offDays: c.key === "email" ? offDays : null, label: c.label + ", last 14 days"})}</div>`;
+    return `<div class="tile"><div class="l">${esc(c.label)}</div>${big}${extra}${spark}<div class="wk">${foot}</div></div>`;
+  }).join("");
+
+  // ---- dalil per sequence
+  const dl = d.dalil || {};
+  if(dl.error && !(dl.sequences || []).length){
+    $("dalil").innerHTML = `<tr><td>${st("unknown")} ${esc(dl.error)}</td></tr>`;
+  } else {
+    const cols = [["requests","Requests sent"],["accepted","Accepted"],["linkedin_msgs","LinkedIn msgs"],["whatsapp","WhatsApp"],["email","Dalil email"],["replied","Replied"]];
+    const rows = [];
+    for(const s of dl.sequences || []){
+      for(const [p, lab] of [["yesterday","yesterday"],["week","last 7 days"],["all","all time"]]){
+        const m = s[p]; if(!m) continue;
+        rows.push(`<tr><td>${p === "yesterday" || !s.yesterday && p === "week" ? `<b>${esc(s.name)}</b>${s.test ? " <span class='u'>(test, not counted)</span>" : ""}<br>` : ""}<span style="color:var(--ink3)">${lab}${p === "yesterday" && m.start ? ", " + esc(dayShort(m.start)) : ""}</span></td>${cols.map(([f]) => `<td>${fmt(m[f])}</td>`).join("")}<td>${fmt(m.enrolled)}</td></tr>`);
+      }
+    }
+    $("dalil").innerHTML = `<thead><tr><th>Sequence</th>${cols.map(c => `<th>${c[1]}</th>`).join("")}<th>In sequence</th></tr></thead><tbody>${rows.join("") || `<tr><td colspan="8">${st("unknown")} No Dalil numbers have arrived yet.</td></tr>`}</tbody>`;
+  }
+  $("dalilage").innerHTML = dl.taken_at
+    ? (dl.stale ? `${st("warn")} taken ${esc(ago(dl.taken_at))}, older than 30 hours` : `taken ${esc(dubai(dl.taken_at, {hour:"2-digit", minute:"2-digit"}))} Dubai`)
+    : "";
+
+  // ---- trend small multiples
+  const tr = d.trend || {lines:[], days:[]};
+  $("multi").innerHTML = tr.lines.map(l => {
+    if(l.error) return `<div class="chart"><div class="l">${esc(l.label)}</div><div class="err">${st("unknown")}&nbsp; ${esc(l.error)}</div></div>`;
+    const known = l.points.filter(v => v != null);
+    const tot = known.reduce((a, b) => a + b, 0);
+    return `<div class="chart"><div class="l">${esc(l.label)}<span class="tot">${fmt(tot)} in ${known.length} days</span></div>${columns(l.points, tr.days, {w:300, h:120, axis:true, offDays: l.key === "email" ? offDays : null, label: l.label + ", last 30 days"})}</div>`;
+  }).join("");
+  $("trendtable").innerHTML = `<table><thead><tr><th>Day</th>${tr.lines.map(l => `<th>${esc(l.label)}</th>`).join("")}</tr></thead><tbody>${
+    tr.days.slice().reverse().map((day) => { const i = tr.days.indexOf(day); return `<tr><td>${esc(dayShort(day))}</td>${tr.lines.map(l => `<td>${l.error ? "?" : (l.points[i] == null ? "no data" : fmt(l.points[i]))}</td>`).join("")}</tr>`; }).join("")}</tbody></table>`;
+
+  // ---- funnel
+  const f = d.funnel || {};
+  if(f.error){ $("funnel").innerHTML = `<div class="fs"><div class="fl">${st("unknown")}</div><div class="fp">${esc(f.error)}</div></div>`; $("funnelnote").textContent = ""; }
+  else {
+    $("funnel").innerHTML = f.steps.map((s, i) => {
+      const prev = i ? f.steps[i-1].n : null;
+      const pct = prev ? s.n / prev * 100 : 100;
+      const zero = s.n === 0;
+      // Cold emailed can exceed "checked and real": early sends went to addresses before the check
+      // existed. Say so rather than print a percentage over 100.
+      const pctTxt = i === 0 ? "" : (!prev ? "" : pct > 100 ? "more than the step before: early sends predate the email check"
+        : `${pct < 1 && pct > 0 ? pct.toFixed(1) : Math.round(pct)}% of the step before`);
+      return `<div class="fs"><div class="fl">${esc(s.label)}${zero ? " " + st("warn") : ""}</div><div class="fn">${fmt(s.n)}</div>
+        <div class="fb" data-tip="${esc(s.label + ": " + fmt(s.n) + (pctTxt ? ", " + pctTxt : ""))}"><i style="width:${i === 0 ? 100 : Math.max(s.n > 0 ? 0.6 : 0, Math.min(100, pct))}%"></i></div><div class="fp">${pctTxt}</div></div>`;
+    }).join("");
+    const bits = [];
+    if(f.email_pool != null) bits.push(`${fmt(f.email_pool)} checked people left that cold email has never written to`);
+    bits.push(`${fmt(f.bounced)} bounced, ${fmt(f.opted_out)} opted out`);
+    if(f.dalil_reached != null) bits.push(`Dalil has reached ${fmt(f.dalil_reached)} of ${fmt(f.dalil_enrolled)} people in its sequences`);
+    $("funnelnote").textContent = "Bars show how much of the step before made it through. " + bits.join(". ") + ".";
+  }
+
+  // ---- health
+  const h = d.health || {};
+  if(h.error){ $("health").innerHTML = `<div class="health">${st("unknown")} <span>${esc(h.error)}</span></div>`; }
+  else {
+    const c = h.counts || {}, fine = (c.working || 0) + (c.idle || 0), off = (c.off || 0) + (c.unscheduled || 0);
+    $("health").innerHTML = `<div class="health">
+      ${h.broken.length ? st("bad") : st("ok")}
+      <span class="big">${h.broken.length ? `${h.broken.length} broken, ${fine} running fine` : `All ${fine} running jobs are fine`}</span>
+      <span class="mono" style="font-size:12px;color:var(--ink3)">${fmt(c.working || 0)} working, ${fmt(c.idle || 0)} quiet with nothing to do, ${fmt(off)} switched off</span>
+      ${h.broken.length ? `<ul class="broken">${h.broken.map(b => `<li><b>${esc(b.label)}</b><span>${esc(b.blurb || "")}</span>${b.error ? `<span class="e">${esc(b.error)}</span>` : ""}</li>`).join("")}</ul>` : ""}
+    </div>`;
+  }
+
+  // ---- cohort boxes (built once; refresh only updates the counts beside them)
+  renderCohort(d.cohort || {});
+
+  // ---- footer + banner
+  const errs = [];
+  for(const c of d.channels || []) if(c.error) errs.push(c.label);
+  const ban = $("banner");
+  if(errs.length){ ban.className = "banner on"; ban.innerHTML = `${st("unknown")} &nbsp;Some numbers could not be read and are shown as unknown, not zero: ${esc(errs.join(", "))}.`; }
+  else { ban.className = "banner"; ban.textContent = ""; }
+  $("foot").innerHTML = `Cold email numbers come live from Smartlead. LinkedIn, WhatsApp and Dalil email come from Dalil, copied over each morning by the laptop. Replies, page reads, the call sheet and the funnel come from the engine. Refreshes every 5 minutes. Dubai time throughout.`;
+}
+
+// ---------------------------------------------------------------- who to target
+const cstate = {};
+let cohortBuilt = false;
+function renderCohort(c){
+  if(c.error){ $("groups").innerHTML = `<div>${st("unknown")} ${esc(c.error)}</div>`; $("ccount").textContent = "?"; return; }
+  $("cohorttotal").textContent = fmt(c.total) + " companies in the engine";
+  if(cohortBuilt){
+    for(const s of c.signals) { const el = document.querySelector(`.sig[data-k="${CSS.escape(s.key)}"] .c`); if(el) el.textContent = fmt(s.n); }
+    return;
+  }
+  cohortBuilt = true;
+  const order = ["Buying signals","Fit","Where","People","Website","Ad spend","Tools they run","Built on","Social","Outreach","Other"];
+  const groups = {};
+  for(const s of c.signals) (groups[s.group] = groups[s.group] || []).push(s);
+  const names = Object.keys(groups).sort((a, b) => (order.indexOf(a) + 99 * (order.indexOf(a) < 0)) - (order.indexOf(b) + 99 * (order.indexOf(b) < 0)));
+  $("groups").innerHTML = names.map(g => {
+    const list = groups[g], cap = 8;
+    return `<div class="grp"><h3>${esc(g)}</h3>${list.map((s, i) => `<button type="button" class="sig" data-k="${esc(s.key)}" data-s="" ${i >= cap ? "hidden" : ""}><span class="box" aria-hidden="true"></span><span class="lab">${esc(s.label)}</span><span class="c">${fmt(s.n)}</span></button>`).join("")}
+      ${list.length > cap ? `<button type="button" class="more" data-more>show ${list.length - cap} more</button>` : ""}</div>`;
+  }).join("");
+  $("groups").onclick = e => {
+    const m = e.target.closest("[data-more]");
+    if(m){ m.parentElement.querySelectorAll(".sig[hidden]").forEach(x => x.hidden = false); m.remove(); return; }
+    const b = e.target.closest(".sig"); if(!b) return;
+    const next = {"": "must", "must": "not", "not": ""}[b.dataset.s || ""];
+    b.dataset.s = next; b.querySelector(".box").textContent = next === "must" ? "+" : next === "not" ? "-" : "";
+    b.setAttribute("aria-label", b.querySelector(".lab").textContent + (next ? ` (${next === "must" ? "must have" : "must not have"})` : ""));
+    if(next) cstate[b.dataset.k] = next; else delete cstate[b.dataset.k];
+    countCohort();
+  };
+  $("creset").onclick = () => { for(const k in cstate) delete cstate[k]; document.querySelectorAll(".sig").forEach(b => { b.dataset.s = ""; b.querySelector(".box").textContent = ""; }); countCohort(); };
+  countCohort();
+}
+let ctimer = null, cseq = 0;
+function countCohort(){
+  clearTimeout(ctimer);
+  ctimer = setTimeout(async () => {
+    const must = Object.keys(cstate).filter(k => cstate[k] === "must"), not = Object.keys(cstate).filter(k => cstate[k] === "not");
+    const label = k => (document.querySelector(`.sig[data-k="${CSS.escape(k)}"] .lab`) || {}).textContent || k;
+    $("cwhat").textContent = !must.length && !not.length ? "companies in the engine. Tick something to narrow it."
+      : "companies " + [must.length ? "with " + must.map(label).join(" + ") : "", not.length ? "without " + not.map(label).join(", ") : ""].filter(Boolean).join(", ");
+    $("ccount").textContent = "...";
+    const my = ++cseq;
+    try {
+      let r;
+      if(MOCK){
+        const n = (LAST.cohort.signals || []);
+        const base = must.length ? Math.min(...must.map(k => (n.find(s => s.key === k) || {n:0}).n)) : LAST.cohort.total;
+        r = {count: Math.round(base * Math.pow(0.35, Math.max(0, must.length - 1)) * Math.pow(0.8, not.length)), sample: [{name:"Example Joinery LLC", city:"Dubai"},{name:"Sample Dental Care", city:"Dubai"}]};
+      } else {
+        const res = await fetch(API + "?k=" + encodeURIComponent(KEY), {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({cohort:{must, not}})});
+        r = await res.json(); if(!res.ok) throw new Error(r.error || res.status);
+      }
+      if(my !== cseq) return;
+      $("ccount").textContent = fmt(r.count);
+      $("csample").innerHTML = (r.sample || []).map(s => `<li>${esc(s.name || s.domain || "")} <span>${esc(s.city || "")}</span></li>`).join("");
+    } catch(e){
+      if(my !== cseq) return;
+      $("ccount").textContent = "?";
+      $("csample").innerHTML = `<li>${st("unknown")} couldn't count: ${esc(e.message || e)}</li>`;
+    }
+  }, 250);
+}
+
+$("tabletoggle").onclick = () => { const t = $("trendtable"); t.hidden = !t.hidden; $("tabletoggle").textContent = t.hidden ? "Show the numbers" : "Hide the numbers"; };
+
+// ---------------------------------------------------------------- load
+function fail(msg){
+  $("headline").textContent = "Couldn't read the engine";
+  $("banner").className = "banner on";
+  $("banner").innerHTML = `${st("unknown")} &nbsp;${esc(msg)}. Nothing below is current.`;
+  $("stamp").textContent = "failed " + new Date().toLocaleTimeString("en-GB", {hour:"2-digit", minute:"2-digit"});
+}
+function load(){
+  const src = MOCK ? (MOCK === "fail" ? "mock-fail.json" : "mock.json") : API + "?k=" + encodeURIComponent(KEY);
+  if(MOCK) $("mockflag").textContent = "SAMPLE DATA, not live";
+  if(!MOCK && !KEY){ fail("This link is missing its key"); return; }
+  fetch(src, {cache:"no-store"})
+    .then(r => r.ok ? r.json() : r.json().catch(() => ({})).then(j => Promise.reject(r.status === 403 ? "That link's key is wrong" : (j.error || "Error " + r.status))))
+    .then(d => d.error ? fail(d.error) : render(d))
+    .catch(e => fail(String(e)));
+}
+load();
+setInterval(load, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if(!document.hidden && LAST && Date.now() - new Date(LAST.at).getTime() > 60000) load(); });
+</script>
+</body>
+</html>

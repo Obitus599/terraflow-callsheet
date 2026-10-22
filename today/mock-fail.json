@@ -1,0 +1,1364 @@
+{
+ "at": "2026-10-22T12:54:26.836Z",
+ "today": "2026-10-22",
+ "yesterday": "2026-10-21",
+ "yesterday_name": "Wednesday",
+ "headline": "Yesterday: cold email unknown, LinkedIn unknown, replies unknown. One thing needs you. Six checks couldn't run.",
+ "tasks": [
+  {
+   "kind": "health",
+   "level": "act",
+   "title": "1 engine job is broken",
+   "detail": "Everything else is running.",
+   "action": "See the machine",
+   "link": "../ops/?k=test",
+   "items": [
+    {
+     "name": "Lookalikes",
+     "note": "search uae-wellness-founders-li: INVALID_FILTERS"
+    }
+   ]
+  },
+  {
+   "kind": "drafts",
+   "level": "unknown",
+   "title": "Couldn't check reply drafts",
+   "detail": "drafts missing from the engine's answer"
+  },
+  {
+   "kind": "unanswered",
+   "level": "unknown",
+   "title": "Couldn't check for unanswered replies",
+   "detail": "unanswered missing from the engine's answer"
+  },
+  {
+   "kind": "readers",
+   "level": "unknown",
+   "title": "Couldn't check who read their teardown",
+   "detail": "teardowns missing from the engine's answer"
+  },
+  {
+   "kind": "dalil_sync",
+   "level": "unknown",
+   "title": "Couldn't check the Dalil sync",
+   "detail": "dalil_sync missing from the engine's answer"
+  },
+  {
+   "kind": "calls",
+   "level": "unknown",
+   "title": "Couldn't read today's call sheet",
+   "detail": "calls missing from the engine's answer"
+  },
+  {
+   "kind": "clients",
+   "level": "unknown",
+   "title": "Couldn't check client sites",
+   "detail": "clients missing from the engine's answer"
+  },
+  {
+   "kind": "dalil_stale",
+   "level": "warn",
+   "title": "No Dalil numbers yet",
+   "detail": "The laptop script that copies LinkedIn and WhatsApp numbers from Dalil has not posted anything yet. The LinkedIn tiles stay unknown until it does."
+  }
+ ],
+ "channels": [
+  {
+   "key": "email",
+   "label": "Cold emails sent",
+   "unit": "emails",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read sends from Smartlead (429: Rate limit exceeded)",
+   "no_send_day": false,
+   "note": null,
+   "source": "Smartlead, live"
+  },
+  {
+   "key": "li_requests",
+   "label": "LinkedIn connection requests",
+   "unit": "people sent a request",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "li_accepted",
+   "label": "LinkedIn accepts",
+   "unit": "people accepted",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "li_messages",
+   "label": "LinkedIn messages",
+   "unit": "people messaged",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "whatsapp",
+   "label": "WhatsApp messages",
+   "unit": "people messaged",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "dalil_email",
+   "label": "Dalil emails",
+   "unit": "people emailed",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+   "source": "Dalil, posted each morning"
+  },
+  {
+   "key": "replies",
+   "label": "Real replies",
+   "unit": "people wrote back",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read replies: permission denied for table prospect_event",
+   "source": "the reply watcher (cold email)",
+   "also": {
+    "auto": null,
+    "opt_out": null,
+    "dalil": null
+   }
+  },
+  {
+   "key": "teardown_reads",
+   "label": "Teardown pages read",
+   "unit": "real reads",
+   "yesterday": null,
+   "series": [
+    {
+     "day": "2026-10-09",
+     "n": null
+    },
+    {
+     "day": "2026-10-10",
+     "n": null
+    },
+    {
+     "day": "2026-10-11",
+     "n": null
+    },
+    {
+     "day": "2026-10-12",
+     "n": null
+    },
+    {
+     "day": "2026-10-13",
+     "n": null
+    },
+    {
+     "day": "2026-10-14",
+     "n": null
+    },
+    {
+     "day": "2026-10-15",
+     "n": null
+    },
+    {
+     "day": "2026-10-16",
+     "n": null
+    },
+    {
+     "day": "2026-10-17",
+     "n": null
+    },
+    {
+     "day": "2026-10-18",
+     "n": null
+    },
+    {
+     "day": "2026-10-19",
+     "n": null
+    },
+    {
+     "day": "2026-10-20",
+     "n": null
+    },
+    {
+     "day": "2026-10-21",
+     "n": null
+    },
+    {
+     "day": "2026-10-22",
+     "n": null
+    }
+   ],
+   "week": null,
+   "prev_week": null,
+   "error": "couldn't read page visits: teardowns missing from the engine's answer",
+   "source": "notes page counter"
+  }
+ ],
+ "email": {
+  "source": "Smartlead",
+  "campaign_id": "3701299",
+  "error": "couldn't read sends from Smartlead (429: Rate limit exceeded)",
+  "series": [
+   {
+    "day": "2026-09-23",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-24",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-25",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-26",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-27",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-28",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-29",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-09-30",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-01",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-02",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-03",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-04",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-05",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-06",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-07",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-08",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-09",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-10",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-11",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-12",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-13",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-14",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-15",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-16",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-17",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-18",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-19",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-20",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-21",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   },
+   {
+    "day": "2026-10-22",
+    "n": null,
+    "replied": null,
+    "bounced": null
+   }
+  ]
+ },
+ "dalil": {
+  "error": "couldn't read Dalil numbers: dalil missing from the engine's answer",
+  "taken_at": null,
+  "sequences": [],
+  "stale": true,
+  "age_hours": null
+ },
+ "drafts": {
+  "error": "drafts missing from the engine's answer"
+ },
+ "calls": {
+  "error": "calls missing from the engine's answer"
+ },
+ "funnel": {
+  "error": "funnel missing from the engine's answer"
+ },
+ "trend": {
+  "days": [
+   "2026-09-23",
+   "2026-09-24",
+   "2026-09-25",
+   "2026-09-26",
+   "2026-09-27",
+   "2026-09-28",
+   "2026-09-29",
+   "2026-09-30",
+   "2026-10-01",
+   "2026-10-02",
+   "2026-10-03",
+   "2026-10-04",
+   "2026-10-05",
+   "2026-10-06",
+   "2026-10-07",
+   "2026-10-08",
+   "2026-10-09",
+   "2026-10-10",
+   "2026-10-11",
+   "2026-10-12",
+   "2026-10-13",
+   "2026-10-14",
+   "2026-10-15",
+   "2026-10-16",
+   "2026-10-17",
+   "2026-10-18",
+   "2026-10-19",
+   "2026-10-20",
+   "2026-10-21",
+   "2026-10-22"
+  ],
+  "lines": [
+   {
+    "key": "email",
+    "label": "Cold emails sent",
+    "points": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "error": "couldn't read sends from Smartlead (429: Rate limit exceeded)"
+   },
+   {
+    "key": "li_requests",
+    "label": "LinkedIn requests",
+    "points": [],
+    "error": "couldn't read Dalil numbers: dalil missing from the engine's answer"
+   },
+   {
+    "key": "replies",
+    "label": "Real replies",
+    "points": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "error": "couldn't read replies"
+   },
+   {
+    "key": "reads",
+    "label": "Teardown reads",
+    "points": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "error": "teardowns missing from the engine's answer"
+   },
+   {
+    "key": "new_companies",
+    "label": "New companies found",
+    "points": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "error": "pool missing from the engine's answer"
+   },
+   {
+    "key": "verified",
+    "label": "Emails passing the check",
+    "points": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "error": "pool missing from the engine's answer"
+   }
+  ],
+  "send_days": [
+   1,
+   2,
+   3,
+   4
+  ]
+ },
+ "health": {
+  "counts": {
+   "working": 9,
+   "idle": 3,
+   "off": 3,
+   "failing": 1
+  },
+  "broken": [
+   {
+    "job": "lookalike-pull",
+    "label": "Lookalikes",
+    "blurb": "Finds companies similar to ones already in the list.",
+    "state": "failing",
+    "error": "search uae-wellness-founders-li: INVALID_FILTERS",
+    "last_worked": "2026-10-22T05:54:26.829Z"
+   }
+  ],
+  "total": 16
+ },
+ "clients": {
+  "error": "clients missing from the engine's answer"
+ },
+ "cohort": {
+  "total": 37135,
+  "signals": [
+   {
+    "key": "fit_small",
+    "label": "Small fit (cafes, salons, the rest)",
+    "group": "Fit",
+    "n": 22633
+   },
+   {
+    "key": "market:GB",
+    "label": "UK",
+    "group": "Where",
+    "n": 18373
+   },
+   {
+    "key": "social:facebook",
+    "label": "On Facebook",
+    "group": "Social",
+    "n": 17084
+   },
+   {
+    "key": "social:instagram",
+    "label": "On Instagram",
+    "group": "Social",
+    "n": 16493
+   },
+   {
+    "key": "track:google_analytics",
+    "label": "Google Analytics",
+    "group": "Ad spend",
+    "n": 11341
+   },
+   {
+    "key": "built:WordPress",
+    "label": "Built on WordPress",
+    "group": "Built on",
+    "n": 10853
+   },
+   {
+    "key": "hook_any",
+    "label": "Strong or medium opener found",
+    "group": "Website",
+    "n": 9655
+   },
+   {
+    "key": "fit_big",
+    "label": "Big fish (fit-out, clinics, property, trades...)",
+    "group": "Fit",
+    "n": 7733
+   },
+   {
+    "key": "track:google_tag_manager",
+    "label": "Google Tag Manager",
+    "group": "Ad spend",
+    "n": 7545
+   },
+   {
+    "key": "market:CA",
+    "label": "Canada",
+    "group": "Where",
+    "n": 6987
+   },
+   {
+    "key": "fit_mid",
+    "label": "Mid fit (retail, gyms, schools, hotels)",
+    "group": "Fit",
+    "n": 6769
+   },
+   {
+    "key": "social:linkedin",
+    "label": "On Linkedin",
+    "group": "Social",
+    "n": 5202
+   },
+   {
+    "key": "market:AU",
+    "label": "Australia",
+    "group": "Where",
+    "n": 5039
+   },
+   {
+    "key": "hook_strong",
+    "label": "Strong opener found",
+    "group": "Website",
+    "n": 4962
+   },
+   {
+    "key": "dead_site",
+    "label": "Website is down or gone",
+    "group": "Website",
+    "n": 4304
+   },
+   {
+    "key": "market:AE",
+    "label": "UAE",
+    "group": "Where",
+    "n": 3790
+   },
+   {
+    "key": "old_copyright",
+    "label": "Footer copyright out of date",
+    "group": "Website",
+    "n": 3664
+   },
+   {
+    "key": "track:meta_pixel",
+    "label": "Meta pixel (spends on Meta ads)",
+    "group": "Ad spend",
+    "n": 3385
+   },
+   {
+    "key": "city_dubai",
+    "label": "In Dubai",
+    "group": "Where",
+    "n": 2775
+   },
+   {
+    "key": "market:SG",
+    "label": "Singapore",
+    "group": "Where",
+    "n": 2597
+   },
+   {
+    "key": "built:Squarespace",
+    "label": "Built on Squarespace",
+    "group": "Built on",
+    "n": 2218
+   },
+   {
+    "key": "emailed",
+    "label": "Cold emailed already",
+    "group": "Outreach",
+    "n": 2152
+   },
+   {
+    "key": "built:Shopify",
+    "label": "Built on Shopify",
+    "group": "Built on",
+    "n": 1712
+   },
+   {
+    "key": "built:Wix",
+    "label": "Built on Wix",
+    "group": "Built on",
+    "n": 1680
+   },
+   {
+    "key": "whatsapp_on_site",
+    "label": "WhatsApp on the site",
+    "group": "Website",
+    "n": 1635
+   },
+   {
+    "key": "not_mobile",
+    "label": "Site does not fit phones",
+    "group": "Website",
+    "n": 1514
+   },
+   {
+    "key": "no_contact_path",
+    "label": "No way to book or get in touch on the homepage",
+    "group": "Website",
+    "n": 1411
+   },
+   {
+    "key": "insecure_only",
+    "label": "Site only works on the insecure address",
+    "group": "Website",
+    "n": 1377
+   },
+   {
+    "key": "valid_email",
+    "label": "We have a checked, sendable email",
+    "group": "People",
+    "n": 1209
+   },
+   {
+    "key": "track:google_ads",
+    "label": "Google ads",
+    "group": "Ad spend",
+    "n": 812
+   },
+   {
+    "key": "tool:SevenRooms",
+    "label": "Uses SevenRooms",
+    "group": "Tools they run",
+    "n": 593
+   },
+   {
+    "key": "tool:OpenTable",
+    "label": "Uses OpenTable",
+    "group": "Tools they run",
+    "n": 530
+   },
+   {
+    "key": "arabic_site",
+    "label": "Site has Arabic",
+    "group": "Website",
+    "n": 526
+   },
+   {
+    "key": "no_site",
+    "label": "No website on file",
+    "group": "Website",
+    "n": 378
+   },
+   {
+    "key": "funded",
+    "label": "Raised money recently",
+    "group": "Buying signals",
+    "n": 325
+   },
+   {
+    "key": "tool:Cal.com",
+    "label": "Uses Cal.com",
+    "group": "Tools they run",
+    "n": 312
+   },
+   {
+    "key": "named_person",
+    "label": "We have a named person",
+    "group": "People",
+    "n": 306
+   },
+   {
+    "key": "has_linkedin",
+    "label": "We have a LinkedIn profile",
+    "group": "People",
+    "n": 260
+   },
+   {
+    "key": "track:tiktok_pixel",
+    "label": "TikTok pixel",
+    "group": "Ad spend",
+    "n": 240
+   },
+   {
+    "key": "hiring",
+    "label": "Hiring for web, ecommerce or marketing (60 days)",
+    "group": "Buying signals",
+    "n": 236
+   },
+   {
+    "key": "placeholder",
+    "label": "Site is a coming-soon page",
+    "group": "Website",
+    "n": 231
+   },
+   {
+    "key": "flag:agency_credit",
+    "label": "Agency credit",
+    "group": "Website",
+    "n": 190
+   },
+   {
+    "key": "tool:Fresha",
+    "label": "Uses Fresha",
+    "group": "Tools they run",
+    "n": 142
+   },
+   {
+    "key": "tool:Calendly",
+    "label": "Uses Calendly",
+    "group": "Tools they run",
+    "n": 107
+   },
+   {
+    "key": "disqualified",
+    "label": "Disqualified",
+    "group": "Outreach",
+    "n": 107
+   },
+   {
+    "key": "replied",
+    "label": "Replied to us",
+    "group": "Outreach",
+    "n": 43
+   }
+  ]
+ },
+ "links": {
+  "ops": "../ops/?k=test",
+  "inbox": "../inbox/?k=test",
+  "call_sheet": "https://obitus599.github.io/terraflow-callsheet/?k=sheet",
+  "dalil": "https://terraflow-studio.usedalil.ai"
+ },
+ "errors": null
+}
