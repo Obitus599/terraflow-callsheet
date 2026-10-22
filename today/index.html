@@ -180,7 +180,8 @@ details.disc .hide,details.disc[open] .show{display:none}
 details.disc[open] .hide{display:inline}
 .disc .inner{padding:0 0 20px}
 .seg{display:inline-flex;border:1px solid var(--line2);margin-bottom:14px}
-.seg button{padding:6px 12px;font-size:13px;color:var(--ink2)}
+.seg button{padding:6px 12px;font-size:13px;color:var(--ink2);white-space:nowrap}
+#dpick{display:flex;flex-wrap:wrap}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 
 /* explorer */
@@ -234,6 +235,79 @@ footer p{margin:0;max-width:70ch}
 @keyframes sh{to{transform:translateX(100%)}}
 @media (prefers-reduced-motion:reduce){.sk::after{animation:none} .progress{transition:none} details.disc>summary .chev{transition:none}}
 
+/* ---------------------------------------------------------------- scoreboard strip */
+.score{display:grid;grid-template-columns:auto repeat(3,minmax(0,auto)) minmax(0,1fr);align-items:stretch;border-top:1px solid var(--line);margin:0 0 0}
+.score .lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);padding:14px 20px 14px 0;align-self:center}
+.score .sc{display:flex;align-items:baseline;gap:8px;padding:12px 22px;border-left:1px solid var(--line);text-align:left}
+.score .sc b{font-size:24px;font-weight:500;letter-spacing:-.04em;line-height:1}
+.score .sc span{font-size:13.5px;color:var(--ink2)}
+.score .sc i{font-style:normal;font-size:12.5px;color:var(--ink3)}
+.score .hl{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:14px;color:var(--ink2);padding:12px 0 12px 22px;border-left:1px solid var(--line);text-align:right}
+
+/* ---------------------------------------------------------------- click-into */
+[data-open]{cursor:pointer}
+.hit{transition:background-color .12s}
+.hit:hover{background:var(--wash)}
+/* Hover wash reaches 12px past the text without moving the row's edges or rules. */
+.led.hit:hover{box-shadow:-12px 0 0 var(--wash),12px 0 0 var(--wash)}
+.chev2{width:12px;height:12px;color:var(--ink3);opacity:0;transition:opacity .12s;flex:0 0 12px}
+.hit:hover .chev2,.hit:focus-visible .chev2{opacity:1}
+.chart.hit{margin:-10px;padding:10px}
+.score .sc.hit:hover,.score .hl.hit:hover{background:var(--wash)}
+.t-open{display:inline-flex;gap:8px;align-items:center;text-align:left}
+.t-open:hover .t{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--line2)}
+
+/* side panel */
+.scrim{position:fixed;inset:0;background:rgba(10,10,10,.34);z-index:40;opacity:0;pointer-events:none;transition:opacity .18s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(600px,100vw);background:var(--panel);border-left:1px solid var(--line2);z-index:41;
+  transform:translateX(102%);transition:transform .24s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;visibility:hidden}
+.drawer.on{transform:none;visibility:visible}
+.dhead{display:flex;align-items:center;gap:8px;height:56px;padding:0 16px 0 24px;border-bottom:1px solid var(--line);flex:0 0 auto}
+.dhead .crumb{font-size:13px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dhead .sp{margin-left:auto}
+.dbody{overflow:auto;padding:28px 24px 64px;flex:1;overscroll-behavior:contain}
+.dk{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:600;display:flex;gap:8px;align-items:center}
+.dtitle{font-size:28px;font-weight:600;letter-spacing:-.032em;line-height:1.12;margin:8px 0 0}
+.dbig{font-size:64px;font-weight:500;letter-spacing:-.05em;line-height:1;margin:22px 0 6px}
+.dsub{font-size:14.5px;color:var(--ink2);max-width:60ch}
+.dsec{margin-top:32px}
+.dsec>h3{font-size:12px;font-weight:600;color:var(--ink3);margin:0 0 10px;letter-spacing:.06em;text-transform:uppercase;display:flex;gap:10px;align-items:baseline}
+.dsec>h3 .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:400}
+.dsec>p{margin:0 0 8px;font-size:15px;color:var(--ink2);max-width:62ch}
+.facts{display:grid;grid-template-columns:220px minmax(0,1fr);font-size:14px;margin:0}
+.facts dt,.facts dd{padding:9px 0;border-top:1px solid var(--line);margin:0}
+.facts dt{color:var(--ink3)}
+.facts dd{color:var(--ink)}
+.plist{list-style:none;margin:0;padding:0;font-size:14px}
+.plist li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:10px 0;border-top:1px solid var(--line)}
+.plist .nm{font-weight:500}
+.plist .nm a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line2)}
+.plist .sub{grid-column:1;color:var(--ink2);font-size:13.5px}
+.plist .qt{grid-column:1/3;color:var(--ink2);font-size:13.5px;border-left:2px solid var(--line2);padding:2px 0 2px 10px;margin-top:4px;white-space:pre-wrap;word-break:break-word}
+.plist .rt{grid-row:1;grid-column:2;color:var(--ink3);font-size:13px;white-space:nowrap;text-align:right}
+.plist .tg{font-size:12px;font-weight:600;margin-left:8px}
+.jlist{list-style:none;margin:0;padding:0}
+.jrow{display:grid;grid-template-columns:18px minmax(0,1fr) auto 12px;gap:2px 12px;align-items:start;padding:11px 12px;margin:0 -12px;border-top:1px solid var(--line);width:calc(100% + 24px);text-align:left}
+.jrow>.dot{margin-top:6px}
+.jrow .jl{font-size:14.5px;font-weight:500}
+.jrow .jb{font-size:13px;color:var(--ink2);grid-column:2}
+.jrow .jw{font-size:13px;color:var(--ink3);white-space:nowrap;text-align:right;grid-row:1;grid-column:3}
+.jrow .chev2{grid-row:1;grid-column:4;margin-top:4px}
+.dot.off{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink3)}
+.loading{color:var(--ink3);font-size:14px;padding:12px 0}
+.err{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--ink2);background:var(--wash);padding:12px 14px}
+.mini svg{display:block;width:100%;height:90px}
+
+/* the machine, on the page */
+.mstage{display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 32px;border-top:1px solid var(--line)}
+.mstage:last-child{border-bottom:1px solid var(--line)}
+.mstage h3{font-size:15px;font-weight:600;margin:0;letter-spacing:-.01em;padding-top:12px}
+.mstage .mb{font-size:13px;color:var(--ink3);margin:2px 0 8px}
+.mstage .jlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px}
+.mstage .jlist li:nth-child(-n+2) .jrow{border-top:0}
+.mstage .jb{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
 /* ---------------------------------------------------------------- responsive */
 @media (max-width:1100px){
   .multi{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -241,6 +315,11 @@ footer p{margin:0;max-width:70ch}
   .stage:nth-child(4){border-left:2px solid var(--ink);padding-left:16px}
   .stage:nth-child(n+4){border-top:1px solid var(--line)}
   .ex{grid-template-columns:minmax(0,1fr) 300px;gap:28px}
+  .mstage{grid-template-columns:150px minmax(0,1fr);gap:0 20px}
+  .score{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .score .lbl{grid-column:1/-1;padding:12px 0 0}
+  .score .sc:first-of-type{border-left:0;padding-left:0}
+  .score .hl{grid-column:1/-1;justify-content:flex-start;text-align:left;border-left:0;border-top:1px solid var(--line);padding-left:0}
 }
 @media (max-width:900px){
   :root{--gut:24px}
@@ -276,6 +355,15 @@ footer p{margin:0;max-width:70ch}
   .grp{grid-template-columns:1fr}
   .grp h3{padding-top:0}
   .items .when{margin-left:0}
+  .mstage{grid-template-columns:1fr}
+  .mstage .jlist{grid-template-columns:1fr}
+  .mstage .jlist li:nth-child(2) .jrow{border-top:1px solid var(--line)}
+  .score .sc{flex-direction:column;gap:2px;padding:10px 12px}
+  .score .sc b{font-size:22px}
+  .dbody{padding:22px 16px 56px}
+  .dhead{padding-left:16px}
+  .dbig{font-size:52px}
+  .facts{grid-template-columns:140px minmax(0,1fr)}
 }
 </style>
 </head>
@@ -326,8 +414,8 @@ footer p{margin:0;max-width:70ch}
           <p class="date"><b id="dayname">Today</b><span id="datefull"></span><span class="pill" id="mockflag" hidden>Sample data</span><span class="when2" id="when2"></span></p>
           <h1 id="headline"></h1>
         </div>
-        <div class="healthline" id="healthline"></div>
       </div>
+      <div class="score" id="score"></div>
       <div id="banner"></div>
 
       <div class="first">
@@ -341,6 +429,12 @@ footer p{margin:0;max-width:70ch}
           <div class="quiet" id="notrunning"></div>
         </div>
       </div>
+
+      <section class="blk" aria-labelledby="h-mach">
+        <div class="sh"><h2 id="h-mach">The machine</h2><span class="r" style="color:var(--ink3)" id="machsum"></span>
+          <p>Every job the engine runs, in the order a lead moves through them. Click one to see what it does and how it is doing.</p></div>
+        <div class="mach" id="mach"></div>
+      </section>
 
       <section class="blk" aria-labelledby="h-trend">
         <div class="sh"><h2 id="h-trend">Last 30 days</h2><span class="r"><button class="linkish" id="tabletoggle" type="button" aria-expanded="false">Show as a table</button></span></div>
@@ -365,8 +459,10 @@ footer p{margin:0;max-width:70ch}
       </section>
 
       <section class="blk" aria-labelledby="h-target">
-        <div class="sh"><h2 id="h-target">Who to target</h2><span class="r" style="color:var(--ink3)" id="cohorttotal"></span>
-          <p>Narrow the engine's companies by what we know about them. Read only: nothing is changed or sent.</p></div>
+        <div class="sh"><h2 id="h-target">Who to target</h2><span class="r" style="color:var(--ink3)" id="cohorttotal"></span></div>
+        <details class="disc" id="targetbox">
+          <summary><svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 2l4 4-4 4"/></svg><b>Plan a campaign</b><span>Narrow the engine's companies by what we know about them. Nothing is changed or sent.</span><span class="r"><span class="show">Open</span><span class="hide">Close</span></span></summary>
+          <div class="inner">
         <div class="ex">
           <div>
             <label class="search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3.5 3.5"/></svg>
@@ -383,6 +479,8 @@ footer p{margin:0;max-width:70ch}
             <button class="linkish reset" id="creset" type="button" hidden>Clear all filters</button>
           </aside>
         </div>
+          </div>
+        </details>
       </section>
 
       <footer id="foot"></footer>
@@ -390,6 +488,15 @@ footer p{margin:0;max-width:70ch}
   </main>
 </div>
 <div class="tip" id="tip" role="tooltip"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle" aria-hidden="true">
+  <div class="dhead">
+    <button class="btn icon" id="dback" type="button" aria-label="Back" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+    <span class="crumb" id="dcrumb"></span>
+    <button class="btn icon sp" id="dclose" type="button" aria-label="Close"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg></button>
+  </div>
+  <div class="dbody" id="dbody"></div>
+</aside>
 
 <script>
 const P = new URLSearchParams(location.search);
@@ -493,7 +600,7 @@ function columns(points, days, o){
 const axis = (days, max) => `<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);margin-top:4px"><span>${esc(dayTiny(days[0]))}</span><span>${esc(dayTiny(days[days.length - 1]))}</span></div>`;
 
 // ---------------------------------------------------------------- tasks
-const TASK_RANK = {clients:0, unanswered:1, approve:2, readers:3, calls:4, health:5, dalil_sync:6, unknown:7, pool:8, stuck_drafts:9, dalil_stale:10};
+const TASK_RANK = {clients:0, pool:0.5, unanswered:1, approve:2, readers:3, calls:4, health:5, dalil_sync:6, unknown:7, stuck_drafts:9, dalil_stale:10};
 const SHORT = {drafts:"reply drafts", unanswered:"unanswered replies", readers:"who read their teardown", health:"the engine's jobs",
   dalil_sync:"the Dalil sync", calls:"today's call sheet", clients:"client sites"};
 const statusOf = t => t.level === "unknown" ? "unk" : (t.kind === "health" || t.kind === "clients") && t.level === "act" ? "bad" : t.level;
@@ -511,9 +618,11 @@ function prepTasks(raw){
       tech: [...new Set(unk.map(t => t.detail))].join(" | ")});
   }
   list.sort((a, b) => (TASK_RANK[a.kind] ?? 6.5) - (TASK_RANK[b.kind] ?? 6.5));
+  // A broken job's raw error is for debugging; the list says what it means.
+  for(const t of list) if(t.kind === "health") (t.items || []).forEach(i => { if(i.note && !i.plain){ i.note = cap(plainJobErr(i.note)); i.plain = true; } });
   return list;
 }
-function taskHtml(t, links){
+function taskHtml(t, idx){
   const s = statusOf(t);
   const items = t.items || [];
   const link = safeUrl(t.link) || (t.kind === "approve" ? null : null);
@@ -523,7 +632,7 @@ function taskHtml(t, links){
   const detail = t.level === "unknown" && t.kind !== "unknown" ? `${cap(plainErr(t.detail))}. Unknown, not clear.` : t.detail;
   return `<div class="task">
     <span class="dot ${s}" aria-hidden="true"></span>
-    <div><span class="sr">${STATUS_WORD[s]}: </span><div class="t">${esc(t.title)}</div>${detail ? `<div class="d">${esc(detail)}</div>` : ""}
+    <div><span class="sr">${STATUS_WORD[s]}: </span><button type="button" class="t-open" data-open="task:${idx}"><span class="t">${esc(t.title)}</span>${CHEV}</button>${detail ? `<div class="d">${esc(detail)}</div>` : ""}
       ${t.level === "unknown" ? tech(t.tech || t.detail) : ""}
       ${shown.length ? `<ul class="items">${shown.map(itemHtml).join("")}</ul>` : ""}
       ${items.length > 3 ? `<button class="linkish" type="button" data-items="${esc(JSON.stringify(items.slice(3)))}">Show ${items.length - 3} more</button>` : ""}
@@ -591,7 +700,7 @@ function renderLedger(d, offDays){
   $("ledger").innerHTML = top.map(c => {
     const label = SHORT_LABEL[c.key] || c.label;
     if(c.error){
-      return `<div class="led err"><div class="l">${esc(label)}<small>${esc(cap(plainErr(c.error)))}</small></div>
+      return `<div class="led err hit" data-open="channel:${esc(c.key === "linkedin" ? "li_requests" : c.key)}" role="button" tabindex="0"><div class="l">${esc(label)}<small>${esc(cap(plainErr(c.error)))}</small></div>
         <div class="big"><span class="dot unk" aria-hidden="true"></span>Couldn't read</div><div class="cmp">${tech(c.error)}</div></div>`;
     }
     const days = (c.series || []).map(p => p.day), pts = (c.series || []).map(p => p.n);
@@ -600,7 +709,7 @@ function renderLedger(d, offDays){
     let cmp = compareText(c);
     if(c.key === "replies" && c.also && c.also.dalil) cmp += `. Plus ${fmt(c.also.dalil)} on LinkedIn`;
     if(c.note && !c.no_send_day) cmp = `<span class="tag warn">${esc(c.note)}.</span> ` + cmp;
-    return `<div class="led"><div class="l">${esc(label)}<small>${esc(c.no_send_day ? (c.note || "") : (UNIT[c.key] || c.unit || ""))}</small></div>${big}
+    return `<div class="led hit" data-open="channel:${esc(c.key)}" role="button" tabindex="0" aria-label="${esc(label)}: ${esc(c.no_send_day ? "not a send day" : fmt(c.yesterday))}. Open the detail."><div class="l">${esc(label)}<small>${esc(c.no_send_day ? (c.note || "") : (UNIT[c.key] || c.unit || ""))}</small></div>${big}
       <div class="cmp n">${cmp}</div>
       <div class="spark">${columns(pts, days, {w:140, h:28, offDays: off, label: label + ", last 14 days"})}</div></div>`;
   }).join("");
@@ -637,21 +746,33 @@ function render(d){
   const watchN = tasks.length - actN - (unkT ? 1 : 0);
   $("taskcount").textContent = [actN ? `${actN} to do` : "", watchN ? `${watchN} to watch` : "", unkT ? `${unkN} unknown` : ""].filter(Boolean).join(", ");
   const VIS = 4;
+  TASKS = tasks;
   $("tasks").innerHTML = tasks.length
-    ? tasks.slice(0, VIS).map(t => taskHtml(t)).join("") +
-      (tasks.length > VIS ? `<div id="moretasks" hidden>${tasks.slice(VIS).map(t => taskHtml(t)).join("")}</div><div class="morebar"><button class="linkish" type="button" id="moretbtn" aria-expanded="false">Show ${tasks.length - VIS} more: ${esc(moreWords(tasks.slice(VIS)))}</button></div>` : "")
+    ? tasks.slice(0, VIS).map((t, i) => taskHtml(t, i)).join("") +
+      (tasks.length > VIS ? `<div id="moretasks" hidden>${tasks.slice(VIS).map((t, i) => taskHtml(t, i + VIS)).join("")}</div><div class="morebar"><button class="linkish" type="button" id="moretbtn" aria-expanded="false">Show ${tasks.length - VIS} more: ${esc(moreWords(tasks.slice(VIS)))}</button></div>` : "")
     : `<div class="clear"><span class="dot ok" aria-hidden="true"></span>Nothing is waiting on you.</div>`;
   if($("moretbtn")) $("moretbtn").onclick = e => { $("moretasks").hidden = false; e.target.parentElement.remove(); };
 
-  // ---- health, one line
+  // ---- the scoreboard: all-time result, then machine health, one strip under the headline
   const h = d.health || {};
-  if(h.error) $("healthline").innerHTML = `<span class="dot unk" aria-hidden="true"></span><span>Couldn't read the machine: ${esc(plainErr(h.error))}.</span>`;
+  let hl;
+  if(h.error) hl = `<div class="hl"><span class="dot unk" aria-hidden="true"></span><span>Couldn't read the machine: ${esc(plainErr(h.error))}.</span></div>`;
   else {
     const c = h.counts || {}, running = (c.working || 0) + (c.idle || 0) + (c.failing || 0) + (c.stalled || 0), b = (h.broken || []).length;
-    $("healthline").innerHTML = b
-      ? `<span class="dot bad" aria-hidden="true"></span><span>${b} of ${running} engine jobs broken: ${esc(h.broken.map(x => x.label).join(", "))}. <a href="../ops/?k=${k}">See the machine</a></span>`
-      : `<span class="dot ok" aria-hidden="true"></span><span>All ${running} engine jobs running fine. <a href="../ops/?k=${k}">See the machine</a></span>`;
+    hl = b
+      ? `<button type="button" class="hl hit" data-open="machine"><span class="dot bad" aria-hidden="true"></span><span>${b} of ${running} engine jobs broken: ${esc(h.broken.map(x => x.label).join(", "))}</span>${CHEV}</button>`
+      : `<button type="button" class="hl hit" data-open="machine"><span class="dot ok" aria-hidden="true"></span><span>All ${running} engine jobs running</span>${CHEV}</button>`;
   }
+  const st = (d.funnel && d.funnel.steps) || [];
+  const sv = key => (st.find(s => s.key === key) || {}).n;
+  const sent = sv("sent"), rep = sv("replied"), mtg = sv("meetings");
+  $("score").innerHTML = d.funnel && d.funnel.error
+    ? `<span class="lbl">All time</span><div class="sc"><span>Couldn't read the totals</span></div><span></span><span></span>${hl}`
+    : `<span class="lbl">All time</span>
+      <button type="button" class="sc hit" data-open="stage:sent"><b class="n">${fmt(sent)}</b><span>people emailed</span></button>
+      <button type="button" class="sc hit" data-open="stage:replied"><b class="n">${fmt(rep)}</b><span>wrote back</span>${sent && rep ? `<i class="n">1 in ${fmt(Math.round(sent / rep))}</i>` : ""}</button>
+      <button type="button" class="sc hit" data-open="stage:meetings"><b class="n">${fmt(mtg)}</b><span>${mtg === 1 ? "meeting" : "meetings"}</span></button>
+      ${hl}`;
 
   // ---- whole-source banner: only when most of the page is unknown
   const failed = (d.channels || []).filter(c => c.error).length;
@@ -673,7 +794,12 @@ function render(d){
     const label = l.key === "replies" ? "People who wrote back" : l.key === "li_requests" ? "LinkedIn requests sent" : l.label;
     return Object.assign({}, l, {label}, l.error && twin && twin.error ? {error: twin.error} : {});
   });
+  const CHART_OPEN = {email:"channel:email", li_requests:"channel:li_requests", replies:"channel:replies", reads:"channel:teardown_reads", new_companies:"stage:found", verified:"pool"};
   $("multi").innerHTML = lines.map(l => {
+    const op = CHART_OPEN[l.key] ? ` hit" data-open="${CHART_OPEN[l.key]}" role="button" tabindex="0` : "";
+    return chartHtml(l).replace(`<div class="chart">`, `<div class="chart${op}">`);
+  }).join("");
+  function chartHtml(l){
     if(l.error) return `<div class="chart"><div class="ct">${esc(l.label)}</div><div class="cerr"><span class="dot unk" aria-hidden="true"></span>Couldn't read: ${esc(plainErr(l.error))}</div></div>`;
     const known = l.points.filter(v => v != null);
     const firstDay = tr.days[l.points.findIndex(v => v != null)];
@@ -697,18 +823,19 @@ function render(d){
     return `<div class="chart"><div class="ct">${esc(l.label)}<span class="tot n">${totTxt}</span></div>
       <div style="position:relative"><span class="n" style="position:absolute;left:0;top:-2px;font-size:11.5px;color:var(--ink3);background:var(--bg);padding-right:4px">${fmt(max)}</span>
       ${outLabels}${columns(l.points, tr.days, {w:300, h:110, axis:true, cap: capV, offDays: l.key === "email" ? offDays : null, label: `${l.label}, last 30 days, ${totTxt}${capNote ? ". " + capNote : ""}`})}</div>${axis(tr.days)}${capNote ? `<div style="font-size:12.5px;color:var(--ink3);margin-top:4px">${esc(capNote)}</div>` : ""}</div>`;
-  }).join("");
+  }
   $("legend").innerHTML = `<span><i style="background:var(--bar)"></i>a day's count</span><span><i style="background:var(--bar-dim)"></i>cold email off day (${esc(offDays.map(x => ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][x]).join(", "))})</span><span><i style="border:1px dashed var(--unk);height:5px"></i>no data for that day</span><span>Hover a bar for the day.</span>`;
   $("trendtable").innerHTML = `<table><thead><tr><th>Day</th>${lines.map(l => `<th>${esc(l.label)}</th>`).join("")}</tr></thead><tbody>${
     tr.days.map((day, i) => i).reverse().map(i => `<tr><td>${esc(dayShort(tr.days[i]))}</td>${lines.map(l => { const v = l.error ? null : l.points[i]; return `<td class="n${!v ? " z" : ""}">${l.error ? "unknown" : v == null ? "no data" : fmt(v)}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`;
 
   renderFunnel(d.funnel || {});
+  renderMachine(d.machine);
   renderDalil(d.dalil || {}, d);
   renderCohort(d.cohort || {});
 
   const list = never.length > 1 ? never.slice(0, -1).join(", ") + " and " + never[never.length - 1] : never[0];
   const nv = never.length ? ` ${list} ${never.length > 1 ? "have" : "has"} never run, so ${never.length > 1 ? "they get" : "it gets"} no row.` : "";
-  $("foot").innerHTML = `<p>Cold email comes live from Smartlead. LinkedIn comes from Dalil, copied over each morning by the laptop. Replies, page reads, the call sheet and the funnel come from the engine. A number that couldn't be read shows as unknown, never as zero.${esc(nv)} Dubai time throughout. Checks for new numbers every 5 minutes.</p>`;
+  $("foot").innerHTML = `<p>Cold email comes live from Smartlead. LinkedIn comes from Dalil, copied over each morning by the laptop. Replies, page reads, the call sheet and the funnel come from the engine. A number that couldn't be read shows as unknown, never as zero.${esc(nv)} Dubai time throughout. The engine rebuilds these numbers every 10 minutes; Refresh rebuilds them now. Click any number to see what is behind it. This page only reads: it can't change the engine.</p>`;
 }
 
 // ---------------------------------------------------------------- funnel
@@ -730,7 +857,7 @@ function renderFunnel(f){
       conv = s.n === 0 ? `<div class="conv">None yet</div>`
         : `<div class="conv">${r >= 0.1 ? Math.round(r * 100) + "% of the step before" : "1 in " + fmt(Math.round(prev.n / s.n))}</div>`;
     } else conv = `<div class="conv none">&nbsp;</div>`;
-    return `<div class="stage${newUnit ? " unit" : ""}"><div class="sl">${esc(s.label)}</div><div class="sn n">${fmt(s.n)}</div><div class="su">${esc(unitOf(s))}</div>${conv}</div>`;
+    return `<div class="stage hit${newUnit ? " unit" : ""}" data-open="stage:${esc(s.key)}" role="button" tabindex="0"><div class="sl">${esc(s.label)}</div><div class="sn n">${fmt(s.n)}</div><div class="su">${esc(unitOf(s))}</div>${conv}</div>`;
   }).join("")}</div>`;
   const bits = [];
   const chk = f.checked_now ?? (f.steps || []).find(s => s.key === "verified")?.n;
@@ -771,6 +898,344 @@ function renderDalil(dl, d){
     <p style="font-size:13px;color:var(--ink3);margin:10px 0 0">Dalil counts people, not messages: three messages to one person count once.</p>`;
   $("dalilinner").querySelector(".seg").onclick = e => { const b = e.target.closest("button"); if(b){ dPeriod = b.dataset.p; draw(); } };
   draw();
+}
+
+// ---------------------------------------------------------------- the machine (read only)
+const CHEV = `<svg class="chev2" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 2l4 4-4 4"/></svg>`;
+let TASKS = [];
+// machine_map's words, in plain English. "idle" = it runs on time but has had nothing to do lately.
+function jobState(j){
+  switch(j.health){
+    case "failing": return ["bad", "Failing"];
+    case "stalled": return ["bad", "Stopped running"];
+    case "off": return ["off", "Switched off"];
+    case "unscheduled": return ["off", "Not on a schedule"];
+    case "idle": return ["ok", "Running, nothing new to do lately"];
+    default: return ["ok", "Working"];
+  }
+}
+const jobsOf = () => (LAST && LAST.machine && LAST.machine.jobs) || [];
+const jobBy = name => jobsOf().find(j => j.job === name);
+function jobRow(j){
+  const [s, w] = jobState(j);
+  const when = s === "bad" ? w : j.health === "off" || j.health === "unscheduled" ? w : j.last_worked ? "worked " + ago(j.last_worked) : w;
+  return `<li><button type="button" class="jrow hit" data-open="job:${esc(j.job)}"><span class="dot ${s}" aria-hidden="true"></span>
+    <span class="jl">${esc(j.label)}</span><span class="jw">${esc(when)}</span>${CHEV}<span class="jb">${esc(j.blurb || "")}</span></button></li>`;
+}
+function renderMachine(m){
+  if(!m || m.error){ $("mach").innerHTML = `<div class="err"><span class="dot unk" aria-hidden="true"></span>Couldn't read the machine${m && m.error ? ": " + esc(plainErr(m.error)) : ""}.</div>`; $("machsum").textContent = ""; return; }
+  const by = {};
+  for(const j of m.jobs || []) (by[j.stage] = by[j.stage] || []).push(j);
+  const stages = (m.stages || []).filter(s => by[s.key]);
+  for(const k of Object.keys(by)) if(!stages.find(s => s.key === k)) stages.push({key:k, title:cap(k), blurb:""});
+  $("mach").innerHTML = stages.map(s => `<div class="mstage"><div><h3>${esc(s.title)}</h3><div class="mb">${esc(s.blurb || "")}</div></div><ul class="jlist">${by[s.key].map(jobRow).join("")}</ul></div>`).join("");
+  const c = {}; for(const j of m.jobs || []){ const k = jobState(j)[0]; c[k] = (c[k] || 0) + 1; }
+  $("machsum").textContent = [c.ok ? `${c.ok} running` : "", c.bad ? `${c.bad} broken` : "", c.off ? `${c.off} switched off` : ""].filter(Boolean).join(", ");
+}
+
+// ---------------------------------------------------------------- side panel
+// Everything clickable carries data-open="<what>:<which>". The panel keeps a stack, so a job opened
+// from inside a funnel step has a Back button. It only ever reads.
+const DRAWER = [];
+let lastFocus = null;
+function openView(spec, push){
+  if(!LAST) return;
+  if(!DRAWER.length) lastFocus = document.activeElement;
+  if(push === false) DRAWER.length = 0;
+  DRAWER.push(spec);
+  redraw();
+  const dr = $("drawer");
+  if(!dr.classList.contains("on")){
+    dr.classList.add("on"); dr.setAttribute("aria-hidden", "false"); $("scrim").classList.add("on");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => $("dclose").focus(), 60);
+  }
+}
+function closeView(){
+  DRAWER.length = 0;
+  const dr = $("drawer");
+  dr.classList.remove("on"); dr.setAttribute("aria-hidden", "true"); $("scrim").classList.remove("on");
+  document.body.style.overflow = "";
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+function redraw(){
+  const spec = DRAWER[DRAWER.length - 1];
+  $("dback").hidden = DRAWER.length < 2;
+  const v = VIEW(spec);
+  $("dcrumb").textContent = DRAWER.length > 1 ? "From " + crumbOf(DRAWER[DRAWER.length - 2]) : "";
+  $("dbody").innerHTML = v.html;
+  $("dbody").scrollTop = 0;
+  if(v.after) v.after();
+}
+function crumbOf(spec){ try { return VIEW(spec, true).name || ""; } catch(e){ return ""; } }
+$("dclose").onclick = closeView;
+$("scrim").onclick = closeView;
+$("dback").onclick = () => { DRAWER.pop(); redraw(); };
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && DRAWER.length){ e.preventDefault(); closeView(); return; }
+  if((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-open][role=button]")){ e.preventDefault(); e.target.click(); }
+  // Keep Tab inside the panel while it is open.
+  if(e.key === "Tab" && DRAWER.length){
+    const f = [...$("drawer").querySelectorAll("button:not([hidden]),a[href],[tabindex='0']")].filter(x => x.offsetParent);
+    if(!f.length) return;
+    if(e.shiftKey && document.activeElement === f[0]){ e.preventDefault(); f[f.length - 1].focus(); }
+    else if(!e.shiftKey && document.activeElement === f[f.length - 1]){ e.preventDefault(); f[0].focus(); }
+  }
+});
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-open]"); if(!el) return;
+  // A real link or another button inside a clickable row keeps its own job.
+  const inner = e.target.closest("a,button,summary");
+  if(inner && inner !== el && el.contains(inner)) return;
+  e.preventDefault();
+  openView(el.getAttribute("data-open"), !$("drawer").contains(el) ? false : true);
+});
+
+// Pieces the views share.
+const facts = rows => `<dl class="facts">${rows.filter(r => r && r[1] != null && r[1] !== "").map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("")}</dl>`;
+const sec = (title, body, right) => `<div class="dsec"><h3>${esc(title)}${right ? `<span class="r">${right}</span>` : ""}</h3>${body}</div>`;
+const jobsSec = (names, title) => {
+  const js = names.map(jobBy).filter(Boolean);
+  return js.length ? sec(title || "The jobs behind it", `<ul class="jlist">${js.map(jobRow).join("")}</ul>`) : "";
+};
+const head = (kicker, title, big, sub, dot) => `<div class="dk">${dot ? `<span class="dot ${dot}" aria-hidden="true"></span>` : ""}${esc(kicker)}</div><h2 class="dtitle" id="dtitle">${esc(title)}</h2>${big != null ? `<div class="dbig n">${big}</div>` : ""}${sub ? `<div class="dsub">${sub}</div>` : ""}`;
+const when = iso => iso ? `${esc(dubai(iso, {weekday:"short", day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}))} <span style="color:var(--ink3)">(${esc(ago(iso))})</span>` : null;
+function miniChart(points, days, label, offDays){
+  if(!points || points.filter(v => v != null).length < 2) return "";
+  return `<div class="mini" style="position:relative">${columns(points, days, {w:540, h:90, axis:true, offDays, label})}</div>${axis(days)}`;
+}
+async function fetchDetail(q){
+  if(MOCK) return {rows: [], error: "Sample data has no lists"};
+  const r = await fetch(API + "?k=" + encodeURIComponent(KEY), {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({detail:q})});
+  let j = null; try { j = await r.json(); } catch(e){}
+  if(!r.ok || !j) throw new Error((j && j.error) || "Error " + r.status);
+  return j;
+}
+// Load a list into #dlist, unless the panel has moved on to something else meanwhile.
+function loadList(q, draw){
+  const spec = DRAWER[DRAWER.length - 1];
+  fetchDetail(q).then(j => {
+    if(DRAWER[DRAWER.length - 1] !== spec || !$("dlist")) return;
+    $("dlist").innerHTML = j.error ? `<div class="err"><span class="dot unk" aria-hidden="true"></span>${esc(cap(plainErr(j.error)))}.</div>${tech(j.error)}` : draw(j);
+  }).catch(e => {
+    if($("dlist")) $("dlist").innerHTML = `<div class="err"><span class="dot unk" aria-hidden="true"></span>Couldn't load the list: ${esc(plainErr(e.message || e))}.</div>${tech(e.message || e)}`;
+  });
+}
+const LOADING = `<div id="dlist"><div class="loading">Loading the list…</div></div>`;
+const stepWord = s => s == null ? "" : Number(s) <= 1 ? "first email" : `follow-up ${Number(s) - 1}`;
+
+// What each funnel step counts, and which jobs move people into it.
+const STAGE_INFO = {
+  found: {what:"Every company the engine knows about, from every source: job adverts, Google listings, maps, lookalikes and funding news.", jobs:["jobs-pull","places-pull","maps-pull","lookalike-pull","edgar-poll","gulf-funding-poll"]},
+  researched: {what:"Companies whose website the engine has opened and checked for problems worth pointing out. This is where opening lines come from.", jobs:["detect-site","research-prospects"]},
+  people: {what:"People at those companies with an email address on file. Not all of them pass the email check, and only checked addresses get cold email.", jobs:["find-emails","scrape-contacts","resolve-free","verify-prospects"]},
+  sent: {what:"People who have had at least one cold email. Each one gets a first email and up to two follow-ups, Monday to Thursday.", jobs:["verify-prospects","sync-smartlead"]},
+  replied: {what:"People who wrote back with a real answer. Out-of-office replies and unsubscribes don't count.", jobs:["reply-forward"]},
+  meetings: {what:"Meetings booked. No job books these: they come from replies you answer and calls you make.", jobs:[]},
+};
+const CHANNEL_INFO = {
+  email: {what:"Every cold email Smartlead sent: first emails and follow-ups, to people the engine handed it.", src:"Smartlead, read live", jobs:["sync-smartlead","verify-prospects","reply-forward"]},
+  replies: {what:"People who answered a cold email with a real reply. Out-of-office replies and unsubscribes are left out.", src:"The engine's copy of every email, synced from Smartlead every few minutes", jobs:["reply-forward"]},
+  teardown_reads: {what:"Someone opened their teardown page and read it: scrolled and stayed. Bare loads by email link scanners are not counted.", src:"The visit counter on notes.terraflow.studio"},
+  li_requests: {what:"People Dalil sent a LinkedIn connection request to.", src:"Dalil, copied over each morning by the laptop", f:"requests"},
+  li_accepted: {what:"People who accepted a LinkedIn connection request.", src:"Dalil, copied over each morning by the laptop", f:"accepted"},
+  li_messages: {what:"People Dalil messaged on LinkedIn.", src:"Dalil, copied over each morning by the laptop", f:"linkedin_msgs"},
+  whatsapp: {what:"People Dalil messaged on WhatsApp.", src:"Dalil, copied over each morning by the laptop", f:"whatsapp"},
+  dalil_email: {what:"People Dalil emailed from its own inboxes.", src:"Dalil, copied over each morning by the laptop", f:"email"},
+};
+
+function VIEW(spec, nameOnly){
+  const [kind, ...rest] = String(spec).split(":");
+  const arg = rest.join(":");
+  const d = LAST;
+  if(kind === "channel") return viewChannel(arg, d, nameOnly);
+  if(kind === "stage") return viewStage(arg, d, nameOnly);
+  if(kind === "job") return viewJob(arg, nameOnly);
+  if(kind === "task") return viewTask(TASKS[Number(arg)], d, nameOnly);
+  if(kind === "pool") return viewPool(d, nameOnly);
+  if(kind === "machine") return viewMachine(d, nameOnly);
+  return {name:"", html:`<p class="dsub">Nothing to show.</p>`};
+}
+
+function viewChannel(key, d, nameOnly){
+  const c = (d.channels || []).find(x => x.key === key) || {key};
+  const info = CHANNEL_INFO[key] || {};
+  const label = SHORT_LABEL[key] || c.label || key;
+  if(nameOnly) return {name: label};
+  const days = (c.series || []).map(p => p.day), pts = (c.series || []).map(p => p.n);
+  const sendDays = (d.trend && d.trend.send_days) || [1,2,3,4];
+  const offDays = key === "email" ? [0,1,2,3,4,5,6].filter(x => !sendDays.includes(x)) : null;
+  const big = c.error || c.no_send_day ? null : fmt(c.yesterday);
+  const subTxt = c.error ? `<span class="dot unk" aria-hidden="true"></span> ${esc(cap(plainErr(c.error)))}.`
+    : (c.no_send_day ? `<b style="font-weight:600">${esc(c.note || "Not a send day.")}</b> ` : "") + esc(compareText(c).replace(/<[^>]+>/g, "")) + ".";
+  let html = head(`Yesterday, ${d.yesterday_name || ""}`, label, big, subTxt, null);
+  if(c.error) html += tech(c.error);
+  html += sec("What this counts", `<p>${esc(info.what || "")}</p>`);
+  html += sec("Last 14 days", miniChart(pts, days, label + ", last 14 days", offDays) || `<p>Not enough days yet.</p>`);
+  const fr = [["Comes from", esc(info.src || c.source || "")]];
+  if(key === "email" && d.email && d.email.campaign) fr.push(["Campaign", esc(d.email.campaign.name || "")], ["Status", esc(cap(String(d.email.campaign.status || "").toLowerCase()))], ["Send days", esc(sendDays.map(x => DAY_NAMES_SHORT[x]).join(", ") + ", Dubai time")]);
+  if(info.f && d.dalil && d.dalil.taken_at) fr.push(["Copied", when(d.dalil.taken_at)]);
+  html += sec("Where it comes from", facts(fr));
+
+  let after = null;
+  if(key === "email"){
+    // Days to pick from: the last 14 that had sends.
+    const sent = (c.series || []).filter(p => p.n > 0).slice(-7).reverse();
+    const pick = sent.find(p => p.day === d.yesterday) ? d.yesterday : sent.length ? sent[0].day : d.yesterday;
+    html += sec("Who got one", `<div class="seg" role="group" aria-label="Day" id="dpick">${sent.map(p => `<button type="button" data-day="${esc(p.day)}" aria-pressed="${p.day === pick}">${esc(new Date(p.day + "T12:00:00Z").toLocaleDateString("en-GB", {weekday:"short", day:"numeric", timeZone:"UTC"}))} <span class="n" style="opacity:.6">${fmt(p.n)}</span></button>`).join("")}</div>${LOADING}`);
+    const drawDay = day => {
+      $("dlist").innerHTML = `<div class="loading">Loading the list…</div>`;
+      const want = ((c.series || []).find(p => p.day === day) || {}).n;
+      loadList({kind:"emails", day}, j => {
+        const rows = j.rows || [];
+        const n = j.total ?? rows.length;
+        let note = "";
+        if(j.partial) note = `<p class="dsub" style="margin-bottom:8px">Smartlead couldn't be read just now, so this is the engine's own copy, which is missing most sends. ${want != null ? `Smartlead counted ${fmt(want)} for this day; this list has ${fmt(rows.length)}.` : ""}</p>`;
+        else if(j.error) note = `<p class="dsub" style="margin-bottom:8px">${esc(cap(plainErr(j.error)))}. The list may be short.</p>`;
+        else if(n > rows.length) note = `<p class="dsub" style="margin-bottom:8px">Showing the newest ${fmt(rows.length)} of ${fmt(n)}.</p>`;
+        const tags = r => [r.bounced ? `<span class="tg tag bad">Bounced</span>` : "", r.replied ? `<span class="tg tag act">Replied</span>` : "", !r.bounced && !r.replied && r.opened ? `<span class="tg tag unk">Opened</span>` : ""].join("");
+        return note + (rows.length ? `<ul class="plist">${rows.map(r => `<li><span class="nm">${esc(r.name)}${tags(r)}</span><span class="rt">${esc(stepWord(r.step))}${r.at ? ", " + esc(dubai(r.at, {hour:"2-digit", minute:"2-digit"})) : ""}</span><span class="sub">${esc([r.company, r.title].filter(Boolean).join(", ") || r.email || "")}</span>${r.subject ? `<span class="qt">${esc(r.subject)}</span>` : ""}</li>`).join("")}</ul>` : `<p class="dsub">No emails found for this day.</p>`);
+      });
+    };
+    after = () => {
+      if(!$("dpick")) return;
+      $("dpick").onclick = e => { const b = e.target.closest("button[data-day]"); if(!b) return; $("dpick").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); drawDay(b.dataset.day); };
+      if(sent.length) drawDay(pick); else $("dlist").innerHTML = `<p class="dsub">No sends in the last 14 days.</p>`;
+    };
+  } else if(key === "replies"){
+    html += sec("Who wrote back", LOADING, "last 14 days");
+    after = () => loadList({kind:"replies"}, j => {
+      const rows = j.rows || [];
+      return rows.length ? `<ul class="plist">${rows.map(r => `<li><span class="nm">${esc(r.name)}${r.interested ? `<span class="tg tag act">Interested</span>` : ""}</span><span class="rt">${esc(ago(r.at))}</span><span class="sub">${esc([r.company, r.title].filter(Boolean).join(", "))}${r.answered ? " · answered" : ` · <span style="color:var(--act-t);font-weight:500">not answered yet</span>`}</span>${r.text ? `<span class="qt">${esc(r.text)}</span>` : ""}</li>`).join("")}</ul>
+        <p style="margin-top:14px"><a class="btn" href="../inbox/?k=${encodeURIComponent(KEY)}">Open the inbox</a></p>` : `<p class="dsub">Nobody wrote back in the last 14 days.</p>`;
+    });
+  } else if(key === "teardown_reads"){
+    html += sec("Who read theirs", LOADING, "last 14 days");
+    after = () => loadList({kind:"reads"}, j => {
+      const rows = j.rows || [];
+      const cl = x => x === "paid" || x === "fix" ? "get it fixed" : x === "call" ? "book a call" : x;
+      return rows.length ? `<ul class="plist">${rows.map(r => `<li><span class="nm"><a href="${esc(safeUrl(r.link) || "#")}" target="_blank" rel="noopener">${esc(r.name)}</a></span><span class="rt">${esc(ago(r.at))}</span><span class="sub">${esc(`${Math.round(r.seconds / 60) || "<1"} min on the page${r.scroll != null ? `, read ${Math.round(Number(r.scroll))}%` : ""}${(r.clicked || []).length ? `, clicked ${(r.clicked).map(cl).join(" and ")}` : ""}${r.device ? `, on ${r.device}` : ""}`)}</span></li>`).join("")}</ul>` : `<p class="dsub">No real reads in the last 14 days.</p>`;
+    });
+  } else if(info.f){
+    const seqs = ((d.dalil && d.dalil.sequences) || []).filter(s => !s.test);
+    if(seqs.length) html += sec("By sequence", `<div class="scroll"><table><thead><tr><th>Sequence</th><th>Yesterday</th><th>7 days</th><th>All time</th></tr></thead><tbody>${seqs.map(s => `<tr><td>${esc(s.name)}</td>${["yesterday","week","all"].map(p => `<td class="n${s[p] && s[p][info.f] ? "" : " z"}">${s[p] ? fmt(s[p][info.f]) : "no data"}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="dsub" style="margin-top:10px">Dalil counts people, not messages: three messages to one person count once.</p>`);
+    html += `<p style="margin-top:20px"><a class="btn" href="https://terraflow-studio.usedalil.ai" target="_blank" rel="noopener">Open Dalil</a></p>`;
+  }
+  if(info.jobs) html += jobsSec(info.jobs);
+  return {name: label, html, after};
+}
+const DAY_NAMES_SHORT = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+function viewStage(key, d, nameOnly){
+  const f = d.funnel || {};
+  const steps = f.steps || [];
+  const i = steps.findIndex(s => s.key === key);
+  const s = steps[i] || {key, label:key};
+  if(nameOnly) return {name: s.label};
+  const info = STAGE_INFO[key] || {};
+  const prev = steps[i - 1];
+  let sub = esc(s.unit || "");
+  if(prev && prev.unit === s.unit && prev.n > 0 && s.n != null) sub = `${esc(s.unit)}, ${s.n === 0 ? "none" : s.n / prev.n >= 0.1 ? Math.round(s.n / prev.n * 100) + "%" : "1 in " + fmt(Math.round(prev.n / s.n))} of the ${fmt(prev.n)} at the step before`;
+  let html = head("From found to meeting, all time", s.label, f.error ? null : fmt(s.n), f.error ? esc(cap(plainErr(f.error))) : sub);
+  html += sec("What this counts", `<p>${esc(info.what || "")}</p>`);
+  if(key === "people" || key === "sent"){
+    const bits = [];
+    if(f.checked_now != null) bits.push(["Pass the email check today", fmt(f.checked_now)]);
+    if(f.email_pool != null) bits.push(["Not written to yet", fmt(f.email_pool)]);
+    if(key === "sent") bits.push(["Bounced, all time", fmt(f.bounced)], ["Opted out, all time", fmt(f.opted_out)]);
+    html += sec("Around this step", facts(bits));
+    if(f.email_pool != null && f.email_pool < 80) html += `<p style="margin-top:14px"><button type="button" class="btn" data-open="pool">Why cold email has run dry</button></p>`;
+  }
+  if(key === "replied") html += `<p style="margin-top:18px"><button type="button" class="btn" data-open="channel:replies">See who wrote back</button></p>`;
+  if(key === "found"){
+    const nc = ((d.trend && d.trend.lines) || []).find(l => l.key === "new_companies");
+    if(nc && !nc.error) html += sec("New companies found, last 30 days", miniChart(nc.points.map(v => v != null && v > 1000 ? null : v), d.trend.days, "New companies found, last 30 days") + `<p class="dsub" style="margin-top:6px">Days with a one-off bulk import are left blank so the normal days stay readable.</p>`);
+  }
+  html += jobsSec(info.jobs || []);
+  return {name: s.label, html};
+}
+
+function viewPool(d, nameOnly){
+  const name = "Why cold email has run dry";
+  if(nameOnly) return {name};
+  const f = d.funnel || {};
+  const t = (d.tasks || []).find(x => x.kind === "pool") || {};
+  const v = ((d.trend && d.trend.lines) || []).find(l => l.key === "verified");
+  const em = (d.channels || []).find(c => c.key === "email") || {};
+  let html = head("Cold email", name, f.email_pool != null ? fmt(f.email_pool) : null, "new people left to write to");
+  html += sec("What is going on", `<p>Cold email only writes to people whose address passed the email check. Every one of those has now had a first email. Follow-ups keep going to people already written to, which is why a few still go out. New first emails wait until more addresses pass the check.</p>`);
+  html += sec("The numbers", facts([
+    ["Passed the check, last 7 days", t.passed_7d != null ? fmt(t.passed_7d) : null],
+    ["Pass the check today, all", f.checked_now != null ? fmt(f.checked_now) : null],
+    ["People with any email", f.people != null ? fmt(f.people) : null],
+    ["Cold emails, last 7 days", em.week != null ? fmt(em.week) : null],
+    ["Cold emails, week before", em.prev_week != null ? fmt(em.prev_week) : null],
+  ]));
+  if(v && !v.error) html += sec("Addresses passing the check, per day", miniChart(v.points, d.trend.days, "Addresses passing the email check, last 30 days"));
+  html += jobsSec(["find-emails","scrape-contacts","verify-prospects","sync-smartlead"], "The jobs that fill it");
+  return {name, html};
+}
+
+function viewJob(name, nameOnly){
+  const j = jobBy(name);
+  if(nameOnly) return {name: j ? j.label : name};
+  if(!j) return {name, html: head("Engine job", name, null, "This job is not on the machine map any more.")};
+  const [s, w] = jobState(j);
+  let html = head("Engine job", j.label, null, esc(j.blurb || ""), null);
+  html += `<div style="display:flex;gap:10px;align-items:center;margin-top:20px;font-size:16px;font-weight:500"><span class="dot ${s}" aria-hidden="true"></span>${esc(w)}</div>`;
+  if(j.last_error && s === "bad") html += `<div class="err" style="margin-top:12px;align-items:flex-start"><span>${esc(cap(plainJobErr(j.last_error)))}</span></div>${tech(j.last_error)}`;
+  html += sec("How it runs", facts([
+    ["Schedule", j.schedule ? esc(j.schedule) + " (Dubai time)" : j.health === "unscheduled" ? "Not on a schedule. It runs when started by hand or from the mini PC." : null],
+    ["Last did work", when(j.last_worked) || "Not in the record"],
+    ["Last started", when(j.last_fired)],
+    ["Work done, last 24 hours", j.rows_24h != null ? fmt(j.rows_24h) + " " + (j.rows_24h === 1 ? "item" : "items") : null],
+    ["Runs, last 24 hours", j.http_calls_24h != null ? `${fmt(j.http_calls_24h)}${j.http_fails_24h ? `, ${fmt(j.http_fails_24h)} failed` : ", none failed"}` : null],
+    ["Name in the engine", `<span style="color:var(--ink3)">${esc(j.job)}</span>`],
+  ]));
+  html += `<p class="dsub" style="margin-top:24px;color:var(--ink3)">This page only reads. To pause, restart or fix a job, ask Claude.</p>`;
+  return {name: j.label, html};
+}
+function plainJobErr(e){
+  const s = String(e || "");
+  if(/INVALID_FILTERS/i.test(s)) return "the search it runs was rejected as invalid, so it finds nothing";
+  if(/"fatal"|TypeError|is not a function|ReferenceError|SyntaxError/i.test(s)) return "its code crashes as it starts, so it does nothing. It needs a code fix";
+  if(/killed|timeout|timed out/i.test(s)) return "it ran out of time before finishing";
+  if(/401|403|unauthor|forbidden/i.test(s)) return "a service refused its login";
+  if(/429|rate/i.test(s)) return "a service told it to slow down";
+  return s.length < 140 ? s : "it hit an error";
+}
+
+function viewMachine(d, nameOnly){
+  const name = "The machine";
+  if(nameOnly) return {name};
+  const h = d.health || {};
+  const broken = h.broken || [];
+  let html = head("Engine health", broken.length ? `${broken.length} of ${h.total || "?"} jobs broken` : "Everything is running", null, broken.length ? "Everything else is running." : "");
+  if(broken.length) html += sec("Broken", `<ul class="jlist">${broken.map(b => jobBy(b.job)).filter(Boolean).map(jobRow).join("")}</ul>`);
+  const rest = jobsOf().filter(j => !broken.find(b => b.job === j.job));
+  html += sec("Everything else", `<ul class="jlist">${rest.map(jobRow).join("")}</ul>`);
+  html += `<p style="margin-top:20px"><a class="btn" href="../ops/?k=${encodeURIComponent(KEY)}">Open the full machine page</a></p>`;
+  return {name, html};
+}
+
+function viewTask(t, d, nameOnly){
+  if(!t) return {name:"", html:`<p class="dsub">This item has gone. Refresh the page.</p>`};
+  if(nameOnly) return {name: t.title};
+  if(t.kind === "pool") return viewPool(d);
+  if(t.kind === "health") return viewMachine(d);
+  if(t.kind === "readers") return viewChannel("teardown_reads", d);
+  const s = statusOf(t);
+  let html = head(STATUS_WORD[s], t.title, null, esc(t.detail || ""), s);
+  if(t.level === "unknown") html += tech(t.tech || t.detail);
+  const items = t.items || [];
+  if(items.length) html += sec(items.length === 1 ? "Who" : `All ${items.length}`, `<ul class="plist">${items.map(i => {
+    const il = safeUrl(i.link);
+    return `<li><span class="nm">${il ? `<a href="${esc(il)}" target="_blank" rel="noopener">${esc(i.name || "")}</a>` : esc(i.name || "")}</span><span class="rt">${esc(i.at ? ago(i.at) : "")}</span><span class="sub">${esc([i.company, i.note].filter(Boolean).join(", "))}</span></li>`;
+  }).join("")}</ul>`);
+  const link = safeUrl(t.link);
+  if(link) html += `<p style="margin-top:20px"><a class="btn solid" href="${esc(link)}" ${link.startsWith("..") ? "" : `target="_blank" rel="noopener"`}>${esc(t.action || "Open")}</a></p>`;
+  if(t.kind === "unanswered") html += `<p style="margin-top:10px"><button type="button" class="btn" data-open="channel:replies">Everyone who wrote back</button></p>`;
+  return {name: t.title, html};
 }
 
 // ---------------------------------------------------------------- who to target
