@@ -1701,5 +1701,175 @@
   "built_at": "2026-10-22T14:13:53.049Z",
   "age_min": 0,
   "refreshing": false
+ },
+ "scale": {
+  "target_per_day": 1800,
+  "smartlead_new_cap": 240,
+  "dalil_new_cap": 300,
+  "smartlead_new_today": 59,
+  "dalil_new_today": 0,
+  "dalil_new_7d": 0,
+  "scraper": {
+   "since": "2026-10-28T17:00:00+00:00",
+   "found": 123,
+   "emails": 25,
+   "ready": 12,
+   "waiting": 1,
+   "failed": 11
+  },
+  "days": [
+   {
+    "day": "2026-09-23",
+    "smartlead": 151,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-24",
+    "smartlead": 333,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-25",
+    "smartlead": 308,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-26",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-27",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-28",
+    "smartlead": 96,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-29",
+    "smartlead": 219,
+    "dalil": null
+   },
+   {
+    "day": "2026-09-30",
+    "smartlead": 339,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-01",
+    "smartlead": 272,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-02",
+    "smartlead": 350,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-03",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-04",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-05",
+    "smartlead": 327,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-06",
+    "smartlead": 63,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-07",
+    "smartlead": 340,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-08",
+    "smartlead": 36,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-09",
+    "smartlead": 270,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-10",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-11",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-12",
+    "smartlead": 162,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-13",
+    "smartlead": 312,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-14",
+    "smartlead": 149,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-15",
+    "smartlead": 128,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-16",
+    "smartlead": 270,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-17",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-18",
+    "smartlead": 0,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-19",
+    "smartlead": 306,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-20",
+    "smartlead": 311,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-21",
+    "smartlead": 273,
+    "dalil": null
+   },
+   {
+    "day": "2026-10-22",
+    "smartlead": 233,
+    "dalil": null
+   }
+  ],
+  "dalil_error": null,
+  "smartlead_error": null
  }
 }

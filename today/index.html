@@ -135,6 +135,19 @@ section.blk{margin-top:72px}
 .sh h2{font-size:22px;font-weight:600;letter-spacing:-.03em;margin:0}
 .sh p{margin:0;font-size:14px;color:var(--ink3);flex-basis:100%}
 .sh .r{margin-left:auto;font-size:13px}
+/* sending volume against the daily target (29 Oct 2026) */
+.vol{display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+.vol .now{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.vol .now b{font-size:40px;line-height:1;font-weight:500;letter-spacing:-.045em}
+.vol .now span{font-size:15px;color:var(--ink2)}
+.vol .meter{height:8px;background:var(--wash);margin-top:10px;position:relative}
+.vol .meter i{position:absolute;left:0;top:0;bottom:0;background:var(--bar)}
+.vol .split{font-size:13px;color:var(--ink3);margin-top:8px}
+.vol .cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border-top:1px solid var(--line)}
+.vol .cell{padding:14px 16px 14px 0;border-bottom:1px solid var(--line)}
+.vol .cell .k{font-size:13px;color:var(--ink3)}
+.vol .cell .v{font-size:26px;font-weight:500;letter-spacing:-.035em;margin-top:2px}
+.vol .cell .s{font-size:13px;color:var(--ink2);margin-top:2px}
 
 /* trends */
 .multi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 32px}
@@ -429,6 +442,12 @@ footer p{margin:0;max-width:70ch}
           <div class="quiet" id="notrunning"></div>
         </div>
       </div>
+
+      <section class="blk" aria-labelledby="h-vol">
+        <div class="sh"><h2 id="h-vol">Cold email volume</h2><span class="r" style="color:var(--ink3)" id="volsum"></span>
+          <p>Every cold email sent each day by Smartlead and Dalil together, against the 1,800 a day the inboxes can carry. Each person gets 3 emails over a week, so 1,800 a day needs about 600 new people every weekday.</p></div>
+        <div class="vol" id="vol"></div>
+      </section>
 
       <section class="blk" aria-labelledby="h-mach">
         <div class="sh"><h2 id="h-mach">The machine</h2><span class="r" style="color:var(--ink3)" id="machsum"></span>
@@ -828,6 +847,7 @@ function render(d){
   $("trendtable").innerHTML = `<table><thead><tr><th>Day</th>${lines.map(l => `<th>${esc(l.label)}</th>`).join("")}</tr></thead><tbody>${
     tr.days.map((day, i) => i).reverse().map(i => `<tr><td>${esc(dayShort(tr.days[i]))}</td>${lines.map(l => { const v = l.error ? null : l.points[i]; return `<td class="n${!v ? " z" : ""}">${l.error ? "unknown" : v == null ? "no data" : fmt(v)}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`;
 
+  renderVolume(d.scale || {error: "the engine has not sent volume numbers yet"}, d);
   renderFunnel(d.funnel || {});
   renderMachine(d.machine);
   renderDalil(d.dalil || {}, d);
@@ -836,6 +856,55 @@ function render(d){
   const list = never.length > 1 ? never.slice(0, -1).join(", ") + " and " + never[never.length - 1] : never[0];
   const nv = never.length ? ` ${list} ${never.length > 1 ? "have" : "has"} never run, so ${never.length > 1 ? "they get" : "it gets"} no row.` : "";
   $("foot").innerHTML = `<p>Cold email comes live from Smartlead. LinkedIn comes from Dalil, copied over each morning by the laptop. Replies, page reads, the call sheet and the funnel come from the engine. A number that couldn't be read shows as unknown, never as zero.${esc(nv)} Dubai time throughout. The engine rebuilds these numbers every 10 minutes; Refresh rebuilds them now. Click any number to see what is behind it. This page only reads: it can't change the engine.</p>`;
+}
+
+// ---------------------------------------------------------------- cold email volume
+// Smartlead counts messages, Dalil counts people emailed; on one day those are the same thing.
+// A day either source couldn't report is "no data", never a zero (same rule as everywhere else).
+function renderVolume(v, d){
+  if(v.error){
+    $("vol").innerHTML = `<div class="cerr" style="display:flex;gap:10px;align-items:center;padding:18px;background:var(--wash);font-size:14px;color:var(--ink2)"><span class="dot unk" aria-hidden="true"></span>Couldn't read sending volume: ${esc(plainErr(v.error))}.</div>`;
+    $("volsum").textContent = "";
+    return;
+  }
+  const target = v.target_per_day || 1800;
+  const days = (v.days || []).map(x => x.day);
+  // Dalil's email lane started 29 Oct 2026; before that a missing Dalil day is a true zero.
+  // Dalil arrives as one-day snapshots each morning, so a recent day can be missing; the chart then
+  // counts Smartlead alone for it and the line under the big number says Dalil is not in yet.
+  const dalilOf = x => x.dalil != null ? x.dalil : (x.day < "2026-10-29" ? 0 : null);
+  const total = (v.days || []).map(x => x.smartlead == null ? null : x.smartlead + (dalilOf(x) || 0));
+  const yIdx = days.indexOf(d.yesterday);
+  const y = yIdx >= 0 ? (v.days[yIdx]) : null;
+  const yTot = yIdx >= 0 ? total[yIdx] : null;
+  const pct = yTot == null ? 0 : Math.min(100, Math.round(yTot / target * 100));
+  const sendDays = (d.trend && d.trend.send_days) || [1,2,3,4,5];
+  const offDays = [0,1,2,3,4,5,6].filter(x => !sendDays.includes(x));
+  const yOff = d.yesterday && offDays.includes(new Date(d.yesterday + "T12:00:00Z").getUTCDay());
+  $("volsum").textContent = yTot == null ? "" : `${pct}% of the target yesterday`;
+
+  const head = yOff
+    ? `<div class="now"><b>Off</b><span>${esc(d.yesterday_name || "Yesterday")} is not a send day.</span></div>`
+    : `<div class="now"><b class="n">${yTot == null ? "?" : fmt(yTot)}</b><span>of ${fmt(target)} sent ${esc((d.yesterday_name || "yesterday"))}</span></div>
+       <div class="meter" role="img" aria-label="${yTot == null ? "unknown" : pct + "% of the daily target"}"><i style="width:${pct}%"></i></div>
+       <div class="split n">${y ? `Smartlead ${y.smartlead == null ? "unknown" : fmt(y.smartlead)}, Dalil ${dalilOf(y) == null ? "not in yet (arrives each morning)" : fmt(dalilOf(y))}` : ""}</div>`;
+
+  const known = total.filter(x => x != null);
+  const tot30 = known.reduce((a, b) => a + b, 0);
+  const chart = known.length < 5 ? "" : `<div class="chart"><div class="ct">Emails sent per day<span class="tot n">${fmt(tot30)} in 30 days</span></div>
+    ${columns(total, days, {w:300, h:110, axis:true, offDays, label:`Cold emails per day, both tools, last 30 days, ${fmt(tot30)} in total`})}${axis(days)}</div>`;
+
+  const sc = v.scraper || {};
+  const pool = d.funnel && d.funnel.email_pool;
+  const cell = (k, val, sub) => `<div class="cell"><div class="k">${esc(k)}</div><div class="v n">${val}</div><div class="s">${sub}</div></div>`;
+  const cells = [
+    cell("Ready to send", pool == null ? "?" : fmt(pool), "checked people not written to yet"),
+    cell("New people today", fmt((v.smartlead_new_today || 0) + (v.dalil_new_today || 0)),
+      `Smartlead ${fmt(v.smartlead_new_today || 0)} of ${fmt(v.smartlead_new_cap || 0)}, Dalil ${fmt(v.dalil_new_today || 0)} of ${fmt(v.dalil_new_cap || 0)}`),
+    cell("Maps scraper, last night", sc.found == null ? "?" : fmt(sc.ready || 0) + " ready",
+      sc.found == null ? "no run yet" : `${fmt(sc.found)} businesses, ${fmt(sc.emails || 0)} emails${sc.waiting ? `, ${fmt(sc.waiting)} still being checked` : ""}${sc.failed ? `, ${fmt(sc.failed)} failed the check` : ""}`),
+  ].join("");
+  $("vol").innerHTML = `<div>${head}</div>${chart}<div class="cells">${cells}</div>`;
 }
 
 // ---------------------------------------------------------------- funnel
